@@ -1536,14 +1536,6 @@
         },
         "additionalProperties": false
       },
-      "GenderType": {
-        "enum": [
-          0,
-          1
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "ResendVerificationCodeDTO": {
         "type": "object",
         "properties": {
@@ -1690,7 +1682,8 @@
             "type": "string"
           },
           "gender": {
-            "$ref": "#/components/schemas/GenderType"
+            "minLength": 1,
+            "type": "string"
           },
           "nationalId": {
             "type": "integer",
@@ -1750,7 +1743,8 @@
             "type": "string"
           },
           "gender": {
-            "$ref": "#/components/schemas/GenderType"
+            "minLength": 1,
+            "type": "string"
           },
           "birthDate": {
             "type": "string",
@@ -1808,7 +1802,8 @@
             "type": "string"
           },
           "gender": {
-            "$ref": "#/components/schemas/GenderType"
+            "minLength": 1,
+            "type": "string"
           },
           "nationalId": {
             "type": "integer",
@@ -1872,7 +1867,8 @@
             "type": "string"
           },
           "gender": {
-            "$ref": "#/components/schemas/GenderType"
+            "minLength": 1,
+            "type": "string"
           },
           "nationalId": {
             "type": "integer",

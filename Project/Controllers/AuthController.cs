@@ -195,78 +195,7 @@ namespace Project.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("/DeliveryRepReg")]
-        public async Task<IActionResult> RegistNewDeliveryRep(dtoNewDeliveryRep Rep)
-        {
-            if (ModelState.IsValid)
-            {
-                if (Rep != null)
-                {
-                    // Check if the email or username already exists
-                    var existingUserByEmail = await _userManager.FindByEmailAsync(Rep.Email);
-                    if (existingUserByEmail?.Email != null)
-                        return BadRequest("Email already exists");
-
-                    var existingUserByUsername = await _userManager.FindByNameAsync(Rep.UserName);
-                    if (existingUserByUsername?.UserName != null)
-                        return BadRequest("UserName already exists");
-
-                    // Check if NationalId already exists
-                    var existingAdmin = await _db.Admins
-                        .FirstOrDefaultAsync(u => u.NationalId == Rep.NationalId);
-                    var existingDeliveryRep = await _db.DeliveryReps
-                        .FirstOrDefaultAsync(u => u.NationalId == Rep.NationalId);
-                    var existingMerchant = await _db.Merchants
-                        .FirstOrDefaultAsync(u => u.NationalId == Rep.NationalId);
-                    if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
-                        return BadRequest("National ID already exists");
-                    if (!Enum.TryParse<GenderType>(Rep.Gender, true, out var newGender))
-                        return BadRequest("Invalid status value.");
-
-                    DeliveryRep deliveryrep = new()
-                    {
-                        NationalId = Rep.NationalId,
-                        adminId = Rep.adminId,
-                        BirthDate = Rep.BirthDate,
-                        Governorate = Rep.Governorate,
-                        Location = Rep.Location,
-                        State = Rep.State,
-                        Email = Rep.Email,                        
-                        UserName = Rep.UserName,
-                        Gender = newGender,
-                        Type = Enums.PersonType.DeliveryRep,
-                        Status = Enums.AccStatus.Active
-                        // IMG = cus.IMG,
-                    };
-
-                    IdentityResult result = await _userManager.CreateAsync(deliveryrep, Rep.Password);
-                    if (result.Succeeded)
-                    {
-                        // توليد رمز التحقق
-                        var verificationCode = GenerateVerificationCode();
-                        deliveryrep.VerificationCode = verificationCode;
-                        deliveryrep.VerificationCodeExpiry = DateTime.UtcNow.AddMinutes(5);
-
-                        // إرسال الكود بالإيميل
-                        await _emailService.SendEmailAsync(deliveryrep.Email, "Email Verification Code",
-                            $"Your verification code is {verificationCode}. It will expire in 5 minutes.");
-
-                        await _userManager.UpdateAsync(deliveryrep);
-
-                        return Ok("Registered successfully. Please verify your email using the verification code sent.");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError("Error", error.Description);
-                        }
-                    }
-                }
-            }
-            return BadRequest(ModelState);
-        }
-
+        
 
         [HttpPost("/MerchantReg")]
         public async Task<IActionResult> RegistNewMerchant(dtoNewMerchant Mer)
