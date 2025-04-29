@@ -366,37 +366,6 @@
         }
       }
     },
-    "/DeliveryRepReg": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/dtoNewDeliveryRep"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/dtoNewDeliveryRep"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/dtoNewDeliveryRep"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/MerchantReg": {
       "post": {
         "tags": [
@@ -937,7 +906,7 @@
         ],
         "parameters": [
           {
-            "name": "Id",
+            "name": "ProductId",
             "in": "query",
             "schema": {
               "type": "integer",

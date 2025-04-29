@@ -430,7 +430,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
+        "Name": "ProductId",
         "Type": "System.Int32",
         "IsRequired": false
       }
@@ -792,22 +792,6 @@
       {
         "Name": "cus",
         "Type": "Project.DTOs.dtoNewCustomer",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Project.Controllers.AuthController",
-    "Method": "RegistNewDeliveryRep",
-    "RelativePath": "DeliveryRepReg",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Rep",
-        "Type": "Project.DTOs.dtoNewDeliveryRep",
         "IsRequired": true
       }
     ],

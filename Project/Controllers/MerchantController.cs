@@ -220,7 +220,7 @@ namespace Project.Controllers {
 
         [HttpGet("GetProductDetails")]
         [Authorize(Roles = "Merchant")]
-        public async Task<IActionResult> GetProductDetails(int Id)
+        public async Task<IActionResult> GetProductDetails(int ProductId)
         {
             var productDetails = await context.ProductDetails
                 .Include(p => p.product)
@@ -228,7 +228,7 @@ namespace Project.Controllers {
                 .Include(p => p.product)
                 .Include(p => p.color)
                 .Include(p => p.size)
-                .Where(p => p.Id == Id)
+                .Where(p => p.productId == ProductId)
                 .ToListAsync();
             if (productDetails == null || productDetails.Count == 0)
             {
