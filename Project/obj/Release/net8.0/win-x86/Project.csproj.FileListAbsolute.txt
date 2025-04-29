@@ -166,3 +166,4 @@ D:\Study\Project\Project\obj\Release\net8.0\win-x86\Project.pdb
 D:\Study\Project\Project\obj\Release\net8.0\win-x86\Project.genruntimeconfig.cache
 D:\Study\Project\Project\obj\Release\net8.0\win-x86\ref\Project.dll
 D:\Study\Project\Project\bin\Release\net8.0\win-x86\Microsoft.Extensions.ObjectPool.dll
+D:\Study\Project\Project\obj\Release\net8.0\win-x86\Project.sourcelink.json

@@ -69,6 +69,10 @@ namespace Project.Controllers
                         return BadRequest("UserName already exists");
                     if (!Enum.TryParse<GenderType>(cus.Gender, true, out var newGender))
                         return BadRequest("Invalid status value.");
+                    if (cus.UserName == null || cus.Email == null || cus.Password == null ||
+                            cus.Phone == null || cus.State == null || cus.Governorate == null ||
+                            cus.Location == null || cus.Gender == null || cus.BirthDate == null)
+                        return BadRequest("All fields are required.");
                     Customer customer = new()
                     {
                         BirthDate = cus.BirthDate,
@@ -141,14 +145,20 @@ namespace Project.Controllers
                     if (!Enum.TryParse<GenderType>(ad.Gender, true, out var newGender))
                         return BadRequest("Invalid status value.");
 
+                    if (ad.UserName == null || ad.Email == null || ad.Password == null ||
+                            ad.Phone == null || ad.State == null || ad.Governorate == null ||
+                            ad.Location == null || ad.Gender == null || ad.BirthDate == null 
+                            )
+                        return BadRequest("All fields are required.");
+
+
                     Admin admin = new()
                     {
                         BirthDate = ad.BirthDate,
                         Governorate = ad.Governorate,
                         Location = ad.Location,
                         State = ad.State,
-                        Email = ad.Email,
-                        
+                        Email = ad.Email,                        
                         UserName = ad.UserName,
                         Gender = newGender,
                         NationalId = ad.NationalId,

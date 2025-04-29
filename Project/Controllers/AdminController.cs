@@ -347,6 +347,11 @@ namespace Project.Controllers
             if (nationalExists)
                 return BadRequest("National ID already exists.");
 
+            if(Rep.UserName == null ||Rep.Email == null || Rep.Password ==null ||
+                Rep.Phone == null || Rep.State == null || Rep.Governorate == null ||
+                Rep.Location == null || Rep.Gender == null || Rep.BirthDate == null )
+                return BadRequest("All fields are required.");
+
             if (!Enum.TryParse<GenderType>(Rep.Gender, true, out var newGender))
                 return BadRequest("Invalid status value.");
 
