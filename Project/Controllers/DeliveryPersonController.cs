@@ -84,7 +84,7 @@ namespace Project.Controllers
             var orderDTO = new specificOrderDto
             {
                 Id = order.Id,
-                status = order.Status,
+                status = order.Status.ToString(),
                 CustomerId = order.CustomerId,
                 UserName = order.customer.UserName,
                 address = order.address,

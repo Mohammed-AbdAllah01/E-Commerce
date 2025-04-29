@@ -196,14 +196,14 @@
         }
       }
     },
-    "/api/Admin/GetDeliveryRepwithUserName": {
+    "/api/Admin/GetDeliveryRepwithID": {
       "get": {
         "tags": [
           "Admin"
         ],
         "parameters": [
           {
-            "name": "UserName",
+            "name": "Id",
             "in": "query",
             "schema": {
               "type": "string"

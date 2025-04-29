@@ -5,7 +5,7 @@ namespace Project.DTOs
     public class specificOrderDto
     {
         public required int Id { get; set; }
-        public required OrdStatus status { get; set; }
+        public required string status { get; set; }
         public required string CustomerId { get; set; }
         public required string UserName { get; set; }
 
@@ -26,7 +26,7 @@ namespace Project.DTOs
     public class specificOrderadminDto
     {
         public required int Id { get; set; }
-        public required OrdStatus[] status { get; set; }
+                public required string[] status { get; set; }
         public required string CustomerId { get; set; }
         public required string UserName { get; set; }
 

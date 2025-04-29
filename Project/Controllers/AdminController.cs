@@ -50,7 +50,7 @@ namespace Project.Controllers
             var orderDTOs = orders.Select(o => new OrderadminDTO
             {
                 Id = o.Id,
-                status = o.Status,
+                status = o.Status.ToString(),
                 CustomerId = o.CustomerId,
                 UserName = o.customer.UserName,
                 address = o.address,
@@ -83,7 +83,7 @@ namespace Project.Controllers
             var orderDTOs = orders.Select(o => new OrderadminDTO
             {
                 Id = o.Id,
-                status = o.Status,
+                status = o.Status.ToString(),
                 CustomerId = o.CustomerId,
                 UserName = o.customer.UserName,
                 
@@ -127,8 +127,8 @@ namespace Project.Controllers
 
             var orderDTO = new specificOrderadminDto
             {
-                Id = order.Id,
-                status = order.orderItems.Select(oi => oi.Status).ToArray(),
+                Id = order.Id,                
+                status = order.orderItems.Select(oi => oi.Status.ToString()).ToArray(),
                 CustomerId = order.CustomerId,
                 UserName = order.customer.UserName,
                 address = order.address,              
@@ -376,7 +376,7 @@ namespace Project.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            await _userManager.AddToRoleAsync(deliveryRep, "DeliveryRep");
+            
 
             // Generate and send verification code
             var verificationCode = GenerateVerificationCode();
@@ -403,14 +403,16 @@ namespace Project.Controllers
             var deliveryReps = await _context.DeliveryReps
                 .Include(dr => dr.admin)
                 .Include(dr => dr.Orders)
+                 .ThenInclude(dr => dr.orderItems)
                 .Select(dr => new
                 {
-                    dr.Id,
+                    id = dr.Id,
                     Name = dr.UserName,
                     //  HireAge = DateTime.Now.Year -dr.HireDate.Year,
                     HireAge = dr.HireDate.Year,
                     Status = dr.Status.ToString(),
-                    DeliveredOrdersCount = dr.Orders.Count(o => o.Status == OrdStatus.Recieved),
+                    DeliveredOrdersCount = dr.Orders.Count(o => o.orderItems.Any(oi => (int)oi.Status == (int)OrdStatus.Recieved)),
+
                     CreatedByAdmin = dr.admin != null ? dr.admin.UserName : "Unknown"
                 })
                 .ToListAsync();
@@ -422,22 +424,23 @@ namespace Project.Controllers
         }
 
 
-        [HttpGet("GetDeliveryRepwithUserName")]
+        [HttpGet("GetDeliveryRepwithID")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetDeliveryRepwithUserName(string UserName)
+        public async Task<IActionResult> GetDeliveryRepwithID(string Id)
         {
             var deliveryReps = await _context.DeliveryReps
-                .Where(e => e.UserName == UserName)
+                .Where(e => e.Id == Id)
                 .Include(dr => dr.admin)
                 .Include(dr => dr.Orders)
+                    .ThenInclude(dr => dr.orderItems)
                 .Select(dr => new
                 {
-                    dr.Id,
+                    id =  dr.Id,
                     Name = dr.UserName,
                     //  HireAge = DateTime.Now.Year -dr.HireDate.Year,
                     HireAge = dr.HireDate.Year,
                     Status = dr.Status.ToString(),
-                    DeliveredOrdersCount = dr.Orders.Count(o => o.Status == OrdStatus.Recieved),
+                    DeliveredOrdersCount = dr.Orders.Count(o => o.orderItems.Any(oi => (int)oi.Status == (int)OrdStatus.Recieved) ),
                     CreatedByAdmin = dr.admin != null ? dr.admin.UserName : "Unknown"
                 })
                 .ToListAsync();

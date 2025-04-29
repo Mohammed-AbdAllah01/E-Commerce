@@ -43,14 +43,14 @@
   },
   {
     "ContainingType": "Project.Controllers.AdminController",
-    "Method": "GetDeliveryRepwithUserName",
-    "RelativePath": "api/Admin/GetDeliveryRepwithUserName",
+    "Method": "GetDeliveryRepwithID",
+    "RelativePath": "api/Admin/GetDeliveryRepwithID",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserName",
+        "Name": "Id",
         "Type": "System.String",
         "IsRequired": false
       }

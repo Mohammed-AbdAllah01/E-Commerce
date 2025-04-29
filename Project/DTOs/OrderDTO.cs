@@ -19,7 +19,7 @@ namespace Project.DTOs
     public class OrderadminDTO
     {
         public required int Id { get; set; }
-        public required OrdStatus status { get; set; }
+        public required string status { get; set; }
         public required string CustomerId { get; set; }
         public required string UserName { get; set; }
 
