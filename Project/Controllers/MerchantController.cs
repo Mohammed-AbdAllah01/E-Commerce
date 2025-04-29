@@ -257,7 +257,8 @@ namespace Project.Controllers {
             {
                 return BadRequest("Quantity cannot be negative.");
             }
-            var productDetail = await context.ProductDetails.FirstOrDefaultAsync(o => o.Id == ProductDetailId);
+            var productDetail = await context.ProductDetails.Include(p => p.product)
+                .FirstOrDefaultAsync(o => o.Id == ProductDetailId);
             if (productDetail == null)
             {
                 return NotFound("Product item not found.");
