@@ -1,0 +1,22 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Profile_Image\46cf8e32-6481-45a7-b969-30e66527c12c.JPG'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Project</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Project</BasePath>
+      <RelativePath>Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>yp80ssm74u</Fingerprint>
+      <Integrity>Jtii5kULb/4vg+E0awgT6OR4ABO/dbQkHMIo555odyM=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Profile_Image\46cf8e32-6481-45a7-b969-30e66527c12c.JPG'))</OriginalItemSpec>
+    </StaticWebAsset>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+{
+  "Version": 1,
+  "Hash": "WaJB7bQEQelYF5bDeppqtPt7/gCa/Cp1pChQY/QrcdU=",
+  "Source": "Project",
+  "BasePath": "_content/Project",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Project\\wwwroot",
+      "Source": "Project",
+      "ContentRoot": "D:\\Study\\Project\\Project\\wwwroot\\",
+      "BasePath": "_content/Project",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [],
+  "Endpoints": []
+}

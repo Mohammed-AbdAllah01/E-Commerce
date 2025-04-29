@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "ManifestType": "Build",
+  "Endpoints": [
+    {
+      "Route": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
+      "AssetFile": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "163928"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 29 Apr 2025 16:44:35 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I="
+        }
+      ]
+    },
+    {
+      "Route": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.kjsprqvsuy.JPG",
+      "AssetFile": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "163928"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 29 Apr 2025 16:44:35 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "kjsprqvsuy"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I="
+        },
+        {
+          "Name": "label",
+          "Value": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG"
+        }
+      ]
+    }
+  ]
+}

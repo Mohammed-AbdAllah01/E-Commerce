@@ -1,0 +1,885 @@
+[
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "RegistNewAdmin",
+    "RelativePath": "AdminReg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ad",
+        "Type": "Project.DTOs.dtoNewAdmin",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "CreateDeliveryRep",
+    "RelativePath": "api/Admin/create-delivery-rep",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Rep",
+        "Type": "Project.DTOs.dtoNewDeliveryRep",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "GetAllDeliveryReps",
+    "RelativePath": "api/Admin/GetAllDeliveryReps",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "GetDeliveryRepwithUserName",
+    "RelativePath": "api/Admin/GetDeliveryRepwithUserName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "GetOrderDetails",
+    "RelativePath": "api/Admin/GetOrderDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "ShowAllOrders",
+    "RelativePath": "api/Admin/ShowAllOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "ShowAllProducts",
+    "RelativePath": "api/Admin/ShowAllProducts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "ShowProductWithId",
+    "RelativePath": "api/Admin/ShowProductWithId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "ShowSpecificOrders",
+    "RelativePath": "api/Admin/ShowSpecificOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "UpdateProductStatus",
+    "RelativePath": "api/Admin/update-product-status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "UpdateAdress",
+    "RelativePath": "api/Admin/UpdateAdress",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "newaddress",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "UpdateDeliveryRepStatus",
+    "RelativePath": "api/Admin/UpdateDeliveryRepStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Project.DTOs.UpdateDeliveryRepStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "UpdatePhone",
+    "RelativePath": "api/Admin/UpdatePhone",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPhone",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AdminController",
+    "Method": "UpdateStatusOrder",
+    "RelativePath": "api/Admin/UpdateStatusOrder",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/Auth/forgot-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.ForgotPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "ResendVerificationCode",
+    "RelativePath": "api/Auth/resend-verification-code",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.ResendVerificationCodeDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Auth/reset-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.ResetPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "VerifyCode",
+    "RelativePath": "api/Auth/verify-Email",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.VerifyCodeDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "ShowAllCustomers",
+    "RelativePath": "api/Customer/ShowAllCustomers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "ShowCustomerwithUserName",
+    "RelativePath": "api/Customer/ShowCustomerwithUserName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "UpdateCustomerStatus",
+    "RelativePath": "api/Customer/UpdateCustomerStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.DeliveryPersonController",
+    "Method": "GetAssignedOrders",
+    "RelativePath": "api/DeliveryPerson/GetAssignedOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deliveryPersonId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.DeliveryPersonController",
+    "Method": "GetOrderDetails",
+    "RelativePath": "api/DeliveryPerson/GetOrderDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deliveryPersonId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.DeliveryPersonController",
+    "Method": "UpdateOrderStatus",
+    "RelativePath": "api/DeliveryPerson/UpdateOrderStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deliveryPersonId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "dto",
+        "Type": "Project.DTOs.UpdateOrderStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "GetOrderItems",
+    "RelativePath": "api/Merchant/GetOrderItems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "merchantId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "GetProduct",
+    "RelativePath": "api/Merchant/GetProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MerchantId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "GetProductDetails",
+    "RelativePath": "api/Merchant/GetProductDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "ShowAllMerchants",
+    "RelativePath": "api/Merchant/ShowAllMerchants",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "ShowMerchantwithUserName",
+    "RelativePath": "api/Merchant/ShowMerchantwithUserName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "UpdateOrderItemStatus",
+    "RelativePath": "api/Merchant/UpdateOrderItemStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Project.DTOs.UpdateOrderItemStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "UpdateProduct",
+    "RelativePath": "api/Merchant/UpdateProduct",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EP",
+        "Type": "Project.DTOs.EditProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "UpdateProductQuantity",
+    "RelativePath": "api/Merchant/UpdateProductQuantity",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ProductDetailId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "newQuantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "UpdateMerchantStatus",
+    "RelativePath": "api/Merchant/UpdateStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "merchantId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "AddProductToCart",
+    "RelativePath": "api/Product/AddToCart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartDTO",
+        "Type": "Project.DTOs.CartDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "AddProductToFav",
+    "RelativePath": "api/Product/AddToFavourite",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favProductDTO",
+        "Type": "Project.DTOs.FavProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "DeleteProductFromCart",
+    "RelativePath": "api/Product/DeleteFromCart",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "DeleteProductFromFav",
+    "RelativePath": "api/Product/DeleteFromFavourite",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favProductId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "GetAllCarts",
+    "RelativePath": "api/Product/ShowAllCarts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowAllFavMerchant",
+    "RelativePath": "api/Product/ShowAllFavMerchant",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowAllFavProduct",
+    "RelativePath": "api/Product/ShowAllFavProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowHighFeedbackProduct",
+    "RelativePath": "api/Product/ShowHighFeedbackProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "count",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowProductByCategory",
+    "RelativePath": "api/Product/ShowProductByCategory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "count",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowProductByMerchantId",
+    "RelativePath": "api/Product/ShowProductByMerchantId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "merchantId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "count",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowRandomProduct",
+    "RelativePath": "api/Product/ShowRandomProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "count",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "showsizeImageforColor",
+    "RelativePath": "api/Product/showsizeImageforColor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "colorId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowSpecificProduct",
+    "RelativePath": "api/Product/ShowSpecificProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "UpdateProductQuantity",
+    "RelativePath": "api/Product/UpdateQuantity",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "RegistNewCusomer",
+    "RelativePath": "CustomerReg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cus",
+        "Type": "Project.DTOs.dtoNewCustomer",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "RegistNewDeliveryRep",
+    "RelativePath": "DeliveryRepReg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Rep",
+        "Type": "Project.DTOs.dtoNewDeliveryRep",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userLogin",
+        "Type": "Project.DTOs.UserLogin",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "RegistNewMerchant",
+    "RelativePath": "MerchantReg",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Mer",
+        "Type": "Project.DTOs.dtoNewMerchant",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "ProfileInfo",
+    "RelativePath": "ProfileInfo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.AuthController",
+    "Method": "UpdatePicture",
+    "RelativePath": "ProfilePicture",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
