@@ -1599,3 +1599,4 @@ E:\Shady\graduation_project\Project\Project\obj\Debug\net8.0\Project.genruntimec
 E:\Shady\graduation_project\Project\Project\obj\Debug\net8.0\ref\Project.dll
 D:\Study\Project\Project\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Study\Project\Project\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+D:\Study\Project\Project\obj\Debug\net8.0\Project.sourcelink.json

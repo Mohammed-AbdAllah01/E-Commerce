@@ -34,7 +34,7 @@ namespace Project.DTOs
         public required string Location { get; set; }
 
         [Required]
-        public required GenderType Gender { get; set; }
+        public required string Gender { get; set; }
     }
 
 

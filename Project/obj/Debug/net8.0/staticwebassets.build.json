@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Nh9NjRs18vXHy1AovMGYHDIFmMNJw44NpmZI2unj+pE=",
+  "Hash": "D2qGStiYuMfDHhdnFkJy4ON31SwMioPnXl5e0oM5378=",
   "Source": "Project",
   "BasePath": "_content/Project",
   "Mode": "Default",
@@ -15,111 +15,6 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "D:\\Study\\Project\\Project\\wwwroot\\Profile_Image\\46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
-      "SourceId": "Project",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\Study\\Project\\Project\\wwwroot\\",
-      "BasePath": "_content/Project",
-      "RelativePath": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c#[.{fingerprint}]?.JPG",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "kjsprqvsuy",
-      "Integrity": "QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Profile_Image\\46cf8e32-6481-45a7-b969-30e66527c12c.JPG"
-    }
-  ],
-  "Endpoints": [
-    {
-      "Route": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
-      "AssetFile": "D:\\Study\\Project\\Project\\wwwroot\\Profile_Image\\46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "163928"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 29 Apr 2025 16:44:35 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I="
-        }
-      ]
-    },
-    {
-      "Route": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.kjsprqvsuy.JPG",
-      "AssetFile": "D:\\Study\\Project\\Project\\wwwroot\\Profile_Image\\46cf8e32-6481-45a7-b969-30e66527c12c.JPG",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "163928"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 29 Apr 2025 16:44:35 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "kjsprqvsuy"
-        },
-        {
-          "Name": "label",
-          "Value": "Profile_Image/46cf8e32-6481-45a7-b969-30e66527c12c.JPG"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-QBANrF66FBm6UbOtYhMowsx8fI3uac+FNucPe/ME56I="
-        }
-      ]
-    }
-  ]
+  "Assets": [],
+  "Endpoints": []
 }

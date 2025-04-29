@@ -347,6 +347,9 @@ namespace Project.Controllers
             if (nationalExists)
                 return BadRequest("National ID already exists.");
 
+            if (!Enum.TryParse<GenderType>(Rep.Gender, true, out var newGender))
+                return BadRequest("Invalid status value.");
+
             // Create DeliveryRep
             var deliveryRep = new DeliveryRep
             {
@@ -355,7 +358,7 @@ namespace Project.Controllers
                 NationalId = Rep.NationalId,
                 adminId = Rep.adminId,
                 BirthDate = Rep.BirthDate,
-                Gender = Rep.Gender,
+                Gender = newGender,
                 Governorate = Rep.Governorate,
                 Location = Rep.Location,
                 State = Rep.State,

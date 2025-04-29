@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Project.DTOs;
+using Project.Enums;
 using Project.Services.Interfaces;
 using Project.Tables;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,6 +67,8 @@ namespace Project.Controllers
                         return BadRequest("Email already exists");
                     if (existingUser?.UserName != null)
                         return BadRequest("UserName already exists");
+                    if (!Enum.TryParse<GenderType>(cus.Gender, true, out var newGender))
+                        return BadRequest("Invalid status value.");
                     Customer customer = new()
                     {
                         BirthDate = cus.BirthDate,
@@ -74,7 +77,7 @@ namespace Project.Controllers
                         State = cus.State,
                         Email = cus.Email,                        
                         UserName = cus.UserName,
-                        Gender = cus.Gender,
+                        Gender = newGender,
                         Type = Enums.PersonType.Customer,
                         Status = Enums.AccStatus.Active
 
@@ -135,6 +138,9 @@ namespace Project.Controllers
                     if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
                         return BadRequest("National ID already exists");
 
+                    if (!Enum.TryParse<GenderType>(ad.Gender, true, out var newGender))
+                        return BadRequest("Invalid status value.");
+
                     Admin admin = new()
                     {
                         BirthDate = ad.BirthDate,
@@ -144,7 +150,7 @@ namespace Project.Controllers
                         Email = ad.Email,
                         
                         UserName = ad.UserName,
-                        Gender = ad.Gender,
+                        Gender = newGender,
                         NationalId = ad.NationalId,
                         Type = Enums.PersonType.Admin,
                         Status = Enums.AccStatus.Active
@@ -204,6 +210,8 @@ namespace Project.Controllers
                         .FirstOrDefaultAsync(u => u.NationalId == Rep.NationalId);
                     if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
                         return BadRequest("National ID already exists");
+                    if (!Enum.TryParse<GenderType>(Rep.Gender, true, out var newGender))
+                        return BadRequest("Invalid status value.");
 
                     DeliveryRep deliveryrep = new()
                     {
@@ -215,7 +223,7 @@ namespace Project.Controllers
                         State = Rep.State,
                         Email = Rep.Email,                        
                         UserName = Rep.UserName,
-                        Gender = Rep.Gender,
+                        Gender = newGender,
                         Type = Enums.PersonType.DeliveryRep,
                         Status = Enums.AccStatus.Active
                         // IMG = cus.IMG,
@@ -274,6 +282,8 @@ namespace Project.Controllers
                         .FirstOrDefaultAsync(u => u.NationalId == Mer.NationalId);
                     if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
                         return BadRequest("National ID already exists");
+                    if (!Enum.TryParse<GenderType>(Mer.Gender, true, out var newGender))
+                        return BadRequest("Invalid status value.");
 
                     Merchant merchant = new()
                     {
@@ -282,7 +292,7 @@ namespace Project.Controllers
                         State = Mer.State,
                         Email = Mer.Email,                        
                         UserName = Mer.UserName,
-                        Gender = Mer.Gender,
+                        Gender = newGender,
                         Type = Enums.PersonType.Merchant,
                         NationalId = Mer.NationalId,
                         Status = Enums.AccStatus.Inactive,
