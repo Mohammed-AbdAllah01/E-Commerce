@@ -513,6 +513,7 @@ namespace Project.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.merchant)
+                .Include(p => p.images)
                 .Include(p => p.ProductDetails)
                 .ToListAsync();
 
@@ -527,7 +528,8 @@ namespace Project.Controllers
                 Status = p.Status.ToString(), 
                 Quantity = p.Quantity,
                 MerchantName = p.merchant?.UserName ?? "Unknown",
-                MerchantId = p.merchantId
+                MerchantId = p.merchantId,
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
             }).ToList();
 
             return Ok(productList);
@@ -541,6 +543,7 @@ namespace Project.Controllers
             var products = await _context.Products
                 .Where(e => e.Id == id)
                 .Include(p => p.merchant)
+                .Include(p => p.images)
                 .Include(p => p.ProductDetails)
                 .ToListAsync();
 
@@ -555,7 +558,8 @@ namespace Project.Controllers
                 Status = p.Status.ToString(),
                 Quantity = p.Quantity,
                 MerchantName = p.merchant?.UserName ?? "Unknown",
-                MerchantId = p.merchantId
+                MerchantId = p.merchantId,
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
             }).ToList();
 
             return Ok(productList);

@@ -7,13 +7,13 @@ namespace Project.Data.Relation
     {
         [ForeignKey("product")]
         public int productId { get; set; }
-        public required Product product { get; set; }
+        public  Product product { get; set; }
 
         [ForeignKey("color")]
         public int colorId { get; set; }
-        public required Color color { get; set; }
+        public  Color color { get; set; }
 
-        public required string ImageData { get; set; }
+        public  string ImageData { get; set; }
 
     }
 }

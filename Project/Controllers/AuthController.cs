@@ -526,7 +526,7 @@ namespace Project.Controllers
                 imageFile.CopyTo(fileStream);
             }
 
-            return  uniqueFileName; // URL path  {"//aston.runasp.net//Profile_Image//" +}
+            return  uniqueFileName;
         }
 
 

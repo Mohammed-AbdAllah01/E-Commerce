@@ -8,15 +8,15 @@ namespace Project.Data.Relation
         public int Id { get; set; }
         [ForeignKey("product")]
         public int productId { get; set; }
-        public required Product product { get; set; }
+        public  Product product { get; set; }
 
         [ForeignKey("color")]
         public int colorId { get; set; }
-        public required Color color { get; set; }
+        public  Color color { get; set; }
 
         [ForeignKey("size")]
         public int sizeId { get; set; }
-        public required Size size { get; set; }
+        public  Size size { get; set; }
 
         public int Quantity { get; set; }
 

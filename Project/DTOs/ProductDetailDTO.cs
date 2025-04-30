@@ -1,4 +1,6 @@
-﻿using Project.Enums;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc;
+using Project.Enums;
 using Project.Tables;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,17 +21,14 @@ namespace Project.DTOs
     }
 
         public class ProductDetailDTO
-    {
-
-
+        {
         public int Id { get; set; }
         public string ProductName { get; set; }
             public string Color { get; set; }
             public string  Size { get; set; }
             public string Image { get; set; }
             public int Quantity { get; set; }
-
-    }
+          }
 
    
         public class AddFullProductDTO
@@ -47,31 +46,36 @@ namespace Project.DTOs
             [Range(0, double.MaxValue)]
             public double UnitPrice { get; set; }
 
-            [Range(0, 1)]
+            
             public double Discount { get; set; }
 
-            [Required]
-            public List<AddProductDetailDTO> ProductDetails { get; set; }
+             [Required]
+             public string merchantId { get; set; }
+
+          
+
+    }
 
 
-            [Required]
-            public List<ColorImagesDTO> ColorImages { get; set; }
 
-        }
+        public class ColorSizeDTO
+    {
+        public int ProductId { get; set; }
+        public string Color { get; set; }
+        public string[] Size { get; set; }
+         public int[] Quantity { get; set; }
 
-        public class ColorImagesDTO
-        {
-            public int ColorId { get; set; }
+        
+        [FromForm]
+        public IFormFile? image1 { get; set; }
 
-            [Required]
-            public List<string> ImageUrls { get; set; }
-        }
+        
+        [FromForm]
+        public IFormFile? image2 { get; set; }
 
-        public class AddProductDetailDTO
-        {
-            public int ColorId { get; set; }
-            public int SizeId { get; set; }
-            public int Quantity { get; set; }
+        
+        [FromForm]
+        public IFormFile? image3 { get; set; }
     }
 
 

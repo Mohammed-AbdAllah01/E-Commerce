@@ -3,12 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Project.Data.Relation;
 using Project.DTOs;
 using Project.Enums;
 using Project.Services.Implementations;
 using Project.Services.Interfaces;
 using Project.Tables;
+using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
+using Image = Project.Data.Relation.Image;
+
 
 namespace Project.Controllers {
     [Route("api/[controller]")]
@@ -16,9 +21,16 @@ namespace Project.Controllers {
     public class MerchantController : ControllerBase {
         private readonly AppDbContext context;
         private readonly IEmailService emailService;
+        private readonly string _profileImagePath;
         public MerchantController(AppDbContext context, IEmailService emailService) {
             this.context = context;
             this.emailService = emailService;
+            _profileImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Product_Image");
+
+            if (!Directory.Exists(_profileImagePath))
+            {
+                Directory.CreateDirectory(_profileImagePath);
+            }
 
         }
 
@@ -110,6 +122,7 @@ namespace Project.Controllers {
             var orderItems = await context.OrderItems
                 .Include(o => o.order)
                 .Include(o => o.product)
+                    .ThenInclude(p => p.images)
                 .Include(pd => pd.color)
                 .Include(pd => pd.size)
                 .Include(pd => pd.merchant)
@@ -128,7 +141,8 @@ namespace Project.Controllers {
                 Size = o.size.Gradient,
                 Quantity = o.Quantity,
                 Status = o.Status.ToString(),
-                Price = o.product.SellPrice
+                Price = o.product.SellPrice,
+                ImageUrl = $"//aston.runasp.net//Product_Image//{o.product.images.FirstOrDefault()?.ImageData}"
             }).ToList();
             return Ok(result);
         }
@@ -209,7 +223,7 @@ namespace Project.Controllers {
                 SellPrice = p.SellPrice,
                 status = p.Status,
                 Quantity = p.Quantity,
-                Image = $"//aston.runasp.net//Profile_Image//{p.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
             }).ToList();
             return Ok(result);
 
@@ -239,7 +253,7 @@ namespace Project.Controllers {
                 Color = p.color.Name,
                 Size = p.size.Gradient,
                 Quantity = p.Quantity,
-                Image = $"//aston.runasp.net//Profile_Image//{p.product.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault()?.ImageData}"
                 
             }).ToList();
             return Ok(result);
@@ -319,102 +333,187 @@ namespace Project.Controllers {
 
 
         //---------------------------------------------
+
         [HttpPost("AddProduct")]
-        [Authorize(Roles = "Merchant")]
-        public async Task<IActionResult> AddProduct([FromBody] AddFullProductDTO model)
+        public async Task<IActionResult> AddProduct(AddFullProductDTO Pro )
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var merchantId = User.FindFirst("ID")?.Value;
-            if (merchantId == null)
-                return Unauthorized("Unauthorized");
-
-            var category = await context.Categories.FindAsync(model.CategoryId);
+            if (Pro == null)
+            {
+                return BadRequest("Product cannot be null.");
+            }
+            if (string.IsNullOrEmpty(Pro.Title) || string.IsNullOrEmpty(Pro.Description) ||
+                string.IsNullOrEmpty(Pro.merchantId) || Pro.Discount < 0 ||
+                Pro.CategoryId <= 0 || Pro.UnitPrice <= 0)
+            {
+                return BadRequest("Invalid product data.");
+            }
+            var merchant = await context.Merchants.FindAsync(Pro.merchantId);
+            if (merchant == null)
+            {
+                return NotFound("Merchant not found.");
+            }
+            var category = await context.Categories.FindAsync(Pro.CategoryId);
             if (category == null)
-                return NotFound("Invalid category");
-
+            {
+                return NotFound("Category not found.");
+            }
+            var exist = await context.Products
+                .FirstOrDefaultAsync(p => p.Title == Pro.Title && p.Description == Pro.Description);
+            if (exist != null)
+            {
+                return BadRequest("Product with this title and Description already exists.");
+            }
             var product = new Product
             {
-                Title = model.Title,
-                Description = model.Description,
-                Discount = model.Discount,
-                UnitPrice = model.UnitPrice,
-                categoryId = model.CategoryId,
-                merchantId = merchantId,
-                Status = ProStatus.Active,
-                //  Feedback = 0
-
+                Title = Pro.Title,
+                Description = Pro.Description,
+                UnitPrice = Pro.UnitPrice,
+                Discount = Pro.Discount,
+                categoryId = Pro.CategoryId,
+                merchantId = Pro.merchantId,
+                Status = ProStatus.Pending
             };
-
             context.Products.Add(product);
             await context.SaveChangesAsync();
+            return Ok(new { productId = product.Id });
+        }
 
+        [HttpPost("AddColorsizeimage")]
+        public async Task<IActionResult> AddColorsizeimage([FromForm] ColorSizeDTO details)
+        {
 
-            foreach (var colorImg in model.ColorImages)
+            if (details == null)
             {
-                foreach (var img in colorImg.ImageUrls)
+                return BadRequest("Product cannot be null.");
+            }
+            if (string.IsNullOrEmpty(details.Color))
+            {
+                return BadRequest("Invalid please Enter Color.");
+
+            }
+            var product = await context.Products.FindAsync(details.ProductId);
+            if (details.ProductId == null || product == null)
+            {
+                return BadRequest("Invalid product ID .");
+
+            }
+            foreach (var Quantity in details.Quantity)
+            {
+                if (Quantity < 0)                {
+                    return BadRequest("Invalid please Enter Quantity.");
+                }
+            }           
+            foreach (var size in details.Size)
+            {
+                if (string.IsNullOrEmpty(size))
                 {
-                    context.Images.Add(new Image
-                    {
-                        productId = product.Id,
-                        colorId = colorImg.ColorId,
-                        ImageData = img,
-                        product = product,
-                        color = await context.Colors.FindAsync(colorImg.ColorId) ?? throw new Exception("Invalid color")
-                    });
+                    return BadRequest("Invalid please Enter size.");
                 }
             }
-
-            //  Add (color, size, quantity)
-            foreach (var detail in model.ProductDetails)
+            string imageUrl1 = null;
+            string imageUrl2 = null;
+            string imageUrl3 = null;
+            if (details.image1 != null && details.image1.Length > 0)
             {
-                var color = await context.Colors.FindAsync(detail.ColorId);
-                var size = await context.Sizes.FindAsync(detail.SizeId);
-                if (color == null || size == null)
-                    return BadRequest("Invalid color or size.");
-
-                context.ProductDetails.Add(new ProductDetail
-                {
-                    productId = product.Id,
-                    colorId = detail.ColorId,
-                    sizeId = detail.SizeId,
-                    Quantity = detail.Quantity,
-                    product = product,
-                    color = color,
-                    size = size
-                });
+                imageUrl1 = SaveImage(details.image1);
             }
+            if (details.image2 != null && details.image2.Length > 0)
+            {
+                imageUrl2 = SaveImage(details.image2);
+            }
+            if (details.image3 != null && details.image3.Length > 0)
+            {
+                imageUrl3 = SaveImage(details.image3);
+            }
+
+            var color = await context.Colors.FirstOrDefaultAsync(c => c.Name == details.Color);
+            if (color == null)
+            {
+                color = new Tables.Color { Name = details.Color };
+                context.Colors.Add(color);
+                await context.SaveChangesAsync();
+            }
+            var sizeList = new List<Tables.Size>();
+            foreach (var size in details.Size)
+            {
+                var existingSize = await context.Sizes.FirstOrDefaultAsync(s => s.Gradient == size);
+                if (existingSize == null)
+                {
+                    existingSize = new Tables.Size { Gradient = size };
+                    context.Sizes.Add(existingSize);
+                    await context.SaveChangesAsync();
+                }
+                sizeList.Add(existingSize);
+            }
+
+            for (int i = 0; i < sizeList.Count; i++)
+            {
+                var size = sizeList[i];
+                var quantity = details.Quantity[i];
+
+                var productDetail = new ProductDetail
+                {
+                    productId = details.ProductId,
+                    colorId = color.Id,
+                    sizeId = size.Id,
+                    Quantity = quantity
+                };
+
+                context.ProductDetails.Add(productDetail);
+            }
+            await context.SaveChangesAsync();
+            var productImage1 = new Image
+            {
+                ImageData = imageUrl1,
+                productId = details.ProductId,
+                colorId = color.Id
+
+            };
+            var productImage2 = new Image
+            {
+                ImageData = imageUrl2,
+                productId = details.ProductId,
+                colorId = color.Id
+
+            };
+            var productImage3 = new Image
+            {
+                ImageData = imageUrl3,
+                productId = details.ProductId,
+                colorId = color.Id
+            };
+            context.Images.Add(productImage1);
+            context.Images.Add(productImage2);
+            context.Images.Add(productImage3);
 
             await context.SaveChangesAsync();
+            return Ok("Product added successfully.");
 
-            // send mail to customers who add this merchant to favourite
-            var favCustomers = await context.FavMerchants
-                .Include(fm => fm.customer)
-                .Where(fm => fm.merchantId == merchantId)
-                .Select(fm => fm.customer)
-                .ToListAsync();
 
-            foreach (var customer in favCustomers)
-            {
-                await emailService.SendEmailAsync(
-                    customer.Email,
-                    "New Product Added",
-                    $"Dear {customer.UserName},\n\nThe merchant you follow just added a new product: {product.Title}.\nCheck it out now!"
-                );
-            }
-
-            return Ok(new
-            {
-                message = "✅ Product added successfully and notifications sent.",
-                productId = product.Id
-            });
         }
 
 
 
-    }
 
+
+
+
+
+        private string SaveImage(IFormFile imageFile)
+        {
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            string filePath = Path.Combine(_profileImagePath, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                imageFile.CopyTo(fileStream);
+            }
+
+            return uniqueFileName; // URL path  {"//aston.runasp.net//Product_Image//" +}
+        }
+
+
+    }
 
 
 

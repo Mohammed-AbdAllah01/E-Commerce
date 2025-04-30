@@ -137,6 +137,11 @@
         "Name": "productId",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "Newstatus",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -286,6 +291,22 @@
   },
   {
     "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "AddComment",
+    "RelativePath": "api/Customer/AddComment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.AddProductCommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
     "Method": "ShowAllCustomers",
     "RelativePath": "api/Customer/ShowAllCustomers",
     "HttpMethod": "GET",
@@ -381,16 +402,46 @@
   },
   {
     "ContainingType": "Project.Controllers.MerchantController",
-    "Method": "AddComment",
-    "RelativePath": "api/Merchant/AddComment",
+    "Method": "AddColorsizeimage",
+    "RelativePath": "api/Merchant/AddColorsizeimage",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "Project.DTOs.AddProductCommentDTO",
-        "IsRequired": true
+        "Name": "ProductId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Color",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Size",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Quantity",
+        "Type": "System.Int32[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "image1",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "image2",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "image3",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -404,7 +455,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
+        "Name": "Pro",
         "Type": "Project.DTOs.AddFullProductDTO",
         "IsRequired": true
       }

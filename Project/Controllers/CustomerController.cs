@@ -92,81 +92,81 @@ namespace Project.Controllers
 
 
 
-        [HttpPost("AddComment")]
-        [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> AddComment([FromBody] AddProductCommentDTO model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        //[HttpPost("AddComment")]
+        //[Authorize(Roles = "Customer")]
+        //public async Task<IActionResult> AddComment([FromBody] AddProductCommentDTO model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
 
-            var customerId = User.FindFirst("ID")?.Value;
-            if (string.IsNullOrEmpty(customerId))
-                return Unauthorized("Customer not found in token");
+        //    var customerId = User.FindFirst("ID")?.Value;
+        //    if (string.IsNullOrEmpty(customerId))
+        //        return Unauthorized("Customer not found in token");
 
-            // ensure tha the customer received the order
-            var hasReceived = await context.OrderItems
-                .Include(oi => oi.order)
-                .Where(oi =>
-                    oi.productId == model.ProductId &&
-                    oi.order.CustomerId == customerId &&
-                    oi.Status == OrdStatus.Recieved
-                ).AnyAsync();
+        //    // ensure tha the customer received the order
+        //    var hasReceived = await context.OrderItems
+        //        .Include(oi => oi.order)
+        //        .Where(oi =>
+        //            oi.productId == model.ProductId &&
+        //            oi.order.CustomerId == customerId &&
+        //            oi.Status == OrdStatus.Recieved
+        //        ).AnyAsync();
 
-            if (!hasReceived)
-                return BadRequest("❌ You can only comment on products you've received.");
+        //    if (!hasReceived)
+        //        return BadRequest("❌ You can only comment on products you've received.");
 
-            // ensure if there is a previous comment
-            var existingComment = await context.FeedbackComments
-                .AnyAsync(c => c.productId == model.ProductId && c.customerId == customerId);
+        //    // ensure if there is a previous comment
+        //    var existingComment = await context.FeedbackComments
+        //        .AnyAsync(c => c.productId == model.ProductId && c.customerId == customerId);
 
-            if (existingComment)
-                return BadRequest("❌ You've already commented on this product.");
-
-
-            var product = await context.Products
-                .Include(p => p.merchant)
-                .Include(p => p.feedbackcmments)
-                .FirstOrDefaultAsync(p => p.Id == model.ProductId);
-
-            if (product == null)
-                return NotFound("❌ Product not found.");
-
-            var customer = await context.Customers.FindAsync(customerId);
-            if (customer == null)
-                return NotFound("Customer not found.");
-
-            // create comment
-            var comment = new FeedbackComments
-            {
-                productId = product.Id,
-                customerId = customer.Id,
-                Comment = model.Comment,
-                Feeling = model.Feedback,
-                DateCreate = DateTime.UtcNow,
-                product = product,
-                customer = customer
-            };
-
-            context.FeedbackComments.Add(comment);
-            await context.SaveChangesAsync();
+        //    if (existingComment)
+        //        return BadRequest("❌ You've already commented on this product.");
 
 
-            var allRatings = product.feedbackcmments.Select(fc => fc.Feeling).ToList();
-            var averageRating = allRatings.Any() ? allRatings.Average() : model.Feedback;
+        //    var product = await context.Products
+        //        .Include(p => p.merchant)
+        //        .Include(p => p.feedbackcmments)
+        //        .FirstOrDefaultAsync(p => p.Id == model.ProductId);
+
+        //    if (product == null)
+        //        return NotFound("❌ Product not found.");
+
+        //    var customer = await context.Customers.FindAsync(customerId);
+        //    if (customer == null)
+        //        return NotFound("Customer not found.");
+
+        //    // create comment
+        //    var comment = new FeedbackComments
+        //    {
+        //        productId = product.Id,
+        //        customerId = customer.Id,
+        //        Comment = model.Comment,
+        //        Feeling = model.Feedback,
+        //        DateCreate = DateTime.UtcNow,
+        //        product = product,
+        //        customer = customer
+        //    };
+
+        //    context.FeedbackComments.Add(comment);
+        //    await context.SaveChangesAsync();
 
 
-            typeof(Product).GetProperty("Feedback")?.SetValue(product, averageRating);
-            await context.SaveChangesAsync();
+        //    var allRatings = product.feedbackcmments.Select(fc => fc.Feeling).ToList();
+        //    var averageRating = allRatings.Any() ? allRatings.Average() : model.Feedback;
 
-            // send mail to the merchant
-            await emailService.SendEmailAsync(
-                product.merchant.Email,
-                "🛍 New Feedback on Your Product",
-                $"Dear {product.merchant.UserName},\n\nA customer has left feedback on your product \"{product.Title}\".\n\n📝 Comment: \"{model.Comment}\"\n⭐ Rating: {model.Feedback} stars\n\nRegards,\nYour Platform"
-            );
 
-            return Ok("✅ Feedback submitted successfully.");
-        }
+        //    typeof(Product).GetProperty("Feedback")?.SetValue(product, averageRating);
+        //    await context.SaveChangesAsync();
+
+        //    // send mail to the merchant
+        //    await emailService.SendEmailAsync(
+        //        product.merchant.Email,
+        //        "🛍 New Feedback on Your Product",
+        //        $"Dear {product.merchant.UserName},\n\nA customer has left feedback on your product \"{product.Title}\".\n\n📝 Comment: \"{model.Comment}\"\n⭐ Rating: {model.Feedback} stars\n\nRegards,\nYour Platform"
+        //    );
+
+        //    return Ok("✅ Feedback submitted successfully.");
+        //}
 
     }
 }

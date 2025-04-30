@@ -9,6 +9,7 @@
         public int Quantity { get; set; }
         public string MerchantName { get; set; }
         public string MerchantId { get; set; }
+        public string Image { get; set; }
     }
 
 }

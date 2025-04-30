@@ -295,6 +295,13 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "Newstatus",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -675,6 +682,37 @@
         }
       }
     },
+    "/api/Customer/AddComment": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductCommentDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductCommentDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductCommentDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/DeliveryPerson/GetAssignedOrders": {
       "get": {
         "tags": [
@@ -997,26 +1035,73 @@
         }
       }
     },
-    "/api/Merchant/AddComment": {
+    "/api/Merchant/AddColorsizeimage": {
       "post": {
         "tags": [
           "Merchant"
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
+                "type": "object",
+                "properties": {
+                  "ProductId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Color": {
+                    "type": "string"
+                  },
+                  "Size": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "Quantity": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "format": "int32"
+                    }
+                  },
+                  "image1": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "image2": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "image3": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProductId": {
+                  "style": "form"
+                },
+                "Color": {
+                  "style": "form"
+                },
+                "Size": {
+                  "style": "form"
+                },
+                "Quantity": {
+                  "style": "form"
+                },
+                "image1": {
+                  "style": "form"
+                },
+                "image2": {
+                  "style": "form"
+                },
+                "image3": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1463,9 +1548,8 @@
       "AddFullProductDTO": {
         "required": [
           "categoryId",
-          "colorImages",
           "description",
-          "productDetails",
+          "merchantId",
           "title",
           "unitPrice"
         ],
@@ -1489,22 +1573,12 @@
             "format": "double"
           },
           "discount": {
-            "maximum": 1,
-            "minimum": 0,
             "type": "number",
             "format": "double"
           },
-          "productDetails": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AddProductDetailDTO"
-            }
-          },
-          "colorImages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ColorImagesDTO"
-            }
+          "merchantId": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -1529,43 +1603,6 @@
             "maxLength": 500,
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AddProductDetailDTO": {
-        "type": "object",
-        "properties": {
-          "colorId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sizeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ColorImagesDTO": {
-        "required": [
-          "imageUrls"
-        ],
-        "type": "object",
-        "properties": {
-          "colorId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "imageUrls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         },
         "additionalProperties": false
