@@ -569,8 +569,11 @@ namespace Project.Controllers
 
         [HttpPut("update-product-status")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProductStatus(int productId)
+        public async Task<IActionResult> UpdateProductStatus(int productId , string Newstatus)
         {
+            if (!Enum.TryParse<ProStatus>(Newstatus, true, out var newStatus))
+                return BadRequest("Invalid status value.");
+
             var product = await _context.Products
                 .Include(p => p.merchant)
                 .FirstOrDefaultAsync(p => p.Id == productId);
@@ -578,27 +581,49 @@ namespace Project.Controllers
             if (product == null)
                 return NotFound("Product not found.");
 
-            
-            if (product.Status == ProStatus.Banned)
-                return BadRequest($"Product is already Banned");
-                     
+            if (product.Status == newStatus)
+                return BadRequest($"Product status is already set to {newStatus}.");
 
-           
-            product.Status = ProStatus.Banned;
-            await _context.SaveChangesAsync();
+            bool isValidTransition =
+                (product.Status == ProStatus.Pending && newStatus == ProStatus.Active) ||
+                (newStatus == ProStatus.Banned) ||
+                (product.Status == ProStatus.Banned && newStatus == ProStatus.Active);
 
-            // ✅ send mail to the merchant 
-            string message = $"Dear {product.merchant.UserName},\n\n" +
-                             $"Your product \"{product.Title}\" has been banned by the admin due to policy violations.\n\n" +
-                             $"If you believe this is a mistake, please contact support.";
 
-            await _emailService.SendEmailAsync(
-                product.merchant.Email,
-                "🚫 Product Banned Notification",
-                message
-            );
+            if (!isValidTransition)
+                return BadRequest("Invalid status transition. Allowed: From Pending To Active  or  Banned Product.");
 
-            return Ok($"Product '{product.Title}' has been successfully banned and merchant has been notified.");
+            product.Status = newStatus;
+                        
+              await _context.SaveChangesAsync();
+
+            if(newStatus == ProStatus.Pending) { 
+              // ✅ send mail to the merchant 
+              string message = $"Dear {product.merchant.UserName},\n\n" +
+                               $"Your product \"{product.Title}\" has been banned by the admin due to policy violations.\n\n" +
+                               $"If you believe this is a mistake, please contact support.";
+
+              await _emailService.SendEmailAsync(
+                  product.merchant.Email,
+                  "🚫 Product Banned Notification",
+                  message
+              );
+            }
+
+            if (newStatus == ProStatus.Active)
+            {
+                // ✅ send mail to the merchant 
+                string message = $"Dear {product.merchant.UserName},\n\n" +
+                                 $"Your product \"{product.Title}\" has been Active Now .\n\n" +
+                                 $"People can now Order it.";
+
+                await _emailService.SendEmailAsync(
+                    product.merchant.Email,
+                    "✅ Product Activated Notification",
+                    message
+                );
+            }
+            return Ok($"Product '{product.Title}' has been successfully {newStatus} and merchant has been notified.");
         }
 
 
