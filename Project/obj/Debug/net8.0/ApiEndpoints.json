@@ -381,6 +381,38 @@
   },
   {
     "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "AddComment",
+    "RelativePath": "api/Merchant/AddComment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.AddProductCommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "AddProduct",
+    "RelativePath": "api/Merchant/AddProduct",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Project.DTOs.AddFullProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
     "Method": "GetOrderItems",
     "RelativePath": "api/Merchant/GetOrderItems",
     "HttpMethod": "GET",

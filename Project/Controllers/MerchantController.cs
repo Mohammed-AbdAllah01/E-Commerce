@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Project.Data.Relation;
 using Project.DTOs;
 using Project.Enums;
+using Project.Services.Implementations;
 using Project.Services.Interfaces;
 using Project.Tables;
 
@@ -316,10 +317,182 @@ namespace Project.Controllers {
 
         }
 
-        
+
+        //---------------------------------------------
+        [HttpPost("AddProduct")]
+        [Authorize(Roles = "Merchant")]
+        public async Task<IActionResult> AddProduct([FromBody] AddFullProductDTO model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var merchantId = User.FindFirst("ID")?.Value;
+            if (merchantId == null)
+                return Unauthorized("Unauthorized");
+
+            var category = await context.Categories.FindAsync(model.CategoryId);
+            if (category == null)
+                return NotFound("Invalid category");
+
+            var product = new Product
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Discount = model.Discount,
+                UnitPrice = model.UnitPrice,
+                categoryId = model.CategoryId,
+                merchantId = merchantId,
+                Status = ProStatus.Active,
+                //  Feedback = 0
+
+            };
+
+            context.Products.Add(product);
+            await context.SaveChangesAsync();
+
+
+            foreach (var colorImg in model.ColorImages)
+            {
+                foreach (var img in colorImg.ImageUrls)
+                {
+                    context.Images.Add(new Image
+                    {
+                        productId = product.Id,
+                        colorId = colorImg.ColorId,
+                        ImageData = img,
+                        product = product,
+                        color = await context.Colors.FindAsync(colorImg.ColorId) ?? throw new Exception("Invalid color")
+                    });
+                }
+            }
+
+            //  Add (color, size, quantity)
+            foreach (var detail in model.ProductDetails)
+            {
+                var color = await context.Colors.FindAsync(detail.ColorId);
+                var size = await context.Sizes.FindAsync(detail.SizeId);
+                if (color == null || size == null)
+                    return BadRequest("Invalid color or size.");
+
+                context.ProductDetails.Add(new ProductDetail
+                {
+                    productId = product.Id,
+                    colorId = detail.ColorId,
+                    sizeId = detail.SizeId,
+                    Quantity = detail.Quantity,
+                    product = product,
+                    color = color,
+                    size = size
+                });
+            }
+
+            await context.SaveChangesAsync();
+
+            // send mail to customers who add this merchant to favourite
+            var favCustomers = await context.FavMerchants
+                .Include(fm => fm.customer)
+                .Where(fm => fm.merchantId == merchantId)
+                .Select(fm => fm.customer)
+                .ToListAsync();
+
+            foreach (var customer in favCustomers)
+            {
+                await emailService.SendEmailAsync(
+                    customer.Email,
+                    "New Product Added",
+                    $"Dear {customer.UserName},\n\nThe merchant you follow just added a new product: {product.Title}.\nCheck it out now!"
+                );
+            }
+
+            return Ok(new
+            {
+                message = "✅ Product added successfully and notifications sent.",
+                productId = product.Id
+            });
+        }
 
 
 
+        [HttpPost("AddComment")]
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> AddComment([FromBody] AddProductCommentDTO model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var customerId = User.FindFirst("ID")?.Value;
+            if (string.IsNullOrEmpty(customerId))
+                return Unauthorized("Customer not found in token");
+
+            // ensure tha the customer received the order
+            var hasReceived = await context.OrderItems
+                .Include(oi => oi.order)
+                .Where(oi =>
+                    oi.productId == model.ProductId &&
+                    oi.order.CustomerId == customerId &&
+                    oi.Status == OrdStatus.Recieved
+                ).AnyAsync();
+
+            if (!hasReceived)
+                return BadRequest("❌ You can only comment on products you've received.");
+
+            // ensure if there is a previous comment
+            var existingComment = await context.FeedbackComments
+                .AnyAsync(c => c.productId == model.ProductId && c.customerId == customerId);
+
+            if (existingComment)
+                return BadRequest("❌ You've already commented on this product.");
+
+
+            var product = await context.Products
+                .Include(p => p.merchant)
+                .Include(p => p.feedbackcmments)
+                .FirstOrDefaultAsync(p => p.Id == model.ProductId);
+
+            if (product == null)
+                return NotFound("❌ Product not found.");
+
+            var customer = await context.Customers.FindAsync(customerId);
+            if (customer == null)
+                return NotFound("Customer not found.");
+
+            // create comment
+            var comment = new FeedbackComments
+            {
+                productId = product.Id,
+                customerId = customer.Id,
+                Comment = model.Comment,
+                Feeling = model.Feedback,
+                DateCreate = DateTime.UtcNow,
+                product = product,
+                customer = customer
+            };
+
+            context.FeedbackComments.Add(comment);
+            await context.SaveChangesAsync();
+
+
+            var allRatings = product.feedbackcmments.Select(fc => fc.Feeling).ToList();
+            var averageRating = allRatings.Any() ? allRatings.Average() : model.Feedback;
+
+
+            typeof(Product).GetProperty("Feedback")?.SetValue(product, averageRating);
+            await context.SaveChangesAsync();
+
+            // send mail to the merchant
+            await emailService.SendEmailAsync(
+                product.merchant.Email,
+                "🛍 New Feedback on Your Product",
+                $"Dear {product.merchant.UserName},\n\nA customer has left feedback on your product \"{product.Title}\".\n\n📝 Comment: \"{model.Comment}\"\n⭐ Rating: {model.Feedback} stars\n\nRegards,\nYour Platform"
+            );
+
+            return Ok("✅ Feedback submitted successfully.");
+        }
 
     }
+
+
+
+
 }
+
