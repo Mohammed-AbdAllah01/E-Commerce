@@ -52,7 +52,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"
+                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -90,7 +90,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"
+                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -192,10 +192,13 @@ namespace Project.Controllers
                 Category = product.category?.Name ?? "Unknown",
                 CategoriesId = product.categoryId,
                 // Return the list of image URLs for the first color
-                ImageUrls = imagesForColor,
+                ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Profile_Image//{img}").ToList(),
                 MerchantName = product.merchant?.UserName ?? "Unknown",
                 MerchantId = product.merchantId,
             };
+                    
+
+
 
             return Ok(pro);
         }
@@ -237,7 +240,7 @@ namespace Project.Controllers
             var result = new
             {
                 ProductId = product.Id,
-                Images = imagesForColor,
+                Images = imagesForColor.Select(img => $"//aston.runasp.net//Profile_Image//{img}").ToList(),
                 Sizes = sizesForColor.Select(s => new { s.Id, s.Gradient }).ToList()  // Select both Id and Gradient for sizes
             };
 
@@ -280,9 +283,9 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"
+                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
-
+            
             return Ok(result);
         }
 
@@ -318,7 +321,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"
+                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -343,14 +346,16 @@ namespace Project.Controllers
             if (products.Count() < 1)
                 return NotFound("No FavProduct found");
 
+
             var FavItem = products.Select(p => new FavProductDTO
             {
                 Id = p.Id,
+                ProductId = p.productId,
                 Title = p.product.Title,
                 Discount = p.product.Discount,
                 UnitPrice = p.product.UnitPrice,
                 SellPrice = p.product.SellPrice,
-                Image = p.product.images.FirstOrDefault().ImageData
+                Image = $"//aston.runasp.net//Profile_Image//{p.product.images.FirstOrDefault().ImageData ?? "default-image.jpg"}"
 
             }).ToList();
             return Ok(FavItem);
@@ -374,7 +379,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 MerchantId = p.merchantId,
                 MerchantName = p.merchant.UserName,
-                Image = p.merchant.IMG.FirstOrDefault().ToString(),
+                Image = $"//aston.runasp.net//Profile_Image//{p.merchant.IMG.FirstOrDefault().ToString() ?? "default-Perimage.jpg"}",
                 Rate = p.merchant.Feedback
 
             }).ToList();
@@ -415,6 +420,12 @@ namespace Project.Controllers
 
             };
 
+            for (var item = 0; item< CartItems.image.Length; item++)
+            {
+                CartItems.image[item] = $"//aston.runasp.net//Profile_Image//{CartItems.image[item]}";
+
+            }
+
             return Ok(CartItems);
         }
 
@@ -436,6 +447,7 @@ namespace Project.Controllers
                 // Check if the product exists
                 var product = _userManager.Products.FirstOrDefault(f => f.Id == ProdID);
                 var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cusId);
+            var existingfav = _userManager.FavProducts.FirstOrDefault(f => f.productId == ProdID && f.customerId == cusId);
                 if (product == null)
                 {
                     return NotFound("Product not found");
@@ -444,7 +456,11 @@ namespace Project.Controllers
                 {
                     return NotFound("Customer not found");
                 }
-                var favProduct = new FavProduct
+            if (existingfav != null)
+            {
+                return NotFound("Item exist before inside favourite");
+            }
+            var favProduct = new FavProduct
                 {
                     productId = ProdID,
                     customerId = cusId
@@ -465,6 +481,8 @@ namespace Project.Controllers
             // Check if the product exists
             var product = _userManager.Merchants.FirstOrDefault(f => f.Id == MerID);
             var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cusId);
+            var existingfav = _userManager.FavMerchants.FirstOrDefault(f => f.customerId == cusId && f.merchantId == MerID);
+
             if (product == null)
             {
                 return NotFound("Merchant not found");
@@ -473,6 +491,10 @@ namespace Project.Controllers
             {
                 return NotFound("Customer not found");
             }
+            if (existingfav != null)
+            {
+                return NotFound("Item exist before inside favourite");
+            }
             var favMerchant = new FavMerchant
             {
                 merchantId = MerID,
@@ -480,7 +502,7 @@ namespace Project.Controllers
             };
             _userManager.FavMerchants.Add(favMerchant);
             _userManager.SaveChanges();
-            return Ok("Product stored in favourite");
+            return Ok("Merchant stored in favourite");
         }
 
 
@@ -526,8 +548,8 @@ namespace Project.Controllers
                 var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cartDTO.CustomerId);
                 var color = _userManager.Colors.FirstOrDefault(f => f.Id == cartDTO.colorId);
                 var size = _userManager.Sizes.FirstOrDefault(f => f.Id == cartDTO.sizeId);
-                var existingCart = _userManager.Carts.FirstOrDefault(f => (f.Id == cartDTO.ProductId && f.customerId == cartDTO.CustomerId
-                    && f.Id == cartDTO.colorId && f.Id == cartDTO.sizeId)); 
+                var existingCart = _userManager.Carts.FirstOrDefault(f => (f.productId == cartDTO.ProductId && f.customerId == cartDTO.CustomerId
+                    && f.colorId == cartDTO.colorId && f.sizeId == cartDTO.sizeId)); 
                 if (product == null)
                 {
                     return NotFound("Product not found");

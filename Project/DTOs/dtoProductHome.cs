@@ -47,7 +47,7 @@ namespace Project.DTOs
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public string CustomerId { get; set; }
+       
         public string Title { get; set; }
         public double Discount { get; set; }
         public double UnitPrice { get; set; }

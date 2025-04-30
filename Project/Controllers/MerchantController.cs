@@ -209,7 +209,7 @@ namespace Project.Controllers {
                 SellPrice = p.SellPrice,
                 status = p.Status,
                 Quantity = p.Quantity,
-                Image = p.images.FirstOrDefault()?.ImageData
+                Image = $"//aston.runasp.net//Profile_Image//{p.images.FirstOrDefault()?.ImageData}"
             }).ToList();
             return Ok(result);
 
@@ -239,8 +239,8 @@ namespace Project.Controllers {
                 Color = p.color.Name,
                 Size = p.size.Gradient,
                 Quantity = p.Quantity,
-                Image = p.product.images.FirstOrDefault()?.ImageData
-
+                Image = $"//aston.runasp.net//Profile_Image//{p.product.images.FirstOrDefault()?.ImageData}"
+                
             }).ToList();
             return Ok(result);
         }

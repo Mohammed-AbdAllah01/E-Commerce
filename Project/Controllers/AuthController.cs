@@ -504,6 +504,8 @@ namespace Project.Controllers
             }
             return Ok(Profile);
         }
+
+
         private string GenerateVerificationCode()
         {
             using var rng = RandomNumberGenerator.Create();
