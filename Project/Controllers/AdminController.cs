@@ -513,6 +513,7 @@ namespace Project.Controllers
         {
             var products = await _context.Products
                 .Include(p => p.merchant)
+                .Include(p => p.ProductDetails)
                 .ToListAsync();
 
             if (products == null || !products.Any())
@@ -540,6 +541,7 @@ namespace Project.Controllers
             var products = await _context.Products
                 .Where(e => e.Id == id)
                 .Include(p => p.merchant)
+                .Include(p => p.ProductDetails)
                 .ToListAsync();
 
             if (products == null || !products.Any())
@@ -576,8 +578,10 @@ namespace Project.Controllers
             if (product == null)
                 return NotFound("Product not found.");
 
+            
             if (product.Status == ProStatus.Banned)
-                return BadRequest("This product is already banned.");
+                return BadRequest($"Product is already Banned");
+                     
 
            
             product.Status = ProStatus.Banned;

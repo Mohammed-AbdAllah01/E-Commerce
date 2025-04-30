@@ -45,6 +45,7 @@ namespace Project.DTOs
 
     public class FavProductDTO
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public string CustomerId { get; set; }
         public string Title { get; set; }
@@ -56,6 +57,7 @@ namespace Project.DTOs
 
     public class FavMerchantDTO
     {
+        public int Id { get; set; }
         public string MerchantId { get; set; }
         public string CustomerId { get; set; }
         public string MerchantName { get; set; }        
@@ -70,6 +72,7 @@ namespace Project.DTOs
 
     public class CartDTO
     {
+        public int[] Id { get; set; }
        
        public required int[] ProductIds { get; set; }
         public required string[] ProductsNames { get; set; }
@@ -81,12 +84,19 @@ namespace Project.DTOs
         public required string[] image { get; set; }
 
         public required double TotalPrice { get; set; }
-        public int ProductId { get; set; }
-        public int ColorId { get; set; }
-        public int SizeId { get; set; }
-        public string CustomerId { get; set; }
+
 
     }
+
+    public class AddCartDTO
+    {
+
+        public required int ProductId { get; set; }   
+        public required int colorId { get; set; }
+        public required int sizeId { get; set; }
+        public string CustomerId { get; set; }
+    }
+
 
     public class EditProductDTO
     {

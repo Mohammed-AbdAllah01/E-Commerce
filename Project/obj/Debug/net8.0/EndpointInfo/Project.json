@@ -626,14 +626,14 @@
         }
       }
     },
-    "/api/Customer/ShowCustomerwithUserName": {
+    "/api/Customer/ShowCustomerwithId": {
       "get": {
         "tags": [
           "Customer"
         ],
         "parameters": [
           {
-            "name": "UserName",
+            "name": "Id",
             "in": "query",
             "schema": {
               "type": "string"
@@ -703,13 +703,6 @@
         ],
         "parameters": [
           {
-            "name": "deliveryPersonId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "orderId",
             "in": "query",
             "schema": {
@@ -729,15 +722,6 @@
       "put": {
         "tags": [
           "DeliveryPerson"
-        ],
-        "parameters": [
-          {
-            "name": "deliveryPersonId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
         ],
         "requestBody": {
           "content": {
@@ -777,14 +761,14 @@
         }
       }
     },
-    "/api/Merchant/ShowMerchantwithUserName": {
+    "/api/Merchant/ShowMerchantwithId": {
       "get": {
         "tags": [
           "Merchant"
         ],
         "parameters": [
           {
-            "name": "UserName",
+            "name": "Id",
             "in": "query",
             "schema": {
               "type": "string"
@@ -798,7 +782,7 @@
         }
       }
     },
-    "/api/Merchant/UpdateStatus": {
+    "/api/Merchant/UpdateMerchantStatus": {
       "put": {
         "tags": [
           "Merchant"
@@ -1200,30 +1184,28 @@
         }
       }
     },
-    "/api/Product/AddToFavourite": {
+    "/api/Product/AddToFavProduct": {
       "post": {
         "tags": [
           "Product"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FavProductDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FavProductDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/FavProductDTO"
-              }
+        "parameters": [
+          {
+            "name": "cusId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ProdID",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1231,14 +1213,64 @@
         }
       }
     },
-    "/api/Product/DeleteFromFavourite": {
+    "/api/Product/AddToFavMerchant": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "cusId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MerID",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/DeleteProductFromFav": {
       "delete": {
         "tags": [
           "Product"
         ],
         "parameters": [
           {
-            "name": "favProductId",
+            "name": "favId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/DeleteFromFavMerchant": {
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "favMerId",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -1262,17 +1294,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartDTO"
+                "$ref": "#/components/schemas/AddCartDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CartDTO"
+                "$ref": "#/components/schemas/AddCartDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CartDTO"
+                "$ref": "#/components/schemas/AddCartDTO"
               }
             }
           }
@@ -1339,83 +1371,14 @@
   },
   "components": {
     "schemas": {
-      "CartDTO": {
+      "AddCartDTO": {
         "required": [
-          "color",
-          "image",
-          "productDescribtions",
-          "productIds",
-          "productPrice",
-          "productsNames",
-          "quantity",
-          "size",
-          "totalPrice"
+          "colorId",
+          "productId",
+          "sizeId"
         ],
         "type": "object",
         "properties": {
-          "productIds": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "nullable": true
-          },
-          "productsNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "productDescribtions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "productPrice": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "nullable": true
-          },
-          "quantity": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "nullable": true
-          },
-          "color": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "size": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "image": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "totalPrice": {
-            "type": "number",
-            "format": "double"
-          },
           "productId": {
             "type": "integer",
             "format": "int32"
@@ -1457,40 +1420,6 @@
           "unitPrice": {
             "type": "number",
             "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "FavProductDTO": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "customerId": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "discount": {
-            "type": "number",
-            "format": "double"
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "sellPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "image": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

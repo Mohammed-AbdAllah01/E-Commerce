@@ -157,11 +157,11 @@ namespace DataBase.Data
             modelBuilder.Entity<EditOrder>()
                 .HasKey(eo => new { eo.adminId, eo.orderId });
 
-            modelBuilder.Entity<FavMerchant>()
-                .HasKey(fm => new { fm.merchantId, fm.customerId });
+        //    modelBuilder.Entity<FavMerchant>()
+            //    .HasKey(fm => new { fm.merchantId, fm.customerId });
 
-            modelBuilder.Entity<FavProduct>()
-                .HasKey(fm => new { fm.productId, fm.customerId });
+         //   modelBuilder.Entity<FavProduct>()
+              //  .HasKey(fm => new { fm.productId, fm.customerId });
 
             modelBuilder.Entity<Notification>()
                 .HasKey(n => new { n.productId, n.customerId });
@@ -175,8 +175,8 @@ namespace DataBase.Data
             //modelBuilder.Entity<ProductDetail>()
             //    .HasKey(pd => new { pd.Id,pd.productId, pd.colorId, pd.sizeId });
 
-            modelBuilder.Entity<Cart>()
-                .HasKey(c => new { c.productId, c.colorId, c.sizeId, c.customerId });
+           // modelBuilder.Entity<Cart>()
+            //    .HasKey(c => new { c.productId, c.colorId, c.sizeId, c.customerId });
 
             modelBuilder.Entity<Feedback>()
                 .HasKey(f => new { f.productId, f.customerId });

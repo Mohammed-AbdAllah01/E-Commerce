@@ -25,64 +25,54 @@ namespace Project.Controllers {
         [HttpGet("ShowAllMerchants")]
         [Authorize(Roles = "Admin")]
         public IActionResult ShowAllMerchants() {
-            var merchants = context.Merchants.Include(m => m.orderItems).ToList();
-            var result = new List<ShowMerchantDTO>();
-            foreach (var merchant in merchants) {
-                var merchantDTO = new ShowMerchantDTO {
-                    MerchantId = merchant.Id,
-                    MerchantName = merchant.UserName,
-                    Feedback = merchant.Feedback,
-                    Status = merchant.Status.ToString(),
-                    HireAge = merchant.HireAge
-                };
-                var totalGain = 0.0;
-                foreach (var orderItem in merchant.orderItems) {
-                    if (orderItem.Status == OrdStatus.Recieved) {
-                        totalGain += orderItem.product.SellPrice * orderItem.product.Quantity;
-                    }
-                }
-                merchantDTO.GainMoney = totalGain;
-                result.Add(merchantDTO);
-            }
+            var merchants = context.Merchants
+                .Include(m => m.products)
+                    .ThenInclude(p => p.feedbacks)
+                .Include(m => m.orderItems)
+                   
+                .ToList();
+            var result = merchants.Select(p => new ShowMerchantDTO
+            {
+                MerchantId = p.Id,
+                MerchantName = p.UserName,
+                Feedback = p.Feedback,
+                Status = p.Status.ToString(),
+                HireAge = p.HireAge,
+               GainMoney = p.orderItems.Where(oi => oi.Status == OrdStatus.Recieved)
+                    .Sum(oi => oi.product.SellPrice * oi.Quantity)
+            }).ToList();
             return Ok(result);
         }
 
-        [HttpGet("ShowMerchantwithUserName")]
+        [HttpGet("ShowMerchantwithId")]
         [Authorize(Roles = "Admin")]
-        public IActionResult ShowMerchantwithUserName(string UserName)
+        public IActionResult ShowMerchantwithUserName(string Id)
         {
-            var merchants = context.Merchants.Where(e => e.UserName == UserName).Include(m => m.orderItems).ToList();
+            var merchants = context.Merchants
+                .Where(e => e.Id == Id).
+                Include(m => m.products)
+                 .ThenInclude(p => p.feedbacks)
+                .Include(m => m.orderItems).ToList();
             if (merchants == null || merchants.Count == 0)
             {
                 return NotFound("No merchants found with the given username.");
             }
-            var result = new List<ShowMerchantDTO>();
-            foreach (var merchant in merchants)
+            var result = merchants.Select(p => new ShowMerchantDTO
             {
-                var merchantDTO = new ShowMerchantDTO
-                {
-                    MerchantId = merchant.Id,
-                    MerchantName = merchant.UserName,
-                    Feedback = merchant.Feedback,
-                    Status = merchant.Status.ToString(),
-                    HireAge = merchant.HireAge
-                };
-                var totalGain = 0.0;
-                foreach (var orderItem in merchant.orderItems)
-                {
-                    if (orderItem.Status == OrdStatus.Recieved)
-                    {
-                        totalGain += orderItem.product.SellPrice * orderItem.product.Quantity;
-                    }
-                }
-                merchantDTO.GainMoney = totalGain;
-                result.Add(merchantDTO);
-            }
+                MerchantId = p.Id,
+                MerchantName = p.UserName,
+                Feedback = p.Feedback,
+                Status = p.Status.ToString(),
+                HireAge = p.HireAge,
+                GainMoney = p.orderItems.Where(oi => oi.Status == OrdStatus.Recieved)
+                    .Sum(oi => oi.product.SellPrice * oi.Quantity)
+            });
             return Ok(result);
+           
         }
 
 
-        [HttpPut("UpdateStatus")]
+        [HttpPut("UpdateMerchantStatus")]
         [Authorize(Roles = "Admin")]
         public IActionResult UpdateMerchantStatus(string merchantId, string status) {
             if (!ModelState.IsValid) {
@@ -94,9 +84,16 @@ namespace Project.Controllers {
                 return NotFound("Merchant not found");
             }
             if (Enum.TryParse(status, out AccStatus parsedStatus)) {
-                merchant.Status = parsedStatus;
+                if (parsedStatus != merchant.Status)
+                {
+                    merchant.Status = parsedStatus;
                 context.SaveChanges();
                 return Ok("Merchant status updated");
+            }
+                else
+                {
+                    return BadRequest("Merchant status is already the same");
+                }
             }
             else {
                 return BadRequest("Invalid status value");

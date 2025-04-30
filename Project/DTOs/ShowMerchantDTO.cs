@@ -5,6 +5,7 @@
         public double Feedback { get; set; }
         public int HireAge { get; set; }
         public string Status { get; set; }
+       
         public double GainMoney { get; set; }
     }
 }

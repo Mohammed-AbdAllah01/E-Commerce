@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Project.Data.Relation;
 using Project.DTOs;
 using Project.Enums;
+using System.Linq;
 
 namespace Project.Controllers
 {
@@ -344,6 +345,7 @@ namespace Project.Controllers
 
             var FavItem = products.Select(p => new FavProductDTO
             {
+                Id = p.Id,
                 Title = p.product.Title,
                 Discount = p.product.Discount,
                 UnitPrice = p.product.UnitPrice,
@@ -369,6 +371,7 @@ namespace Project.Controllers
 
             var FavMer = products.Select(p => new FavMerchantDTO
             {
+                Id = p.Id,
                 MerchantId = p.merchantId,
                 MerchantName = p.merchant.UserName,
                 Image = p.merchant.IMG.FirstOrDefault().ToString(),
@@ -399,6 +402,7 @@ namespace Project.Controllers
 
             var CartItems = new CartDTO
             {
+                Id = products.Select(p => p.Id).ToArray(),
                 ProductIds = products.Select(p => p.productId).ToArray(),
                 ProductsNames = products.Select(p => p.product.Title).ToArray(),
                 ProductDescribtions = products.Select(p => p.product.Description).ToArray(),
@@ -421,17 +425,17 @@ namespace Project.Controllers
 
 
 
-        [HttpPost("AddToFavourite")]
+        [HttpPost("AddToFavProduct")]
             [Authorize(Roles = "Customer")]
-            public IActionResult AddProductToFav(FavProductDTO favProductDTO)
+            public IActionResult AddProductToFav(string cusId , int ProdID)
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
                 // Check if the product exists
-                var product = _userManager.Products.FirstOrDefault(f => f.Id == favProductDTO.ProductId);
-                var customer = _userManager.Customers.FirstOrDefault(f => f.Id == favProductDTO.CustomerId);
+                var product = _userManager.Products.FirstOrDefault(f => f.Id == ProdID);
+                var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cusId);
                 if (product == null)
                 {
                     return NotFound("Product not found");
@@ -442,19 +446,49 @@ namespace Project.Controllers
                 }
                 var favProduct = new FavProduct
                 {
-                    productId = favProductDTO.ProductId,
-                    customerId = favProductDTO.CustomerId
+                    productId = ProdID,
+                    customerId = cusId
                 };
                 _userManager.FavProducts.Add(favProduct);
                 _userManager.SaveChanges();
                 return Ok("Product stored in favourite");
             }
 
-
-            [HttpDelete("DeleteFromFavourite")]
-            public IActionResult DeleteProductFromFav(int favProductId)
+        [HttpPost("AddToFavMerchant")]
+        [Authorize(Roles = "Customer")]
+        public IActionResult AddToMerchant(string cusId, string MerID)
+        {
+            if (!ModelState.IsValid)
             {
-                var favProduct = _userManager.FavProducts.FirstOrDefault(f => f.productId == favProductId);
+                return BadRequest(ModelState);
+            }
+            // Check if the product exists
+            var product = _userManager.Merchants.FirstOrDefault(f => f.Id == MerID);
+            var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cusId);
+            if (product == null)
+            {
+                return NotFound("Merchant not found");
+            }
+            if (customer == null)
+            {
+                return NotFound("Customer not found");
+            }
+            var favMerchant = new FavMerchant
+            {
+                merchantId = MerID,
+                customerId = cusId
+            };
+            _userManager.FavMerchants.Add(favMerchant);
+            _userManager.SaveChanges();
+            return Ok("Product stored in favourite");
+        }
+
+
+
+        [HttpDelete("DeleteProductFromFav")]
+            public IActionResult DeleteProductFromFav(int favId)
+            {
+                var favProduct = _userManager.FavProducts.FirstOrDefault(f => f.Id == favId);
                 if (favProduct == null)
                 {
                     return NotFound("Product not found in favourite");
@@ -465,8 +499,23 @@ namespace Project.Controllers
             }
 
 
-            [HttpPost("AddToCart")]
-            public IActionResult AddProductToCart(CartDTO cartDTO)
+        [HttpDelete("DeleteFromFavMerchant")]
+        public IActionResult DeleteFromFavMerchant(int favMerId)
+        {
+            var FavMerchant = _userManager.FavMerchants.FirstOrDefault(f => f.Id == favMerId);
+            if (FavMerchant == null)
+            {
+                return NotFound("Merchant not found in favourite");
+            }
+            _userManager.FavMerchants.Remove(FavMerchant);
+            _userManager.SaveChanges();
+            return Ok("Merchant removed from favourite");
+        }
+
+
+
+        [HttpPost("AddToCart")]
+            public IActionResult AddProductToCart(AddCartDTO cartDTO)
             {
                 if (!ModelState.IsValid)
                 {
@@ -475,8 +524,10 @@ namespace Project.Controllers
                 // Check if the product exists
                 var product = _userManager.Products.FirstOrDefault(f => f.Id == cartDTO.ProductId);
                 var customer = _userManager.Customers.FirstOrDefault(f => f.Id == cartDTO.CustomerId);
-                var color = _userManager.Colors.FirstOrDefault(f => f.Id == cartDTO.ColorId);
-                var size = _userManager.Sizes.FirstOrDefault(f => f.Id == cartDTO.SizeId);
+                var color = _userManager.Colors.FirstOrDefault(f => f.Id == cartDTO.colorId);
+                var size = _userManager.Sizes.FirstOrDefault(f => f.Id == cartDTO.sizeId);
+                var existingCart = _userManager.Carts.FirstOrDefault(f => (f.Id == cartDTO.ProductId && f.customerId == cartDTO.CustomerId
+                    && f.Id == cartDTO.colorId && f.Id == cartDTO.sizeId)); 
                 if (product == null)
                 {
                     return NotFound("Product not found");
@@ -493,12 +544,16 @@ namespace Project.Controllers
                 {
                     return NotFound("Size not found");
                 }
+                if (existingCart != null)
+                {
+                return NotFound("Item exist before inside cart");
+            }
                 var cart = new Cart
                 {
                     productId = cartDTO.ProductId,
                     customerId = cartDTO.CustomerId,
-                    colorId = cartDTO.ColorId,
-                    sizeId = cartDTO.SizeId,
+                    colorId = cartDTO.colorId,
+                    sizeId = cartDTO.sizeId,
                     Quantity = 1
                 };
                 _userManager.Carts.Add(cart);
@@ -509,7 +564,7 @@ namespace Project.Controllers
             [HttpDelete("DeleteFromCart")]
             public IActionResult DeleteProductFromCart(int cartId)
             {
-                var cart = _userManager.Carts.FirstOrDefault(f => f.productId == cartId);
+                var cart = _userManager.Carts.FirstOrDefault(f => f.Id == cartId);
                 if (cart == null)
                 {
                     return NotFound("Product not found in cart");
@@ -522,7 +577,7 @@ namespace Project.Controllers
             [HttpPut("UpdateQuantity")]
             public IActionResult UpdateProductQuantity(int cartId, int quantity)
             {
-                var cart = _userManager.Carts.FirstOrDefault(f => f.productId == cartId);
+                var cart = _userManager.Carts.FirstOrDefault(f => f.Id == cartId);
                 if (cart == null)
                 {
                     return NotFound("Product not found in cart");

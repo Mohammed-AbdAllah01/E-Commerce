@@ -2,69 +2,88 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project.DTOs;
 using Project.Enums;
+using Project.Tables;
 
-namespace Project.Controllers {
+namespace Project.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController: ControllerBase {
+    public class CustomerController : ControllerBase
+    {
         private readonly AppDbContext context;
 
-        public CustomerController(AppDbContext context) {
+        public CustomerController(AppDbContext context)
+        {
             this.context = context;
         }
 
         [HttpGet("ShowAllCustomers")]
         [Authorize(Roles = "Admin")]
-        public  IActionResult ShowAllCustomers() {
-            var customers = context.Customers.ToList();
-            var result = new List<ShowCustomerDTO>();
-            foreach (var customer in customers) {
-                result.Append(new ShowCustomerDTO {
-                    CustomerId = customer.Id,
-                    CustomerName = customer.UserName,
-                    Status = customer.Status.ToString()
-                });
-            }
+        public IActionResult ShowAllCustomers()
+        {
+            var customers = context.Customers.
+                Include(c => c.Orders)
+                .ToList();
+
+            var result = customers.Select(p => new ShowCustomerDTO
+            {
+                CustomerId = p.Id,
+                CustomerName = p.UserName,
+                Status = p.Status.ToString(),
+                ordercount = p.Orders.Count
+            }).ToList();
             return Ok(result);
         }
 
-        [HttpGet("ShowCustomerwithUserName")]
+        [HttpGet("ShowCustomerwithId")]
         [Authorize(Roles = "Admin")]
-        public IActionResult ShowCustomerwithUserName(string UserName) 
+        public IActionResult ShowCustomerwithUserName(string Id)
         {
-            var customers = context.Customers.Where(e=>e.UserName== UserName).ToList();
+            var customers = context.Customers.
+                 Include(c => c.Orders)
+                .Where(e => e.Id == Id).ToList();
             if (customers == null || customers.Count == 0)
             {
                 return NotFound("No customers found with the given username.");
             }
-            var result = new List<ShowCustomerDTO>();
-            foreach (var customer in customers)
+            var result = customers.Select(p => new ShowCustomerDTO
             {
-                result.Append(new ShowCustomerDTO
-                {
-                    CustomerId = customer.Id,
-                    CustomerName = customer.UserName,
-                    Status = customer.Status.ToString()
-                });
-            }
+                CustomerId = p.Id,
+                CustomerName = p.UserName,
+                Status = p.Status.ToString(),
+                ordercount = p.Orders.Count
+            });
+
             return Ok(result);
         }
 
-            [HttpPut("UpdateCustomerStatus")]
+        [HttpPut("UpdateCustomerStatus")]
         [Authorize(Roles = "Admin")]
-        public IActionResult UpdateCustomerStatus(string customerId, string status) {
+        public IActionResult UpdateCustomerStatus(string customerId, string status)
+        {
             var customer = context.Customers.FirstOrDefault(c => c.Id == customerId);
-            if (customer == null) {
+            if (customer == null)
+            {
                 return NotFound("Customer not found");
             }
-            if (Enum.TryParse(status, out AccStatus customerStatus)) {
-                customer.Status = customerStatus;
-                context.SaveChanges();
-                return Ok("Customer status updated successfully");
+            if (Enum.TryParse(status, out AccStatus customerStatus))
+            {
+                if (customerStatus != customer.Status)
+                {
+                    customer.Status = customerStatus;
+                    context.SaveChanges();
+                    return Ok("Customer status updated successfully");
+                }
+                else
+                {
+                    return BadRequest("Customer status is already the same");
+                }
             }
             return BadRequest("Invalid status");
+            }
         }
     }
-}
+

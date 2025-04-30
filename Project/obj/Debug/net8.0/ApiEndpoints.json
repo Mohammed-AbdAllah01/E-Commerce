@@ -297,13 +297,13 @@
   {
     "ContainingType": "Project.Controllers.CustomerController",
     "Method": "ShowCustomerwithUserName",
-    "RelativePath": "api/Customer/ShowCustomerwithUserName",
+    "RelativePath": "api/Customer/ShowCustomerwithId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserName",
+        "Name": "Id",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -356,11 +356,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "deliveryPersonId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "orderId",
         "Type": "System.Int32",
         "IsRequired": false
@@ -376,11 +371,6 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "deliveryPersonId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
       {
         "Name": "dto",
         "Type": "Project.DTOs.UpdateOrderStatusDTO",
@@ -450,13 +440,34 @@
   {
     "ContainingType": "Project.Controllers.MerchantController",
     "Method": "ShowMerchantwithUserName",
-    "RelativePath": "api/Merchant/ShowMerchantwithUserName",
+    "RelativePath": "api/Merchant/ShowMerchantwithId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserName",
+        "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.MerchantController",
+    "Method": "UpdateMerchantStatus",
+    "RelativePath": "api/Merchant/UpdateMerchantStatus",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "merchantId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -517,27 +528,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Project.Controllers.MerchantController",
-    "Method": "UpdateMerchantStatus",
-    "RelativePath": "api/Merchant/UpdateStatus",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "merchantId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "status",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "Project.Controllers.ProductController",
     "Method": "AddProductToCart",
     "RelativePath": "api/Product/AddToCart",
@@ -547,7 +537,7 @@
     "Parameters": [
       {
         "Name": "cartDTO",
-        "Type": "Project.DTOs.CartDTO",
+        "Type": "Project.DTOs.AddCartDTO",
         "IsRequired": true
       }
     ],
@@ -555,16 +545,42 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
-    "Method": "AddProductToFav",
-    "RelativePath": "api/Product/AddToFavourite",
+    "Method": "AddToMerchant",
+    "RelativePath": "api/Product/AddToFavMerchant",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "favProductDTO",
-        "Type": "Project.DTOs.FavProductDTO",
-        "IsRequired": true
+        "Name": "cusId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MerID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "AddProductToFav",
+    "RelativePath": "api/Product/AddToFavProduct",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cusId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProdID",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -587,14 +603,30 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
-    "Method": "DeleteProductFromFav",
-    "RelativePath": "api/Product/DeleteFromFavourite",
+    "Method": "DeleteFromFavMerchant",
+    "RelativePath": "api/Product/DeleteFromFavMerchant",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "favProductId",
+        "Name": "favMerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "DeleteProductFromFav",
+    "RelativePath": "api/Product/DeleteProductFromFav",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favId",
         "Type": "System.Int32",
         "IsRequired": false
       }

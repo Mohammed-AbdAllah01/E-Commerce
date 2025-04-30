@@ -5,6 +5,9 @@ namespace Project.Data.Relation
 {
     public class Cart
     {
+
+        public int Id { get; set; }
+
         [ForeignKey("product")]
         public int productId { get; set; }
         public Product product { get; set; }

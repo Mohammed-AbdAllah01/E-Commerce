@@ -61,11 +61,11 @@ namespace Project.Controllers
         
         [HttpGet("GetOrderDetails")]
         [Authorize(Roles = "DeliveryRep")]
-        public async Task<IActionResult> GetOrderDetails(string deliveryPersonId,  int orderId)
+        public async Task<IActionResult> GetOrderDetails(  int orderId)
                    {
 
           var order = await _context.Orders
-                .Where(o => (o.Id == orderId && o.DeliveryId == deliveryPersonId))
+                .Where(o => (o.Id == orderId ))
                 .Include(o => o.customer)
                 .Include(o => o.orderItems)
                     .ThenInclude(oi => oi.product)
@@ -112,7 +112,7 @@ namespace Project.Controllers
         //  Update Order Status
         [HttpPut("UpdateOrderStatus")]
         [Authorize(Roles = "DeliveryRep")]
-        public async Task<IActionResult> UpdateOrderStatus(string deliveryPersonId, [FromBody] UpdateOrderStatusDTO dto)
+        public async Task<IActionResult> UpdateOrderStatus( [FromBody] UpdateOrderStatusDTO dto)
         {
 
 
@@ -120,7 +120,7 @@ namespace Project.Controllers
                 return BadRequest("Invalid status value.");
 
             var order = await _context.Orders.Include(o => o.orderItems)
-                .FirstOrDefaultAsync(o => o.Id == dto.OrderId && o.DeliveryId == deliveryPersonId);
+                .FirstOrDefaultAsync(o => o.Id == dto.OrderId );
 
             if (order == null)
                 return NotFound("Order not found.");
@@ -190,7 +190,7 @@ namespace Project.Controllers
             {
                 Message = $"Order status updated to {newStatus}.",
                 OrderId = order.Id,
-                NewStatus = newStatus
+                NewStatus = newStatus.ToString()
             });
         }
     }
