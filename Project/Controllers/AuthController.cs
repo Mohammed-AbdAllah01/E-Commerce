@@ -268,7 +268,7 @@ namespace Project.Controllers
 
 
 
-        [HttpPost("verify-Email")]
+        [HttpPost("verify-Code")]
         public async Task<IActionResult> VerifyCode([FromBody] VerifyCodeDTO model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -428,7 +428,6 @@ namespace Project.Controllers
 
 
         // هنا بيتاكد من الكود
-
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO model)
         {
@@ -436,26 +435,21 @@ namespace Project.Controllers
             if (user == null)
                 return BadRequest("User not found.");
 
-            if (user.VerificationCode != model.VerificationCode)
-                return BadRequest("Invalid verification code.");
 
-            if (user.VerificationCodeExpiry < DateTime.UtcNow)
-                return BadRequest("Verification code has expired.");
-
-            // حذف الرمز القديم
             user.VerificationCode = null;
             user.VerificationCodeExpiry = null;
 
-            // إعادة تعيين كلمة المرور
-            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
 
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
             await _userManager.UpdateAsync(user);
 
-            return Ok("✅ Your password has been reset successfully.");
+            return Ok("✅ Password reset successful.");
         }
 
 

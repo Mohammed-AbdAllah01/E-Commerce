@@ -404,7 +404,7 @@
         }
       }
     },
-    "/api/Auth/verify-Email": {
+    "/api/Auth/verify-Code": {
       "post": {
         "tags": [
           "Auth"
@@ -675,37 +675,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Customer/AddComment": {
-      "post": {
-        "tags": [
-          "Customer"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddProductCommentDTO"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1583,30 +1552,6 @@
         },
         "additionalProperties": false
       },
-      "AddProductCommentDTO": {
-        "required": [
-          "feedback"
-        ],
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "feedback": {
-            "maximum": 5,
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          },
-          "comment": {
-            "maxLength": 500,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "EditProductDTO": {
         "type": "object",
         "properties": {
@@ -1661,10 +1606,6 @@
             "nullable": true
           },
           "newPassword": {
-            "type": "string",
-            "nullable": true
-          },
-          "verificationCode": {
             "type": "string",
             "nullable": true
           }

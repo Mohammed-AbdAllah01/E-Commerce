@@ -276,7 +276,7 @@
   {
     "ContainingType": "Project.Controllers.AuthController",
     "Method": "VerifyCode",
-    "RelativePath": "api/Auth/verify-Email",
+    "RelativePath": "api/Auth/verify-Code",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -284,22 +284,6 @@
       {
         "Name": "model",
         "Type": "Project.DTOs.VerifyCodeDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Project.Controllers.CustomerController",
-    "Method": "AddComment",
-    "RelativePath": "api/Customer/AddComment",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "model",
-        "Type": "Project.DTOs.AddProductCommentDTO",
         "IsRequired": true
       }
     ],
