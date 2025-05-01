@@ -335,6 +335,7 @@ namespace Project.Controllers {
         //---------------------------------------------
 
         [HttpPost("AddProduct")]
+        [Authorize(Roles = "Merchant")]
         public async Task<IActionResult> AddProduct(AddFullProductDTO Pro )
         {
             if (Pro == null)
@@ -379,6 +380,7 @@ namespace Project.Controllers {
         }
 
         [HttpPost("AddColorsizeimage")]
+        [Authorize(Roles = "Merchant")]
         public async Task<IActionResult> AddColorsizeimage([FromForm] ColorSizeDTO details)
         {
 
