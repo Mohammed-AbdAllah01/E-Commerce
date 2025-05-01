@@ -595,6 +595,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Project.Controllers.OrderController",
+    "Method": "AddOrder",
+    "RelativePath": "api/Order/AddOrder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addOrderDTO",
+        "Type": "Project.DTOs.AddOrderDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Project.Controllers.ProductController",
     "Method": "AddProductToCart",
     "RelativePath": "api/Product/AddToCart",
