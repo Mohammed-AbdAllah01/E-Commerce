@@ -34,4 +34,10 @@ namespace Project.DTOs
 
 
     }
+    public class AddOrderDTO
+    {
+        public string CustomerId { get; set; }
+        public int CartId { get; set; }
+        public string Address { get; set; }
+    }
 }

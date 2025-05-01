@@ -609,6 +609,10 @@ namespace Project.Controllers
                 _userManager.SaveChanges();
                 return Ok("Product quantity updated");
             }
+
+
+            
+            
         }
     }
 
