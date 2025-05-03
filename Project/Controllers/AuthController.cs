@@ -336,8 +336,12 @@ namespace Project.Controllers
                 }
 
                 var user = await _userManager.FindByEmailAsync(userLogin.Email);
-                if (user != null)
+                if (user != null )
                 {
+                    if(user.Status != AccStatus.Active)
+                    {
+                        return Unauthorized(new { message = "Your account is not Active now. Please contact support." });
+                    }
                     if (await _userManager.CheckPasswordAsync(user, userLogin.Password))
                     {
                         if (!user.EmailConfirmed)
@@ -345,11 +349,11 @@ namespace Project.Controllers
 
                         // Create a list of claims
                         var claims = new List<Claim>
-                {
-                    new Claim("Name", user.UserName),
-                    new Claim("ID", user.Id),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+                        {
+                            new Claim("Name", user.UserName),
+                            new Claim("ID", user.Id),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        };
 
                         // Add the user type as a claim
                         claims.Add(new Claim("Role", user.Type.ToString()));  // This is where you're adding the 'PersonType'
