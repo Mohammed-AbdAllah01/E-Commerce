@@ -357,20 +357,20 @@ namespace Project.Controllers {
                 return NotFound(new { message = "Merchant not found." });
             }
             var scat = Pro.CategoryName.ToLower();
-            var category = await context.Categories.FindAsync(scat);
+            var category = await context.Categories.FirstOrDefaultAsync( e=> e.Name == scat);
             if (category == null)
             {
                 category = new Category{ Name = scat , Type = Pro.Type };
                 context.Categories.Add(category);
                 await context.SaveChangesAsync();
             }
+
             var exist = await context.Products
                 .FirstOrDefaultAsync(p => p.Title == Pro.Title && p.Description == Pro.Description);
             if (exist != null)
             {
                 return BadRequest(new { message = "Product with this title and Description already exists." });
             }
-         
             var product = new Product
             {
                 Title = Pro.Title,

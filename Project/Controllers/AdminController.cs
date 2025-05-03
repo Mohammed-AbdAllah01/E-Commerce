@@ -409,7 +409,7 @@ namespace Project.Controllers
                     id = dr.Id,
                     Name = dr.UserName,
                     //  HireAge = DateTime.Now.Year -dr.HireDate.Year,
-                    HireAge = dr.HireDate.Year,
+                    HireAge = dr.HireAge,
                     Status = dr.Status.ToString(),
                     DeliveredOrdersCount = dr.Orders.Count(o => o.orderItems.Any(oi => (int)oi.Status == (int)OrdStatus.Recieved)),
 
