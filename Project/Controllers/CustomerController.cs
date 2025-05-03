@@ -32,6 +32,10 @@ namespace Project.Controllers
             var customers = context.Customers.
                 Include(c => c.Orders)
                 .ToList();
+            if (customers == null || customers.Count == 0)
+            {
+                return NotFound(new { message = "No customers found." });
+            }
 
             var result = customers.Select(p => new ShowCustomerDTO
             {
@@ -52,7 +56,7 @@ namespace Project.Controllers
                 .Where(e => e.Id == Id).ToList();
             if (customers == null || customers.Count == 0)
             {
-                return NotFound("No customers found with the given username.");
+                return NotFound(new { message = "No customers found with the given username." });
             }
             var result = customers.Select(p => new ShowCustomerDTO
             {
@@ -72,7 +76,7 @@ namespace Project.Controllers
             var customer = context.Customers.FirstOrDefault(c => c.Id == customerId);
             if (customer == null)
             {
-                return NotFound("Customer not found");
+                return NotFound(new { message = "Customer not found" });
             }
             if (Enum.TryParse(status, out AccStatus customerStatus))
             {
@@ -80,93 +84,19 @@ namespace Project.Controllers
                 {
                     customer.Status = customerStatus;
                     context.SaveChanges();
-                    return Ok("Customer status updated successfully");
+                    return Ok(new { message = "Customer status updated successfully" });
                 }
                 else
                 {
-                    return BadRequest("Customer status is already the same");
+                    return BadRequest(new { message = "Customer status is already the same" });
                 }
             }
-            return BadRequest("Invalid status");
+            return BadRequest(new { message = "Invalid status" });
             }
 
 
 
-        //[HttpPost("AddComment")]
-        //[Authorize(Roles = "Customer")]
-        //public async Task<IActionResult> AddComment([FromBody] AddProductCommentDTO model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    var customerId = User.FindFirst("ID")?.Value;
-        //    if (string.IsNullOrEmpty(customerId))
-        //        return Unauthorized("Customer not found in token");
-
-        //    // ensure tha the customer received the order
-        //    var hasReceived = await context.OrderItems
-        //        .Include(oi => oi.order)
-        //        .Where(oi =>
-        //            oi.productId == model.ProductId &&
-        //            oi.order.CustomerId == customerId &&
-        //            oi.Status == OrdStatus.Recieved
-        //        ).AnyAsync();
-
-        //    if (!hasReceived)
-        //        return BadRequest("❌ You can only comment on products you've received.");
-
-        //    // ensure if there is a previous comment
-        //    var existingComment = await context.FeedbackComments
-        //        .AnyAsync(c => c.productId == model.ProductId && c.customerId == customerId);
-
-        //    if (existingComment)
-        //        return BadRequest("❌ You've already commented on this product.");
-
-
-        //    var product = await context.Products
-        //        .Include(p => p.merchant)
-        //        .Include(p => p.feedbackcmments)
-        //        .FirstOrDefaultAsync(p => p.Id == model.ProductId);
-
-        //    if (product == null)
-        //        return NotFound("❌ Product not found.");
-
-        //    var customer = await context.Customers.FindAsync(customerId);
-        //    if (customer == null)
-        //        return NotFound("Customer not found.");
-
-        //    // create comment
-        //    var comment = new FeedbackComments
-        //    {
-        //        productId = product.Id,
-        //        customerId = customer.Id,
-        //        Comment = model.Comment,
-        //        Feeling = model.Feedback,
-        //        DateCreate = DateTime.UtcNow,
-        //        product = product,
-        //        customer = customer
-        //    };
-
-        //    context.FeedbackComments.Add(comment);
-        //    await context.SaveChangesAsync();
-
-
-        //    var allRatings = product.feedbackcmments.Select(fc => fc.Feeling).ToList();
-        //    var averageRating = allRatings.Any() ? allRatings.Average() : model.Feedback;
-
-
-        //    typeof(Product).GetProperty("Feedback")?.SetValue(product, averageRating);
-        //    await context.SaveChangesAsync();
-
-        //    // send mail to the merchant
-        //    await emailService.SendEmailAsync(
-        //        product.merchant.Email,
-        //        "🛍 New Feedback on Your Product",
-        //        $"Dear {product.merchant.UserName},\n\nA customer has left feedback on your product \"{product.Title}\".\n\n📝 Comment: \"{model.Comment}\"\n⭐ Rating: {model.Feedback} stars\n\nRegards,\nYour Platform"
-        //    );
-
-        //    return Ok("✅ Feedback submitted successfully.");
-        //}
+       
 
     }
 }

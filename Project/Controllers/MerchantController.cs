@@ -42,8 +42,11 @@ namespace Project.Controllers {
                 .Include(m => m.products)
                     .ThenInclude(p => p.feedbacks)
                 .Include(m => m.orderItems)
-                   
                 .ToList();
+            if (merchants == null || merchants.Count == 0)
+            {
+                return NotFound(new { message = "No merchants found." });
+            }
             var result = merchants.Select(p => new ShowMerchantDTO
             {
                 MerchantId = p.Id,
@@ -51,7 +54,7 @@ namespace Project.Controllers {
                 Feedback = p.Feedback,
                 Status = p.Status.ToString(),
                 HireAge = p.HireAge,
-               GainMoney = p.orderItems.Where(oi => oi.Status == OrdStatus.Recieved)
+                GainMoney = p.orderItems.Where(oi => oi.Status == OrdStatus.Recieved)
                     .Sum(oi => oi.product.SellPrice * oi.Quantity)
             }).ToList();
             return Ok(result);
@@ -68,7 +71,7 @@ namespace Project.Controllers {
                 .Include(m => m.orderItems).ToList();
             if (merchants == null || merchants.Count == 0)
             {
-                return NotFound("No merchants found with the given username.");
+                return NotFound(new { message = "No merchants found with the given username." });
             }
             var result = merchants.Select(p => new ShowMerchantDTO
             {
@@ -81,7 +84,7 @@ namespace Project.Controllers {
                     .Sum(oi => oi.product.SellPrice * oi.Quantity)
             });
             return Ok(result);
-           
+
         }
 
 
@@ -94,22 +97,22 @@ namespace Project.Controllers {
             // Check if the product exists
             var merchant = context.Merchants.FirstOrDefault(f => f.Id == merchantId);
             if (merchant == null) {
-                return NotFound("Merchant not found");
+                return NotFound(new { message = "Merchant not found" });
             }
             if (Enum.TryParse(status, out AccStatus parsedStatus)) {
                 if (parsedStatus != merchant.Status)
                 {
                     merchant.Status = parsedStatus;
-                context.SaveChanges();
-                return Ok("Merchant status updated");
-            }
+                    context.SaveChanges();
+                    return Ok(new { message = "Merchant status updated" });
+                }
                 else
                 {
-                    return BadRequest("Merchant status is already the same");
+                    return BadRequest(new { message = "Merchant status is already the same" });
                 }
             }
             else {
-                return BadRequest("Invalid status value");
+                return BadRequest(new { message = "Invalid status value" });
             }
         }
 
@@ -130,7 +133,7 @@ namespace Project.Controllers {
                 .ToListAsync();
             if (orderItems == null || orderItems.Count == 0)
             {
-                return NotFound("No order items found for this merchant.");
+                return NotFound(new { message = "No order items found for this merchant." });
             }
             var result = orderItems.Select(o => new OrderItemDTO
             {
@@ -155,20 +158,20 @@ namespace Project.Controllers {
 
 
             if (!Enum.TryParse<OrdStatus>(dto.NewStatus, true, out var newStatus))
-                return BadRequest("Invalid status value.");
+                return BadRequest(new { message = "Invalid status value." });
 
             var orderitem = await context.OrderItems.Include(o => o.order)
                 .FirstOrDefaultAsync(o => o.Id == dto.Id);
 
             if (orderitem == null)
-                return NotFound("orderitem not found.");
+                return NotFound(new { message = "orderitem not found." });
 
             var oldStatus = orderitem.order.Status;
 
             if (orderitem.Status != OrdStatus.Pending)
-                return BadRequest("Order item is not pending. Merchant Cannot update status.");
+                return BadRequest(new { message = "Order item is not pending. Merchant Cannot update status." });
             if (newStatus != OrdStatus.Preparing)
-                return BadRequest("Invalid status transition. Allowed: Pending → Preparing only.");
+                return BadRequest(new { message = "Invalid status transition. Allowed: Pending → Preparing only." });
 
             else if (orderitem.Status == OrdStatus.Pending)
                 orderitem.Status = newStatus;
@@ -210,7 +213,7 @@ namespace Project.Controllers {
                 .ToListAsync();
             if (products == null || products.Count == 0)
             {
-                return NotFound("No products found for this merchant.");
+                return NotFound(new { message = "No products found for this merchant." });
             }
             var result = products.Select(p => new ProductDTO
             {
@@ -244,7 +247,7 @@ namespace Project.Controllers {
                 .ToListAsync();
             if (productDetails == null || productDetails.Count == 0)
             {
-                return NotFound("No product details found for this merchant.");
+                return NotFound(new { message = "No product details found for this merchant." });
             }
             var result = productDetails.Select(p => new ProductDetailDTO
             {
@@ -254,7 +257,7 @@ namespace Project.Controllers {
                 Size = p.size.Gradient,
                 Quantity = p.Quantity,
                 Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault()?.ImageData}"
-                
+
             }).ToList();
             return Ok(result);
         }
@@ -267,13 +270,13 @@ namespace Project.Controllers {
         {
             if (newQuantity < 0)
             {
-                return BadRequest("Quantity cannot be negative.");
+                return BadRequest(new { message = "Quantity cannot be negative." });
             }
             var productDetail = await context.ProductDetails.Include(p => p.product)
                 .FirstOrDefaultAsync(o => o.Id == ProductDetailId);
             if (productDetail == null)
             {
-                return NotFound("Product item not found.");
+                return NotFound(new { message = "Product item not found." });
             }
 
             productDetail.Quantity = newQuantity;
@@ -285,7 +288,7 @@ namespace Project.Controllers {
                 productDetail.product.Status = ProStatus.OutOfStock;
             }
             await context.SaveChangesAsync();
-            return Ok($"Product quantity updated successfully to be {newQuantity}.");
+            return Ok(new { message = $"Product quantity updated successfully to be {newQuantity}."});
         }
 
 
@@ -295,17 +298,17 @@ namespace Project.Controllers {
         {
             if (EP == null)
             {
-                return BadRequest("Product cannot be null.");
+                return BadRequest(new { message = "Product cannot be null." });
             }
             var product = await context.Products
                 .FirstOrDefaultAsync(p => p.Id == EP.Id);
             if (product == null)
             {
-                return NotFound("Product not found.");
+                return NotFound(new { message = "Product not found." });
             }
             if (EP.Title == null && EP.Description == null && EP.Discount == null && EP.UnitPrice == null)
             {
-                return BadRequest("No fields to update.");
+                return BadRequest(new { message = "No fields to update." });
             }
 
             if (EP.Title != null)
@@ -327,7 +330,7 @@ namespace Project.Controllers {
             product.CalculateSellPrice();
             await context.SaveChangesAsync();
 
-            return Ok("Product updated successfully.");
+            return Ok(new { message = "Product updated successfully." });
 
         }
 
@@ -340,18 +343,18 @@ namespace Project.Controllers {
         {
             if (Pro == null)
             {
-                return BadRequest("Product cannot be null.");
+                return BadRequest(new { message = "Product cannot be null." });
             }
             if (string.IsNullOrEmpty(Pro.Title) || string.IsNullOrEmpty(Pro.Description) ||
                 string.IsNullOrEmpty(Pro.merchantId) || Pro.Discount < 0 ||
                 string.IsNullOrEmpty(Pro.CategoryName) || Pro.UnitPrice <= 0)
             {
-                return BadRequest("Invalid product data.");
+                return BadRequest(new { message = "Invalid product data." });
             }
             var merchant = await context.Merchants.FindAsync(Pro.merchantId);
             if (merchant == null)
             {
-                return NotFound("Merchant not found.");
+                return NotFound(new { message = "Merchant not found." });
             }
             var scat = Pro.CategoryName.ToLower();
             var category = await context.Categories.FindAsync(scat);
@@ -365,7 +368,7 @@ namespace Project.Controllers {
                 .FirstOrDefaultAsync(p => p.Title == Pro.Title && p.Description == Pro.Description);
             if (exist != null)
             {
-                return BadRequest("Product with this title and Description already exists.");
+                return BadRequest(new { message = "Product with this title and Description already exists." });
             }
          
             var product = new Product
@@ -391,31 +394,31 @@ namespace Project.Controllers {
 
             if (details == null)
             {
-                return BadRequest("Product cannot be null.");
+                return BadRequest(new { message = "Product cannot be null." });
             }
             if (string.IsNullOrEmpty(details.Color))
             {
-                return BadRequest("Invalid please Enter Color.");
+                return BadRequest(new { message = "Invalid please Enter Color." });
 
             }
             var product = await context.Products.FindAsync(details.ProductId);
             if (details.ProductId == null || product == null)
             {
-                return BadRequest("Invalid product ID .");
+                return BadRequest(new { message = "Invalid product ID ." });
 
             }
             foreach (var Quantity in details.Quantity)
             {
                 if (Quantity < 0)
                 {
-                    return BadRequest("Invalid please Enter Quantity.");
+                    return BadRequest(new { message = "Invalid please Enter Quantity." });
                 }
             }
             foreach (var size in details.Size)
             {
                 if (string.IsNullOrEmpty(size))
                 {
-                    return BadRequest("Invalid please Enter size.");
+                    return BadRequest(new { message = "Invalid please Enter size." });
                 }
             }
             string imageUrl1 = null;
@@ -478,7 +481,7 @@ namespace Project.Controllers {
             }
             if (count == 0)
             {
-                return BadRequest("Product details already exist for this color and size.");
+                return BadRequest(new { message = "Product details already exist for this color and size." });
             }
                         
             if (!string.IsNullOrEmpty(imageUrl1))
@@ -514,7 +517,7 @@ namespace Project.Controllers {
                 context.Images.Add(productImage3);
             }
             await context.SaveChangesAsync();
-            return Ok("Product added successfully.");
+            return Ok(new { message = "Product added successfully." });
         }
 
         

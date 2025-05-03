@@ -34,7 +34,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (activeProducts.Count < 1)
-                return NotFound("No active products found");
+                return NotFound(new { message = "No active products found" });
 
             var random = new Random();
 
@@ -72,7 +72,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (activeProducts.Count < 1)
-                return NotFound("No active products found");
+                return NotFound(new { message = "No active products found" });
 
             // Sort products by the highest average feedback score
             var productsWithHighestFeedback = activeProducts
@@ -117,7 +117,7 @@ namespace Project.Controllers
         {
             // Check if the product exists
             if (id <= 0)
-                return BadRequest("Invalid product ID");
+                return BadRequest(new { message = "Invalid product ID" });
 
             // Fetch the product with its related data
             var product = await _userManager.Products
@@ -134,7 +134,7 @@ namespace Project.Controllers
                  .FirstOrDefaultAsync();
 
             if (product == null)
-                return NotFound("Product not found");
+                return NotFound(new { message = "Product not found" });
 
             // Get the first color (if any) based on productId
             var firstColor = product.ProductDetails?
@@ -224,10 +224,10 @@ namespace Project.Controllers
                 .FirstOrDefaultAsync();
 
             if (product == null)
-                return NotFound("Product not found");
+                return NotFound(new { message = "Product not found" });
 
             if (product.Quantity == 0 || product.Status == ProStatus.OutOfStock)
-                return NotFound("Product OutOfStock");
+                return NotFound(new { message = "Product OutOfStock" });
             // Fetch the images related to the specific product and color
             var imagesForColor = product.images?
                 .Where(img => img.color != null && img.color.Id == colorId)  // Filter images by colorId
@@ -269,7 +269,7 @@ namespace Project.Controllers
                 .Include(p => p.category)
                 .ToListAsync();
             if (activeProducts.Count < 1)
-                return NotFound("No active products found");
+                return NotFound(new { message = "No active products found" });
 
             var random = new Random();
 
@@ -307,7 +307,7 @@ namespace Project.Controllers
                 .Include(p => p.category)
                 .ToListAsync();
             if (activeProducts.Count < 1)
-                return NotFound("No active products found");
+                return NotFound(new { message = "No active products found" });
 
             var random = new Random();
 
@@ -348,7 +348,7 @@ namespace Project.Controllers
                     .ThenInclude(p => p.images);
 
             if (products.Count() < 1)
-                return NotFound("No FavProduct found");
+                return NotFound(new { message = "No FavProduct found" });
 
 
             var FavItem = products.Select(p => new FavProductDTO
@@ -375,7 +375,7 @@ namespace Project.Controllers
                 .Include(p => p.merchant);
 
             if (products.Count() < 1)
-                return NotFound("No Fav Merchant found");
+                return NotFound(new { message = "No Fav Merchant found" });
 
 
             var FavMer = products.Select(p => new FavMerchantDTO
@@ -406,7 +406,7 @@ namespace Project.Controllers
 
 
             if (products.Count() < 1)
-                return NotFound("No products found in Cart");
+                return NotFound(new { message = "No products found in Cart" });
 
 
             var CartItems = new CartDTO
@@ -454,15 +454,15 @@ namespace Project.Controllers
             var existingfav = _userManager.FavProducts.FirstOrDefault(f => f.productId == ProdID && f.customerId == cusId);
                 if (product == null)
                 {
-                    return NotFound("Product not found");
+                    return NotFound(new { message = "Product not found" });
                 }
                 if (customer == null)
                 {
-                    return NotFound("Customer not found");
+                    return NotFound(new { message = "Customer not found" });
                 }
             if (existingfav != null)
             {
-                return NotFound("Item exist before inside favourite");
+                return NotFound(new { message = "Item exist before inside favourite" });
             }
             var favProduct = new FavProduct
                 {
@@ -471,7 +471,7 @@ namespace Project.Controllers
                 };
                 _userManager.FavProducts.Add(favProduct);
                 _userManager.SaveChanges();
-                return Ok("Product stored in favourite");
+                return Ok(new { message = "Product stored in favourite" });
             }
 
         [HttpPost("AddToFavMerchant")]
@@ -489,15 +489,15 @@ namespace Project.Controllers
 
             if (product == null)
             {
-                return NotFound("Merchant not found");
+                return NotFound(new { message = "Merchant not found" });
             }
             if (customer == null)
             {
-                return NotFound("Customer not found");
+                return NotFound(new { message = "Customer not found" });
             }
             if (existingfav != null)
             {
-                return NotFound("Item exist before inside favourite");
+                return NotFound(new { message = "Item exist before inside favourite" });
             }
             var favMerchant = new FavMerchant
             {
@@ -506,7 +506,7 @@ namespace Project.Controllers
             };
             _userManager.FavMerchants.Add(favMerchant);
             _userManager.SaveChanges();
-            return Ok("Merchant stored in favourite");
+            return Ok(new { message = "Merchant stored in favourite" });
         }
 
 
@@ -518,11 +518,11 @@ namespace Project.Controllers
                 var favProduct = _userManager.FavProducts.FirstOrDefault(f => f.Id == favId);
                 if (favProduct == null)
                 {
-                    return NotFound("Product not found in favourite");
+                    return NotFound(new { message = "Product not found in favourite" });
                 }
                 _userManager.FavProducts.Remove(favProduct);
                 _userManager.SaveChanges();
-                return Ok("Product removed from favourite");
+                return Ok(new { message = "Product removed from favourite" });
             }
 
 
@@ -533,11 +533,11 @@ namespace Project.Controllers
             var FavMerchant = _userManager.FavMerchants.FirstOrDefault(f => f.Id == favMerId);
             if (FavMerchant == null)
             {
-                return NotFound("Merchant not found in favourite");
+                return NotFound(new { message = "Merchant not found in favourite" });
             }
             _userManager.FavMerchants.Remove(FavMerchant);
             _userManager.SaveChanges();
-            return Ok("Merchant removed from favourite");
+            return Ok(new { message = "Merchant removed from favourite" });
         }
 
 
@@ -559,23 +559,23 @@ namespace Project.Controllers
                     && f.colorId == cartDTO.colorId && f.sizeId == cartDTO.sizeId)); 
                 if (product == null)
                 {
-                    return NotFound("Product not found");
+                    return NotFound(new { message = "Product not found" });
                 }
                 if (customer == null)
                 {
-                    return NotFound("Customer not found");
+                    return NotFound(new { message = "Customer not found" });
                 }
                 if (color == null)
                 {
-                    return NotFound("Color not found");
+                    return NotFound(new { message = "Color not found" });
                 }
                 if (size == null)
                 {
-                    return NotFound("Size not found");
+                    return NotFound(new { message = "Size not found" });
                 }
                 if (existingCart != null)
                 {
-                return NotFound("Item exist before inside cart");
+                return NotFound(new { message = "Item exist before inside cart" });
             }
                 var cart = new Cart
                 {
@@ -587,7 +587,7 @@ namespace Project.Controllers
                 };
                 _userManager.Carts.Add(cart);
                 _userManager.SaveChanges();
-                return Ok("Product stored in cart");
+                return Ok(new { message = "Product stored in cart" });
             }
 
             [HttpDelete("DeleteFromCart")]
@@ -596,11 +596,11 @@ namespace Project.Controllers
                 var cart = _userManager.Carts.FirstOrDefault(f => f.Id == cartId);
                 if (cart == null)
                 {
-                    return NotFound("Product not found in cart");
+                    return NotFound(new { message = "Product not found in cart" });
                 }
                 _userManager.Carts.Remove(cart);
                 _userManager.SaveChanges();
-                return Ok("Product removed from cart");
+                return Ok(new { message = "Product removed from cart" });
             }
 
             [HttpPut("UpdateQuantity")]
@@ -609,12 +609,12 @@ namespace Project.Controllers
                 var cart = _userManager.Carts.FirstOrDefault(f => f.Id == cartId);
                 if (cart == null)
                 {
-                    return NotFound("Product not found in cart");
+                    return NotFound(new { message = "Product not found in cart" });
                 }
                 cart.Quantity = quantity;
                 _userManager.Carts.Update(cart);
                 _userManager.SaveChanges();
-                return Ok("Product quantity updated");
+                return Ok(new { message = "Product quantity updated" });
             }
 
 

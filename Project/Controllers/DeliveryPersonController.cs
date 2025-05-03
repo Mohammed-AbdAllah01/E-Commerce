@@ -30,11 +30,11 @@ namespace Project.Controllers
         {
             //  Check if the delivery person exists
             if (string.IsNullOrEmpty(deliveryPersonId))
-                return BadRequest("Delivery person ID is required.");
+                return BadRequest(new { message = "Delivery person ID is required." });
 
             var deliveryPerson = await _context.Users.FindAsync(deliveryPersonId);
             if (deliveryPerson == null)
-                return NotFound("Delivery person not found.");
+                return NotFound(new { message = "Delivery person not found." });
 
             var orders = await _context.Orders
                 .Where(o => o.DeliveryId == deliveryPersonId)
@@ -42,7 +42,7 @@ namespace Project.Controllers
                 .Include(o => o.orderItems)
                 .ToListAsync();
             if (orders == null || orders.Count == 0)
-                return BadRequest("No orders found for this delivery person.");
+                return BadRequest(new { message = "No orders found for this delivery person." });
             var orderDTOs = orders.Select(o => new OrderDTO
             {
                 Id = o.Id,
@@ -79,7 +79,7 @@ namespace Project.Controllers
                 .FirstOrDefaultAsync();
 
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             var orderDTO = new specificOrderDto
             {
@@ -122,19 +122,19 @@ namespace Project.Controllers
 
 
             if (!Enum.TryParse<OrdStatus>(dto.NewStatus, true, out var newStatus))
-                return BadRequest("Invalid status value.");
+                return BadRequest(new { message = "Invalid status value." });
 
             var order = await _context.Orders.Include(o => o.orderItems)
                 .FirstOrDefaultAsync(o => o.Id == dto.OrderId );
 
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             if (order.Status == OrdStatus.Pending)
-                return BadRequest("Order is pending. Delivery Rep Cannot update status.");
+                return BadRequest(new { message = "Order is pending. Delivery Rep Cannot update status." });
 
             if (order.Status == OrdStatus.Recieved)
-                return BadRequest("Order is Already Recieved and can't update Status Conntact to Admin if you need");
+                return BadRequest(new { message = "Order is Already Recieved and can't update Status Conntact to Admin if you need" });
 
             //  Check allowed status transitions
             bool isValidTransition =
@@ -144,7 +144,7 @@ namespace Project.Controllers
 
 
             if (!isValidTransition)
-                return BadRequest("Invalid status transition. Allowed: Preparing → OnWay → Recieved.");
+                return BadRequest(new { message = "Invalid status transition. Allowed: Preparing → OnWay → Recieved." });
 
 
 

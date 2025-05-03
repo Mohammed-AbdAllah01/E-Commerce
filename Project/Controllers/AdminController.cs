@@ -38,15 +38,15 @@ namespace Project.Controllers
         [HttpGet("ShowAllOrders")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ShowAllOrders()
-        {            
-            var orders = await _context.Orders                
+        {
+            var orders = await _context.Orders
                 .Include(o => o.customer)
                 .Include(o => o.orderItems).
                 Include(o => o.deliveryrep)
                 .ToListAsync();
-          
+
             if (orders == null || orders.Count == 0)
-                return BadRequest("No orders found for this delivery person.");
+                return BadRequest(new { message = "No orders found for this delivery person." });
             var orderDTOs = orders.Select(o => new OrderadminDTO
             {
                 Id = o.Id,
@@ -66,10 +66,10 @@ namespace Project.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ShowSpecificOrders(int orderId)
         {
-            
+
             var Order = await _context.Orders.FindAsync(orderId);
             if (Order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
 
             var orders = await _context.Orders
@@ -79,7 +79,7 @@ namespace Project.Controllers
                 Include(o => o.deliveryrep)
                 .ToListAsync();
             if (orders == null || orders.Count == 0)
-                return BadRequest("No orders found for this delivery person.");
+                return BadRequest(new { message = "No orders found for this delivery person." });
             var orderDTOs = orders.Select(o => new OrderadminDTO
             {
                 Id = o.Id,
@@ -105,7 +105,7 @@ namespace Project.Controllers
         {                         
             var Order = await _context.Orders.FindAsync(orderId);
             if (Order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             var order = await _context.Orders
                   .Where(o => (o.Id == orderId ))
@@ -123,7 +123,7 @@ namespace Project.Controllers
                   .FirstOrDefaultAsync();
 
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             var orderDTO = new specificOrderadminDto
             {
@@ -154,19 +154,19 @@ namespace Project.Controllers
         {
 
             if (!Enum.TryParse<OrdStatus>(Status, true, out var newStatus))
-                return BadRequest("Invalid status value.");
+                return BadRequest(new { message = "Invalid status value." });
 
             var order = await _context.Orders
                 .Include(o => o.orderItems)
                     .ThenInclude(oi => oi.merchant) // optional if you need it
                 .FirstOrDefaultAsync(o => o.Id == orderId);
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
             if (order.Status == newStatus)
-                return BadRequest("Order status is already set to the specified value.");
+                return BadRequest(new { message = "Order status is already set to the specified value." });
 
             if (order.orderItems == null)
-                return BadRequest("Order items not loaded.");
+                return BadRequest(new { message = "Order items not loaded." });
 
             foreach (var orderItem in order.orderItems)
             {
@@ -212,7 +212,7 @@ namespace Project.Controllers
                 }
             }
             await _context.SaveChangesAsync();
-            return Ok($"Order status updated successfully to {order.Status}.");
+            return Ok(new { message = $"Order status updated successfully to {order.Status}." });
 
 
         }   
@@ -230,10 +230,10 @@ namespace Project.Controllers
     .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             if (string.IsNullOrEmpty(newPhone) || order.phone == newPhone)
-                return BadRequest("Please provide a new phone number.");
+                return BadRequest(new { message = "Please provide a new phone number." });
             else
             {
                 if (!string.IsNullOrEmpty(newPhone))
@@ -264,7 +264,7 @@ namespace Project.Controllers
 
 
             await _context.SaveChangesAsync();
-            return Ok("Phone updated successfully.");
+            return Ok(new { message = "Phone updated successfully." });
         }
 
 
@@ -280,10 +280,10 @@ namespace Project.Controllers
    .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null)
-                return NotFound("Order not found.");
+                return NotFound(new { message = "Order not found." });
 
             if (string.IsNullOrEmpty(newaddress) || order.address == newaddress)
-                return BadRequest("Please provide a new address number.");
+                return BadRequest(new { message = "Please provide a new address number." });
             else
             {
                 if (!string.IsNullOrEmpty(newaddress))
@@ -315,7 +315,7 @@ namespace Project.Controllers
 
 
             await _context.SaveChangesAsync();
-            return Ok("address updated successfully.");
+            return Ok(new { message = "address updated successfully." });
         }
 
 
@@ -330,30 +330,30 @@ namespace Project.Controllers
                 return BadRequest(ModelState);
 
             if (Rep == null)
-                return BadRequest("Invalid data.");
+                return BadRequest(new { message = "Invalid data." });
 
             var existingEmail = await _userManager.FindByEmailAsync(Rep.Email);
             if (existingEmail != null)
-                return BadRequest("Email already exists.");
+                return BadRequest(new { message = "Email already exists." });
 
             var existingUserName = await _userManager.FindByNameAsync(Rep.UserName);
             if (existingUserName != null)
-                return BadRequest("Username already exists.");
+                return BadRequest(new { message = "Username already exists." });
 
             // Check NationalId
             bool nationalExists = await _context.Admins.AnyAsync(a => a.NationalId == Rep.NationalId)
                                 || await _context.DeliveryReps.AnyAsync(a => a.NationalId == Rep.NationalId)
                                 || await _context.Merchants.AnyAsync(a => a.NationalId == Rep.NationalId);
             if (nationalExists)
-                return BadRequest("National ID already exists.");
+                return BadRequest(new { message = "National ID already exists." });
 
             if(Rep.UserName == null ||Rep.Email == null || Rep.Password ==null ||
                 Rep.Phone == null || Rep.State == null || Rep.Governorate == null ||
                 Rep.Location == null || Rep.Gender == null || Rep.BirthDate == null )
-                return BadRequest("All fields are required.");
+                return BadRequest(new { message = "All fields are required." });
 
             if (!Enum.TryParse<GenderType>(Rep.Gender, true, out var newGender))
-                return BadRequest("Invalid status value.");
+                return BadRequest(new { message = "Invalid status value." });
 
             // Create DeliveryRep
             var deliveryRep = new DeliveryRep
@@ -388,7 +388,7 @@ namespace Project.Controllers
             await _emailService.SendEmailAsync(deliveryRep.Email, "Confirm Your Account",
                 $"Welcome to our platform, please verify your email with this code: {verificationCode}");
 
-            return Ok("DeliveryRep created successfully.");
+            return Ok(new { message = "DeliveryRep created successfully." });
         }
 
 
@@ -418,7 +418,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (deliveryReps == null || !deliveryReps.Any())
-                return NotFound("There are no delivery reps in the system.");
+                return NotFound(new { message = "There are no delivery reps in the system." });
 
             return Ok(deliveryReps);
         }
@@ -446,7 +446,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (deliveryReps == null || !deliveryReps.Any())
-                return NotFound("No Delivery Rep found with the given username.");
+                return NotFound(new { message = "No Delivery Rep found with the given username." });
 
             return Ok(deliveryReps);
         }
@@ -460,20 +460,20 @@ namespace Project.Controllers
         public async Task<IActionResult> UpdateDeliveryRepStatus([FromBody] UpdateDeliveryRepStatusDTO dto)
         {
             if (string.IsNullOrWhiteSpace(dto.DeliveryRepId) || string.IsNullOrWhiteSpace(dto.NewStatus))
-                return BadRequest("Both DeliveryRepId and NewStatus are required.");
+                return BadRequest(new { message = "Both DeliveryRepId and NewStatus are required." });
 
          
             var deliveryRep = await _context.DeliveryReps.FindAsync(dto.DeliveryRepId);
             if (deliveryRep == null)
-                return NotFound("Delivery representative not found.");
+                return NotFound(new { message = "Delivery representative not found." });
 
 
             if (!Enum.TryParse<AccStatus>(dto.NewStatus, true, out var newStatus))
-                return BadRequest("Invalid status. Allowed values: Active, Inactive, Banned");
+                return BadRequest(new { message = "Invalid status. Allowed values: Active, Inactive, Banned" });
 
            
             if (deliveryRep.Status == newStatus)
-                return BadRequest($"DeliveryRep is already {newStatus}");
+                return BadRequest(new { message = $"DeliveryRep is already {newStatus}" });
 
            
             deliveryRep.Status = newStatus;
@@ -495,7 +495,7 @@ namespace Project.Controllers
                 $"Dear {deliveryRep.UserName},\n\n{statusMessage}\n\nThank you."
             );
 
-            return Ok($"✅ DeliveryRep status updated to {newStatus} and notification sent.");
+            return Ok(new { message = $"✅ DeliveryRep status updated to {newStatus} and notification sent." });
         }
 
 
@@ -518,7 +518,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (products == null || !products.Any())
-                return NotFound("No products found.");
+                return NotFound(new { message = "No products found." });
 
             var productList = products.Select(p => new AdminProductDTO
             {
@@ -548,7 +548,7 @@ namespace Project.Controllers
                 .ToListAsync();
 
             if (products == null || !products.Any())
-                return NotFound("No product found.");
+                return NotFound(new { message = "No product found." });
 
             var productList = products.Select(p => new AdminProductDTO
             {
@@ -573,20 +573,20 @@ namespace Project.Controllers
 
         [HttpPut("update-product-status")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProductStatus(int productId , string Newstatus)
+        public async Task<IActionResult> UpdateProductStatus(int productId, string Newstatus)
         {
             if (!Enum.TryParse<ProStatus>(Newstatus, true, out var newStatus))
-                return BadRequest("Invalid status value.");
+                return BadRequest(new { message = "Invalid status value." });
 
             var product = await _context.Products
                 .Include(p => p.merchant)
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
             if (product == null)
-                return NotFound("Product not found.");
+                return NotFound(new { message = "Product not found." });
 
             if (product.Status == newStatus)
-                return BadRequest($"Product status is already set to {newStatus}.");
+                return BadRequest(new { message = $"Product status is already set to {newStatus}." });
 
             bool isValidTransition =
                 (product.Status == ProStatus.Pending && newStatus == ProStatus.Active) ||
@@ -595,23 +595,23 @@ namespace Project.Controllers
 
 
             if (!isValidTransition)
-                return BadRequest("Invalid status transition. Allowed: From Pending To Active  or  Banned Product.");
+                return BadRequest(new { message = "Invalid status transition. Allowed: From Pending To Active  or  Banned Product." });
 
             product.Status = newStatus;
-                        
-              await _context.SaveChangesAsync();
 
-            if(newStatus == ProStatus.Pending) { 
-              // ✅ send mail to the merchant 
-              string message = $"Dear {product.merchant.UserName},\n\n" +
-                               $"Your product \"{product.Title}\" has been banned by the admin due to policy violations.\n\n" +
-                               $"If you believe this is a mistake, please contact support.";
+            await _context.SaveChangesAsync();
 
-              await _emailService.SendEmailAsync(
-                  product.merchant.Email,
-                  "🚫 Product Banned Notification",
-                  message
-              );
+            if (newStatus == ProStatus.Pending) {
+                // ✅ send mail to the merchant 
+                string message = $"Dear {product.merchant.UserName},\n\n" +
+                                 $"Your product \"{product.Title}\" has been banned by the admin due to policy violations.\n\n" +
+                                 $"If you believe this is a mistake, please contact support.";
+
+                await _emailService.SendEmailAsync(
+                    product.merchant.Email,
+                    "🚫 Product Banned Notification",
+                    message
+                );
             }
 
             if (newStatus == ProStatus.Active)
@@ -627,7 +627,7 @@ namespace Project.Controllers
                     message
                 );
             }
-            return Ok($"Product '{product.Title}' has been successfully {newStatus} and merchant has been notified.");
+            return Ok(new { message = $"Product '{product.Title}' has been successfully {newStatus} and merchant has been notified."});
         }
 
 

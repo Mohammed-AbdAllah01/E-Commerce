@@ -64,15 +64,15 @@ namespace Project.Controllers
                 {
                     var existingUser = await _userManager.FindByEmailAsync(cus.Email);
                     if (existingUser?.Email != null)
-                        return BadRequest("Email already exists");
+                        return BadRequest(new { message = "Email already exists" });
                     if (existingUser?.UserName != null)
-                        return BadRequest("UserName already exists");
+                        return BadRequest(new { message = "UserName already exists" });
                     if (!Enum.TryParse<GenderType>(cus.Gender, true, out var newGender))
-                        return BadRequest("Invalid status value.");
+                        return BadRequest(new { message = "Invalid status value." });
                     if (cus.UserName == null || cus.Email == null || cus.Password == null ||
                             cus.Phone == null || cus.State == null || cus.Governorate == null ||
                             cus.Location == null || cus.Gender == null || cus.BirthDate == null)
-                        return BadRequest("All fields are required.");
+                        return BadRequest(new { message = "All fields are required." });
                     Customer customer = new()
                     {
                         BirthDate = cus.BirthDate,
@@ -101,7 +101,7 @@ namespace Project.Controllers
 
                         await _userManager.UpdateAsync(customer);
 
-                        return Ok("Registered successfully. Please verify your email using the verification code sent.");
+                        return Ok(new { message = "Registered successfully. Please verify your email using the verification code sent." });
                     }
                     else
                     {
@@ -126,11 +126,11 @@ namespace Project.Controllers
                     // Check if the email or username already exists
                     var existingUserByEmail = await _userManager.FindByEmailAsync(ad.Email);
                     if (existingUserByEmail?.Email != null)
-                        return BadRequest("Email already exists");
+                        return BadRequest(new { message = "Email already exists" });
 
                     var existingUserByUsername = await _userManager.FindByNameAsync(ad.UserName);
                     if (existingUserByUsername?.UserName != null)
-                        return BadRequest("UserName already exists");
+                        return BadRequest(new { message = "UserName already exists" });
 
                     // Check if NationalId already exists
                     var existingAdmin = await _db.Admins
@@ -140,16 +140,16 @@ namespace Project.Controllers
                     var existingMerchant = await _db.Merchants
                         .FirstOrDefaultAsync(u => u.NationalId == ad.NationalId);
                     if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
-                        return BadRequest("National ID already exists");
+                        return BadRequest(new { message = "National ID already exists" });
 
                     if (!Enum.TryParse<GenderType>(ad.Gender, true, out var newGender))
-                        return BadRequest("Invalid status value.");
+                        return BadRequest(new { message = "Invalid status value." });
 
                     if (ad.UserName == null || ad.Email == null || ad.Password == null ||
                             ad.Phone == null || ad.State == null || ad.Governorate == null ||
                             ad.Location == null || ad.Gender == null || ad.BirthDate == null 
                             )
-                        return BadRequest("All fields are required.");
+                        return BadRequest(new { message = "All fields are required." });
 
 
                     Admin admin = new()
@@ -181,7 +181,7 @@ namespace Project.Controllers
 
                         await _userManager.UpdateAsync(admin);
 
-                        return Ok("Registered successfully. Please verify your email using the verification code sent.");
+                        return Ok(new { message = "Registered successfully. Please verify your email using the verification code sent." });
                     }
                     else
                     {
@@ -207,11 +207,11 @@ namespace Project.Controllers
                     // Check if the email or username already exists
                     var existingUserByEmail = await _userManager.FindByEmailAsync(Mer.Email);
                     if (existingUserByEmail?.Email != null)
-                        return BadRequest("Email already exists");
+                        return BadRequest(new { message = "Email already exists" });
 
                     var existingUserByUsername = await _userManager.FindByNameAsync(Mer.UserName);
                     if (existingUserByUsername?.UserName != null)
-                        return BadRequest("UserName already exists");
+                        return BadRequest(new { message = "UserName already exists" });
 
                     var existingAdmin = await _db.Admins
     .FirstOrDefaultAsync(u => u.NationalId == Mer.NationalId);
@@ -220,9 +220,9 @@ namespace Project.Controllers
                     var existingMerchant = await _db.Merchants
                         .FirstOrDefaultAsync(u => u.NationalId == Mer.NationalId);
                     if (existingAdmin != null || existingMerchant != null || existingDeliveryRep != null)
-                        return BadRequest("National ID already exists");
+                        return BadRequest(new { message = "National ID already exists" });
                     if (!Enum.TryParse<GenderType>(Mer.Gender, true, out var newGender))
-                        return BadRequest("Invalid status value.");
+                        return BadRequest(new { message = "Invalid status value." });
 
                     Merchant merchant = new()
                     {
@@ -242,17 +242,7 @@ namespace Project.Controllers
                     IdentityResult result = await _userManager.CreateAsync(merchant, Mer.Password);
                     if (result.Succeeded)
                     {
-                        //// توليد رمز التحقق
-                        //var verificationCode = GenerateVerificationCode();
-                        //merchant.VerificationCode = verificationCode;
-                        //merchant.VerificationCodeExpiry = DateTime.UtcNow.AddMinutes(5);
-                        //// إرسال الكود بالإيميل
-                        //await _emailService.SendEmailAsync(merchant.Email, "Email Verification Code",
-                        //    $"Your verification code is {verificationCode}. It will expire in 5 minutes.");
-                        //await _userManager.UpdateAsync(merchant);
-                        //return Ok("Registered successfully. Please verify your email using the verification code sent.");
-
-                        return Ok("Registered successfully. Please Waiting your Account will Check first by Admin.");
+                      return Ok(new { message = "Registered successfully. Please Waiting your Account will Check first by Admin." });
                     }
                     else
                     {
@@ -273,25 +263,25 @@ namespace Project.Controllers
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return BadRequest("User not found.");
+                return BadRequest(new { message = "User not found." });
 
             // التأكد من أن الرمز لم ينتهِ بعد
             if (user.VerificationCodeExpiry < DateTime.UtcNow)
             {
-                return BadRequest("The verification code has expired. Please request a new one.");
+                return BadRequest(new { message = "The verification code has expired. Please request a new one." });
             }
 
             // التحقق من الرمز المدخل
             if (user.VerificationCode != model.VerificationCode)
             {
-                return BadRequest("Invalid verification code.");
+                return BadRequest(new { message = "Invalid verification code." });
             }
 
             // إذا كان الرمز صحيحًا، تأكيد البريد الإلكتروني
             user.EmailConfirmed = true;
             await _userManager.UpdateAsync(user);
 
-            return Ok("✅ Email verified successfully!");
+            return Ok(new { message = "✅ Email verified successfully!" });
         }
 
         [HttpPost("resend-verification-code")]
@@ -299,11 +289,11 @@ namespace Project.Controllers
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return BadRequest("User not found.");
+                return BadRequest(new { message = "User not found." });
 
             if (user.VerificationCodeExpiry > DateTime.UtcNow)
             {
-                return BadRequest("You can only request a new verification code after the previous one expires.");
+                return BadRequest(new { message = "You can only request a new verification code after the previous one expires." });
             }
 
             // توليد رمز تحقق جديد باستخدام RNGCryptoServiceProvider
@@ -318,7 +308,7 @@ namespace Project.Controllers
             // تحديث المستخدم في قاعدة البيانات
             await _userManager.UpdateAsync(user);
 
-            return Ok("A new verification code has been sent to your email.");
+            return Ok(new { message = "A new verification code has been sent to your email." });
         }
 
 
@@ -338,7 +328,7 @@ namespace Project.Controllers
                     if (await _userManager.CheckPasswordAsync(user, userLogin.Password))
                     {
                         if (!user.EmailConfirmed)
-                            return Unauthorized("Please confirm your email first.");
+                            return Unauthorized(new { message = "Please confirm your email first." });
 
                         // Create a list of claims
                         var claims = new List<Claim>
@@ -406,7 +396,7 @@ namespace Project.Controllers
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null )
-                return BadRequest("Invalid request.");
+                return BadRequest(new { message = "Invalid request." });
 
             // توليد كود جديد
             var verificationCode = GenerateVerificationCode();
@@ -419,7 +409,7 @@ namespace Project.Controllers
             await _emailService.SendEmailAsync(user.Email, "Password Reset Code",
                 $"Use this code to reset your password: {verificationCode}. It expires in 5 minutes.");
 
-            return Ok("Verification code sent to your email.");
+            return Ok(new { message = "Verification code sent to your email." });
         }
 
 
@@ -433,7 +423,7 @@ namespace Project.Controllers
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return BadRequest("User not found.");
+                return BadRequest(new { message = "User not found." });
 
 
             user.VerificationCode = null;
@@ -449,7 +439,7 @@ namespace Project.Controllers
 
             await _userManager.UpdateAsync(user);
 
-            return Ok("✅ Password reset successful.");
+            return Ok(new { message = "✅ Password reset successful." });
         }
 
 
@@ -466,14 +456,14 @@ namespace Project.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest("User ID is not exist.");
+                return BadRequest(new { message = "User ID is not exist." });
             }
             user.IMG = imageUrl;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 Console.WriteLine(imageUrl +"     " +user.IMG);
-                return Ok("Image Add Succesfully");
+                return Ok(new { message = "Image Add Succesfully" });
             }
             else
             {
@@ -494,7 +484,7 @@ namespace Project.Controllers
             };
             if (Profile.Image == null )
             {
-                return BadRequest("User has no image.");
+                return BadRequest(new { message = "User has no image." });
             }
             return Ok(Profile);
         }
