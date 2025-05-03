@@ -3,24 +3,16 @@
   "WorkspaceRootPath": "D:\\Study\\Project\\Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Study\\Project\\Project\\Migrations\\20250503211702_test0.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20250503211702_test0.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\data\\db\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:data\\db\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\data\\relation\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:data\\relation\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\data\\relation\\feedbackcomments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:data\\relation\\feedbackcomments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\data\\relation\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:data\\relation\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,37 +34,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250503211702_test0.cs",
-              "DocumentMoniker": "D:\\Study\\Project\\Project\\Migrations\\20250503211702_test0.cs",
-              "RelativeDocumentMoniker": "Migrations\\20250503211702_test0.cs",
-              "ToolTip": "D:\\Study\\Project\\Project\\Migrations\\20250503211702_test0.cs",
-              "RelativeToolTip": "Migrations\\20250503211702_test0.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:17:03.188Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\DB\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\DB\\AppDbContext.cs",
-              "ToolTip": "D:\\Study\\Project\\Project\\Data\\DB\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\DB\\AppDbContext.cs",
-              "ViewState": "AgIAAJ4AAAAAAAAAAAAkwLMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:11:44.46Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "FeedbackComments.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Relation\\FeedbackComments.cs",
               "RelativeDocumentMoniker": "Data\\Relation\\FeedbackComments.cs",
@@ -93,12 +59,11 @@
               "RelativeToolTip": "Data\\Relation\\Feedback.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:08:53.369Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T21:08:53.369Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -111,7 +76,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "ProductController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
@@ -124,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 5,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
@@ -137,13 +102,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAADYBAAAAAAAAAAAAADsBAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAPQAAAAAAAAAAAAIwAgBAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T15:54:31.427Z",
               "EditorCaption": ""

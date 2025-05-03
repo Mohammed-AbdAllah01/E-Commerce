@@ -242,7 +242,19 @@ namespace Project.Controllers
                     IdentityResult result = await _userManager.CreateAsync(merchant, Mer.Password);
                     if (result.Succeeded)
                     {
-                      return Ok(new { message = "Registered successfully. Please Waiting your Account will Check first by Admin." });
+                        // توليد رمز التحقق
+                        var verificationCode = GenerateVerificationCode();
+                        merchant.VerificationCode = verificationCode;
+                        merchant.VerificationCodeExpiry = DateTime.UtcNow.AddMinutes(5);
+
+                        // إرسال الكود بالإيميل
+                        await _emailService.SendEmailAsync(merchant.Email, "Email Verification Code",
+                            $"Your verification code is {verificationCode}. It will expire in 5 minutes.");
+
+                        await _userManager.UpdateAsync(merchant);
+
+                        return Ok(new { message = "Registered successfully. Please verify your email using the verification code sent Then Please Waiting your Account will Check first by Admin." });
+                        
                     }
                     else
                     {
@@ -250,7 +262,8 @@ namespace Project.Controllers
                         {
                             ModelState.AddModelError("Error", error.Description);
                         }
-                    }
+                    }                  
+                   
                 }
             }
             return BadRequest(ModelState);
