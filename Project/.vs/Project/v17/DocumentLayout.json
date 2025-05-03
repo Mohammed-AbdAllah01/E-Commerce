@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Study\\Project\\Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\deliverypersoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\deliverypersoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,11 +30,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "DeliveryPersonController.cs",
+              "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\DeliveryPersonController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DeliveryPersonController.cs",
+              "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\DeliveryPersonController.cs",
+              "RelativeToolTip": "Controllers\\DeliveryPersonController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwDMAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T16:28:06.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -43,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ProductController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
@@ -56,7 +73,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
@@ -69,13 +86,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAAAPkAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAANAAAAAAAAAAAAAAAPkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T15:54:31.427Z",
               "EditorCaption": ""
