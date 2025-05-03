@@ -178,11 +178,9 @@ namespace DataBase.Data
            // modelBuilder.Entity<Cart>()
             //    .HasKey(c => new { c.productId, c.colorId, c.sizeId, c.customerId });
 
-            modelBuilder.Entity<Feedback>()
-                .HasKey(f => new { f.productId, f.customerId });
 
             modelBuilder.Entity<FeedbackComments>()
-                .HasKey(fc => new { fc.productId, fc.customerId });
+                .HasKey(fc => new { fc.feedbackId});
 
             modelBuilder.Entity<History>()
                 .HasKey(d => new { d.productId, d.customerId });

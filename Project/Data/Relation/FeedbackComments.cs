@@ -6,12 +6,8 @@ namespace Project.Data.Relation
     public class FeedbackComments
     {
         [ForeignKey("product")]
-        public int productId { get; set; }
-        public required Product product { get; set; }
-
-        [ForeignKey("customer")]
-        public required string customerId { get; set; }
-        public required Customer customer { get; set; }
+        public int feedbackId { get; set; }
+        public required Feedback feedback { get; set; }
 
         public required string OriginalComment { get; set; }
         public required string TranslateComment { get; set; }

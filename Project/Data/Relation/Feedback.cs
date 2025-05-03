@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Project.Data.Relation
 {
     public class Feedback
-    {
+    { 
+        public int Id { get; set; }
+       
         [ForeignKey("product")]
-        //public int Id { get; set; }
         public int productId { get; set; }
         public required Product product { get; set; }
 

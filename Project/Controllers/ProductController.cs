@@ -125,8 +125,8 @@ namespace Project.Controllers
                  .Include(p => p.category)
                  .Include(p => p.merchant)
                  .Include(p => p.feedbacks)
-                 .Include(p => p.feedbackcmments)
-                     .ThenInclude(p => p.customer)
+                    .ThenInclude(p => p.customer)
+                 .Include(p => p.feedbackcmments)                     
                  .Include(p => p.images)
                      .ThenInclude(img => img.color)
                  .Include(p => p.ProductDetails)
@@ -182,7 +182,7 @@ namespace Project.Controllers
                 MerchantName = product.merchant?.UserName ?? "Unknown",
                 MerchantId = product.merchantId,
 
-                UserName = product.feedbackcmments
+                UserName = product.feedbacks
                                     .Select(s => s.customer.UserName)
                                     .ToArray() ?? new string[] { },
 
