@@ -24,7 +24,6 @@ namespace Project.Controllers
 
         // GET: api/Show Random Product 
         [HttpGet("ShowRandomProduct")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowRandomProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -62,7 +61,6 @@ namespace Project.Controllers
 
         // GET: api/Show High Rate Product
         [HttpGet("ShowHighFeedbackProduct")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowHighFeedbackProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -112,7 +110,6 @@ namespace Project.Controllers
 
         // GET: api/Show Specific Product
         [HttpGet("ShowSpecificProduct")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowSpecificProduct(int id)
         {
             // Check if the product exists
@@ -207,7 +204,6 @@ namespace Project.Controllers
 
         // GET: api/Show Size Image for Color
         [HttpGet("showsizeImageforColor")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> showsizeImageforColor(int productId, int colorId)
         {
             // Fetch the product with its related data
@@ -255,7 +251,6 @@ namespace Project.Controllers
 
 
         [HttpGet("ShowProductByCategory")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByCategory(int categoryId, int count)
         {
             // Fetch the products by category
@@ -293,7 +288,6 @@ namespace Project.Controllers
 
         // GET: api/Show Product By Merchantid
         [HttpGet("ShowProductByMerchantId")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByMerchantId(string merchantId, int count)
         {
             // Fetch the products by merchant ID
@@ -508,7 +502,8 @@ namespace Project.Controllers
 
 
         [HttpDelete("DeleteProductFromFav")]
-            public IActionResult DeleteProductFromFav(int favId)
+        [Authorize(Roles = "Customer")]
+        public IActionResult DeleteProductFromFav(int favId)
             {
                 var favProduct = _userManager.FavProducts.FirstOrDefault(f => f.Id == favId);
                 if (favProduct == null)
@@ -522,6 +517,7 @@ namespace Project.Controllers
 
 
         [HttpDelete("DeleteFromFavMerchant")]
+        [Authorize(Roles = "Customer")]
         public IActionResult DeleteFromFavMerchant(int favMerId)
         {
             var FavMerchant = _userManager.FavMerchants.FirstOrDefault(f => f.Id == favMerId);
@@ -537,7 +533,8 @@ namespace Project.Controllers
 
 
         [HttpPost("AddToCart")]
-            public IActionResult AddProductToCart(AddCartDTO cartDTO)
+        [Authorize(Roles = "Customer")]
+        public IActionResult AddProductToCart(AddCartDTO cartDTO)
             {
                 if (!ModelState.IsValid)
                 {

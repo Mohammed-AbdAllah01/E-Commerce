@@ -401,7 +401,8 @@ namespace Project.Controllers {
             }
             foreach (var Quantity in details.Quantity)
             {
-                if (Quantity < 0)                {
+                if (Quantity < 0)
+                {
                     return BadRequest("Invalid please Enter Quantity.");
                 }
             }           
@@ -427,21 +428,23 @@ namespace Project.Controllers {
             {
                 imageUrl3 = SaveImage(details.image3);
             }
+           var scolor = details.Color.ToLower();
 
-            var color = await context.Colors.FirstOrDefaultAsync(c => c.Name == details.Color);
+            var color = await context.Colors.FirstOrDefaultAsync(c => c.Name == scolor);
             if (color == null)
             {
-                color = new Tables.Color { Name = details.Color };
+                color = new Tables.Color { Name = scolor };
                 context.Colors.Add(color);
                 await context.SaveChangesAsync();
             }
             var sizeList = new List<Tables.Size>();
             foreach (var size in details.Size)
             {
-                var existingSize = await context.Sizes.FirstOrDefaultAsync(s => s.Gradient == size);
+                var ssize = size.ToLower();
+                var existingSize = await context.Sizes.FirstOrDefaultAsync(s => s.Gradient == ssize);
                 if (existingSize == null)
                 {
-                    existingSize = new Tables.Size { Gradient = size };
+                    existingSize = new Tables.Size { Gradient = ssize };
                     context.Sizes.Add(existingSize);
                     await context.SaveChangesAsync();
                 }
@@ -452,42 +455,56 @@ namespace Project.Controllers {
             {
                 var size = sizeList[i];
                 var quantity = details.Quantity[i];
-
-                var productDetail = new ProductDetail
+                var existdetails = await context.ProductDetails
+                    .FirstOrDefaultAsync(pd => pd.productId == details.ProductId && pd.colorId == color.Id && pd.sizeId == size.Id);
+                if (existdetails == null)
                 {
-                    productId = details.ProductId,
-                    colorId = color.Id,
-                    sizeId = size.Id,
-                    Quantity = quantity
-                };
+                    var productDetail = new ProductDetail
+                    {
+                        productId = details.ProductId,
+                        colorId = color.Id,
+                        sizeId = size.Id,
+                        Quantity = quantity
+                    };
 
-                context.ProductDetails.Add(productDetail);
+                    context.ProductDetails.Add(productDetail);
+
+                }
+            
             }
             await context.SaveChangesAsync();
-            var productImage1 = new Image
+            if (!string.IsNullOrEmpty(imageUrl1))
             {
-                ImageData = imageUrl1,
-                productId = details.ProductId,
-                colorId = color.Id
+                var productImage1 = new Image
+                {
+                    ImageData = imageUrl1,
+                    productId = details.ProductId,
+                    colorId = color.Id
+                };
+                context.Images.Add(productImage1);
+            }
 
-            };
-            var productImage2 = new Image
+            if (!string.IsNullOrEmpty(imageUrl2))
             {
-                ImageData = imageUrl2,
-                productId = details.ProductId,
-                colorId = color.Id
+                var productImage2 = new Image
+                {
+                    ImageData = imageUrl2,
+                    productId = details.ProductId,
+                    colorId = color.Id
+                };
+                context.Images.Add(productImage2);
+            }
 
-            };
-            var productImage3 = new Image
+            if (!string.IsNullOrEmpty(imageUrl3))
             {
-                ImageData = imageUrl3,
-                productId = details.ProductId,
-                colorId = color.Id
-            };
-            context.Images.Add(productImage1);
-            context.Images.Add(productImage2);
-            context.Images.Add(productImage3);
-
+                var productImage3 = new Image
+                {
+                    ImageData = imageUrl3,
+                    productId = details.ProductId,
+                    colorId = color.Id
+                };
+                context.Images.Add(productImage3);
+            }
             await context.SaveChangesAsync();
             return Ok("Product added successfully.");
 
