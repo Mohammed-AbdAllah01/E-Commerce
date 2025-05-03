@@ -106,7 +106,7 @@ namespace Project.Controllers
 
             for (int i = 0; i < orderDTO.image.Length; i++)
             {
-                orderDTO.image[i] = $"//aston.runasp.net//Profile_Image//{orderDTO.image[i]}";
+                orderDTO.image[i] = $"//aston.runasp.net//Product_Image//{orderDTO.image[i]}";
             }
 
             return Ok(orderDTO);

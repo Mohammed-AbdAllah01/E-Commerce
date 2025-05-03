@@ -7,6 +7,7 @@ namespace Project.Data.Relation
     public class Feedback
     {
         [ForeignKey("product")]
+        //public int Id { get; set; }
         public int productId { get; set; }
         public required Product product { get; set; }
 

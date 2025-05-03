@@ -13,10 +13,11 @@ namespace Project.Data.Relation
         public required string customerId { get; set; }
         public required Customer customer { get; set; }
 
-        public required string Comment { get; set; }
+        public required string OriginalComment { get; set; }
+        public required string TranslateComment { get; set; }
 
         public DateTime DateCreate { get; set; } = DateTime.Now;
-        public required double Feeling { get; set; }
+        public required double CommentRate { get; set; }
 
 
     }

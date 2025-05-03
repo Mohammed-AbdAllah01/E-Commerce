@@ -22,8 +22,9 @@ namespace Project.DTOs
     {
         public required int Id { get; set; }
         public required string Title { get; set; }
-        public required double Feedback { get; set; }
-        public required string[] FeedbackComments { get; set; }
+        public required double Star { get; set; }
+        public required string[] OriginalComment { get; set; }
+        public required string[] TranslateComment { get; set; }
         public DateTime[] DateCreate { get; set; }
         public required string[] UserName { get; set; }
         public required double UnitPrice { get; set; }
@@ -33,8 +34,9 @@ namespace Project.DTOs
         public required string[] Color { get; set; }
         public required int[] ColorId { get; set; }
         public required int CategoriesId { get; set; }
+        public required string Type { get; set; }
         public required string Category { get; set; }
-        public required double[] Feeling { get; set; }
+        public required double[] CommentRate { get; set; }
         public required string MerchantName { get; set; }
         public required string MerchantId { get; set; }
         public List<string> ImageUrls { get; set; } // Changed from string[] to List<string>

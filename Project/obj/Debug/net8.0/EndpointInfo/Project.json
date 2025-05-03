@@ -1547,10 +1547,11 @@
       },
       "AddFullProductDTO": {
         "required": [
-          "categoryId",
+          "categoryName",
           "description",
           "merchantId",
           "title",
+          "type",
           "unitPrice"
         ],
         "type": "object",
@@ -1563,9 +1564,13 @@
             "minLength": 1,
             "type": "string"
           },
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
+          "categoryName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
           },
           "unitPrice": {
             "minimum": 0,

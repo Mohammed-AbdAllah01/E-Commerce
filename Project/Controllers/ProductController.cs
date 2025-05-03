@@ -24,6 +24,7 @@ namespace Project.Controllers
 
         // GET: api/Show Random Product 
         [HttpGet("ShowRandomProduct")]
+        [Authorize (Roles = "Customer")]
         public async Task<IActionResult> ShowRandomProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -51,7 +52,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -61,6 +62,7 @@ namespace Project.Controllers
 
         // GET: api/Show High Rate Product
         [HttpGet("ShowHighFeedbackProduct")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowHighFeedbackProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -88,7 +90,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -110,6 +112,7 @@ namespace Project.Controllers
 
         // GET: api/Show Specific Product
         [HttpGet("ShowSpecificProduct")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowSpecificProduct(int id)
         {
             // Check if the product exists
@@ -154,11 +157,11 @@ namespace Project.Controllers
             {
                 Id = product.Id,
                 Title = product.Title,
-                Feedback = product.Feedback,
-                Discount = product.Discount,
-                UnitPrice = product.UnitPrice,
-                SellPrice = product.SellPrice,
                 Description = product.Description,
+                Star = product.Feedback,
+                UnitPrice = product.UnitPrice,
+                Discount = product.Discount,                
+                SellPrice = product.SellPrice,                
                 Color = product.images?
                             .Where(pd => pd.colorId > 0)
                             .Select(pd => pd.color.Name)
@@ -169,29 +172,33 @@ namespace Project.Controllers
                             .Select(pd => pd.color.Id)
                             .Distinct()
                             .ToArray() ?? new int[] { },
-                FeedbackComments = product.feedbackcmments?
-                                    .Select(fc => fc.Comment)
-                                    .ToArray() ?? new string[] { },
+                Type = product.category.Type ?? "Unknown"
+                ,
+                Category = product.category?.Name ?? "Unknown",
+                CategoriesId = product.categoryId,
 
-                DateCreate = product.feedbackcmments?.OrderByDescending(fc => fc.DateCreate)
-                                .Select(dt => dt.DateCreate).ToArray() ?? new DateTime[] { },  // Get the most recent feedback comment date
+                // Return the list of image URLs for the first color
+                ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img}").ToList(),
+                MerchantName = product.merchant?.UserName ?? "Unknown",
+                MerchantId = product.merchantId,
 
                 UserName = product.feedbackcmments
                                     .Select(s => s.customer.UserName)
                                     .ToArray() ?? new string[] { },
 
-                Feeling = product.feedbackcmments?
-                                    .Select(fc => fc.Feeling)
+                CommentRate = product.feedbackcmments?
+                                    .Select(fc => fc.CommentRate)
                                     .ToArray() ?? new double[] { },
 
+                DateCreate = product.feedbackcmments?.OrderByDescending(fc => fc.DateCreate)
+                                .Select(dt => dt.DateCreate).ToArray() ?? new DateTime[] { },
 
-
-                Category = product.category?.Name ?? "Unknown",
-                CategoriesId = product.categoryId,
-                // Return the list of image URLs for the first color
-                ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Profile_Image//{img}").ToList(),
-                MerchantName = product.merchant?.UserName ?? "Unknown",
-                MerchantId = product.merchantId,
+                OriginalComment = product.feedbackcmments?
+                                    .Select(fc => fc.OriginalComment)
+                                    .ToArray() ?? new string[] { },
+                TranslateComment = product.feedbackcmments?
+                                    .Select(fc => fc.TranslateComment)
+                                    .ToArray() ?? new string[] { },
             };
                     
 
@@ -204,6 +211,7 @@ namespace Project.Controllers
 
         // GET: api/Show Size Image for Color
         [HttpGet("showsizeImageforColor")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> showsizeImageforColor(int productId, int colorId)
         {
             // Fetch the product with its related data
@@ -236,7 +244,7 @@ namespace Project.Controllers
             var result = new
             {
                 ProductId = product.Id,
-                Images = imagesForColor.Select(img => $"//aston.runasp.net//Profile_Image//{img}").ToList(),
+                Images = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img}").ToList(),
                 Sizes = sizesForColor.Select(s => new { s.Id, s.Gradient }).ToList()  // Select both Id and Gradient for sizes
             };
 
@@ -251,6 +259,7 @@ namespace Project.Controllers
 
 
         [HttpGet("ShowProductByCategory")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByCategory(int categoryId, int count)
         {
             // Fetch the products by category
@@ -278,7 +287,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
             
             return Ok(result);
@@ -288,6 +297,7 @@ namespace Project.Controllers
 
         // GET: api/Show Product By Merchantid
         [HttpGet("ShowProductByMerchantId")]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByMerchantId(string merchantId, int count)
         {
             // Fetch the products by merchant ID
@@ -315,7 +325,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Profile_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -349,7 +359,7 @@ namespace Project.Controllers
                 Discount = p.product.Discount,
                 UnitPrice = p.product.UnitPrice,
                 SellPrice = p.product.SellPrice,
-                Image = $"//aston.runasp.net//Profile_Image//{p.product.images.FirstOrDefault().ImageData ?? "default-image.jpg"}"
+                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault().ImageData ?? "default-image.jpg"}"
 
             }).ToList();
             return Ok(FavItem);
@@ -373,7 +383,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 MerchantId = p.merchantId,
                 MerchantName = p.merchant.UserName,
-                Image = $"//aston.runasp.net//Profile_Image//{p.merchant.IMG.FirstOrDefault().ToString() ?? "default-Perimage.jpg"}",
+                Image = $"//aston.runasp.net//Product_Image//{p.merchant.IMG.FirstOrDefault().ToString() ?? "default-Perimage.jpg"}",
                 Rate = p.merchant.Feedback
 
             }).ToList();
@@ -416,7 +426,7 @@ namespace Project.Controllers
 
             for (var item = 0; item< CartItems.image.Length; item++)
             {
-                CartItems.image[item] = $"//aston.runasp.net//Profile_Image//{CartItems.image[item]}";
+                CartItems.image[item] = $"//aston.runasp.net//Product_Image//{CartItems.image[item]}";
 
             }
 

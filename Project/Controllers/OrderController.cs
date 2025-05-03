@@ -65,20 +65,31 @@ namespace Project.Controllers {
             foreach (var cart in carts)
             {
                 var product = context.Products.FirstOrDefault(p => p.Id == cart.productId);
+                if (product == null)
+                {
+                    return BadRequest("Product not found");
+                }
                 var productDetails = context.ProductDetails
-                                            .Include(p => p.color)
-                                            .Include(p => p.size)
-                                            .FirstOrDefault(p => p.Id == cart.colorId);
-
+                    .Include(p => p.color)
+                    .Include(p => p.size)
+                    .FirstOrDefault(p => p.productId == cart.productId && p.colorId == cart.colorId && p.sizeId == cart.sizeId);
+                if (productDetails == null)
+                {
+                    return BadRequest("Product details not found");
+                }
+                if (productDetails.Quantity == 0)
+                {
+                    return BadRequest("Product is out of stock");
+                }
                 if (cart.Quantity > productDetails.Quantity)
                 {
                     return BadRequest("Not enough quantity");
                 }
-
                 if (product.Status != ProStatus.Active)
                 {
                     return BadRequest("Product is not active now");
                 }
+                
 
                 var orderItems = new OrderItem()
                 {

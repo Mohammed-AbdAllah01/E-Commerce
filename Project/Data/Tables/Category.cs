@@ -8,6 +8,8 @@ namespace Project.Tables
         [MaxLength(50)]
         public required string Name { get; set; }
 
+        public required string Type { get; set; }
+
         public ICollection<Product>? products { get; set; }  //one To Many  
     }
 }

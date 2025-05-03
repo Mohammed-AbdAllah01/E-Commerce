@@ -40,7 +40,9 @@ namespace Project.DTOs
             public string Description { get; set; }
 
             [Required]
-            public int CategoryId { get; set; }
+            public string CategoryName { get; set; }
+
+            public required string Type { get; set; }
 
             [Required]
             [Range(0, double.MaxValue)]

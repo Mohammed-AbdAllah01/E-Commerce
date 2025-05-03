@@ -344,7 +344,7 @@ namespace Project.Controllers {
             }
             if (string.IsNullOrEmpty(Pro.Title) || string.IsNullOrEmpty(Pro.Description) ||
                 string.IsNullOrEmpty(Pro.merchantId) || Pro.Discount < 0 ||
-                Pro.CategoryId <= 0 || Pro.UnitPrice <= 0)
+                string.IsNullOrEmpty(Pro.CategoryName) || Pro.UnitPrice <= 0)
             {
                 return BadRequest("Invalid product data.");
             }
@@ -353,10 +353,13 @@ namespace Project.Controllers {
             {
                 return NotFound("Merchant not found.");
             }
-            var category = await context.Categories.FindAsync(Pro.CategoryId);
+            var scat = Pro.CategoryName.ToLower();
+            var category = await context.Categories.FindAsync(scat);
             if (category == null)
             {
-                return NotFound("Category not found.");
+                category = new Category{ Name = scat , Type = Pro.Type };
+                context.Categories.Add(category);
+                await context.SaveChangesAsync();
             }
             var exist = await context.Products
                 .FirstOrDefaultAsync(p => p.Title == Pro.Title && p.Description == Pro.Description);
@@ -364,16 +367,18 @@ namespace Project.Controllers {
             {
                 return BadRequest("Product with this title and Description already exists.");
             }
+         
             var product = new Product
             {
                 Title = Pro.Title,
                 Description = Pro.Description,
                 UnitPrice = Pro.UnitPrice,
                 Discount = Pro.Discount,
-                categoryId = Pro.CategoryId,
+                categoryId = category.Id,
                 merchantId = Pro.merchantId,
                 Status = ProStatus.Pending
             };
+            product.CalculateSellPrice();
             context.Products.Add(product);
             await context.SaveChangesAsync();
             return Ok(new { productId = product.Id });
@@ -405,7 +410,7 @@ namespace Project.Controllers {
                 {
                     return BadRequest("Invalid please Enter Quantity.");
                 }
-            }           
+            }
             foreach (var size in details.Size)
             {
                 if (string.IsNullOrEmpty(size))
@@ -428,7 +433,7 @@ namespace Project.Controllers {
             {
                 imageUrl3 = SaveImage(details.image3);
             }
-           var scolor = details.Color.ToLower();
+            var scolor = details.Color.ToLower();
 
             var color = await context.Colors.FirstOrDefaultAsync(c => c.Name == scolor);
             if (color == null)
@@ -450,7 +455,7 @@ namespace Project.Controllers {
                 }
                 sizeList.Add(existingSize);
             }
-
+            var count = 0;
             for (int i = 0; i < sizeList.Count; i++)
             {
                 var size = sizeList[i];
@@ -466,13 +471,16 @@ namespace Project.Controllers {
                         sizeId = size.Id,
                         Quantity = quantity
                     };
-
+                    count++;
                     context.ProductDetails.Add(productDetail);
-
+                    await context.SaveChangesAsync();
                 }
-            
             }
-            await context.SaveChangesAsync();
+            if (count == 0)
+            {
+                return BadRequest("Product details already exist for this color and size.");
+            }
+                        
             if (!string.IsNullOrEmpty(imageUrl1))
             {
                 var productImage1 = new Image
@@ -507,10 +515,9 @@ namespace Project.Controllers {
             }
             await context.SaveChangesAsync();
             return Ok("Product added successfully.");
-
-
         }
 
+        
 
 
 
