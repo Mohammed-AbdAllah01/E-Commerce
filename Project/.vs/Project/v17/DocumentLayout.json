@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:dtos\\productdetaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -54,11 +58,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "ProductDetailDTO.cs",
+              "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\ProductDetailDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\ProductDetailDTO.cs",
+              "ToolTip": "D:\\Study\\Project\\Project\\DTOs\\ProductDetailDTO.cs",
+              "RelativeToolTip": "DTOs\\ProductDetailDTO.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAcwDsAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T12:06:06.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -66,12 +83,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T22:20:19.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T22:20:19.856Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Category.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Tables\\Category.cs",
               "RelativeDocumentMoniker": "Data\\Tables\\Category.cs",
@@ -79,12 +95,11 @@
               "RelativeToolTip": "Data\\Tables\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T22:13:33.362Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T22:13:33.362Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Admin.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Tables\\Admin.cs",
               "RelativeDocumentMoniker": "Data\\Tables\\Admin.cs",
@@ -92,12 +107,11 @@
               "RelativeToolTip": "Data\\Tables\\Admin.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAgwAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T22:02:38.258Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T22:02:38.258Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "DeliveryRep.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Tables\\DeliveryRep.cs",
               "RelativeDocumentMoniker": "Data\\Tables\\DeliveryRep.cs",
@@ -105,12 +119,11 @@
               "RelativeToolTip": "Data\\Tables\\DeliveryRep.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAcwBMAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:59:55.194Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T21:59:55.194Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "MerchantController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\MerchantController.cs",
               "RelativeDocumentMoniker": "Controllers\\MerchantController.cs",
@@ -123,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "FeedbackComments.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Relation\\FeedbackComments.cs",
               "RelativeDocumentMoniker": "Data\\Relation\\FeedbackComments.cs",
@@ -131,12 +144,11 @@
               "RelativeToolTip": "Data\\Relation\\FeedbackComments.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:09:04.566Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T21:09:04.566Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Feedback.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Relation\\Feedback.cs",
               "RelativeDocumentMoniker": "Data\\Relation\\Feedback.cs",
@@ -148,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -167,14 +179,14 @@
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeToolTip": "Controllers\\ProductController.cs",
-              "ViewState": "AgIAABsCAAAAAAAAAAAqwCICAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAG0CAAAAAAAAAAAiwH8CAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T16:03:09.774Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
@@ -187,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",

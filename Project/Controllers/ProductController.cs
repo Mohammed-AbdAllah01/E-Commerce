@@ -618,8 +618,38 @@ namespace Project.Controllers
             }
 
 
-            
-            
+        [HttpGet("TrainModel")]
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> TrainModel()
+        {
+            var activeProducts = await _userManager.Products
+                .Where(p => p.Status == ProStatus.Active)
+                .Include(p => p.images)
+                .Include(p => p.category)
+                .ToListAsync();
+
+            if (activeProducts.Count < 1)
+                return NotFound(new { message = "No active products found" });
+
+            var selectedProducts = activeProducts
+                .Select(p => p)
+                .ToList();
+
+            var result = selectedProducts.Select(p => new ProductModelDTO
+            {
+                Id = p.Id,
+                Name = p.Title,
+                Category = p.category?.Name ?? "No Category",
+                Description = p.Description,
+            }).ToList();
+
+            return Ok(result);
+
         }
+
+
+
+
+    }
     }
 
