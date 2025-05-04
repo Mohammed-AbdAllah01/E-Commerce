@@ -619,7 +619,6 @@ namespace Project.Controllers
 
 
         [HttpGet("TrainModel")]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> TrainModel()
         {
             var activeProducts = await _userManager.Products
