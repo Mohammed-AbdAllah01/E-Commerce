@@ -46,8 +46,7 @@
               "RelativeToolTip": "Data\\Relation\\EditCustomer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T18:43:11.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T18:43:11.5Z"
             },
             {
               "$type": "Document",
@@ -59,8 +58,7 @@
               "RelativeToolTip": "Controllers\\AdminController.cs",
               "ViewState": "AgIAAEYCAAAAAAAAAAAQwE0CAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T18:31:08.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T18:31:08.951Z"
             },
             {
               "$type": "Document",
@@ -72,8 +70,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-04T17:52:41.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T17:52:41.013Z"
             },
             {
               "$type": "Document",
@@ -85,8 +82,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T15:08:58.588Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T15:08:58.588Z"
             },
             {
               "$type": "Document",
@@ -98,8 +94,7 @@
               "RelativeToolTip": "DTOs\\CommentDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T14:58:00.087Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T14:58:00.087Z"
             },
             {
               "$type": "Document",
@@ -109,7 +104,7 @@
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeToolTip": "Controllers\\ProductController.cs",
-              "ViewState": "AgIAAKYCAAAAAAAAAAAAAMUCAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAKYCAAAAAAAAAAAqwMUCAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-04T14:44:34.926Z",
               "EditorCaption": ""
