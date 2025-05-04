@@ -612,6 +612,22 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
+    "Method": "AddComment",
+    "RelativePath": "api/Product/AddComment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "com",
+        "Type": "Project.DTOs.CommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
     "Method": "AddProductToCart",
     "RelativePath": "api/Product/AddToCart",
     "HttpMethod": "POST",
@@ -873,6 +889,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
+    "Method": "TrainModel",
+    "RelativePath": "api/Product/TrainModel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

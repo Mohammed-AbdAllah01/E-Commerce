@@ -313,71 +313,48 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Data.Relation.Feedback", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("productId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("customerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Star")
                         .HasColumnType("int");
 
-                    b.Property<string>("customerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("productId", "customerId");
 
                     b.HasIndex("customerId");
-
-                    b.HasIndex("productId");
 
                     b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Project.Data.Relation.FeedbackComments", b =>
                 {
-                    b.Property<int>("feedbackId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("customerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("productId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("feedbackId"));
+                    b.Property<string>("OriginalComment")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("CommentRate")
                         .HasColumnType("float");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateCreate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<string>("OriginalComment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TranslateComment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("feedbackId1")
-                        .HasColumnType("int");
+                    b.HasKey("customerId", "productId", "OriginalComment");
 
-                    b.HasKey("feedbackId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("feedbackId1");
+                    b.HasIndex("productId");
 
                     b.ToTable("FeedbackComments");
                 });
@@ -985,23 +962,21 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Data.Relation.FeedbackComments", b =>
                 {
-                    b.HasOne("Project.Tables.Customer", null)
+                    b.HasOne("Project.Tables.Customer", "customer")
                         .WithMany("feedbackcmments")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Project.Tables.Product", null)
-                        .WithMany("feedbackcmments")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Project.Data.Relation.Feedback", "feedback")
-                        .WithMany()
-                        .HasForeignKey("feedbackId1")
+                        .HasForeignKey("customerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("feedback");
+                    b.HasOne("Project.Tables.Product", "product")
+                        .WithMany("feedbackcmments")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("customer");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("Project.Data.Relation.History", b =>

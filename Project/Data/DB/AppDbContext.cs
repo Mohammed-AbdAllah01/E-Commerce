@@ -94,6 +94,7 @@ namespace DataBase.Data
            .HasIndex(p => p.NationalId)
            .IsUnique(); //
 
+
             //---------Custom Identity Tables Configurations
             modelBuilder.Entity<IdentityUserLogin<string>>()
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey });
@@ -175,12 +176,14 @@ namespace DataBase.Data
             //modelBuilder.Entity<ProductDetail>()
             //    .HasKey(pd => new { pd.Id,pd.productId, pd.colorId, pd.sizeId });
 
-           // modelBuilder.Entity<Cart>()
+            // modelBuilder.Entity<Cart>()
             //    .HasKey(c => new { c.productId, c.colorId, c.sizeId, c.customerId });
-
+            
+            modelBuilder.Entity<Feedback>()
+                .HasKey(fc => new { fc.productId , fc.customerId });
 
             modelBuilder.Entity<FeedbackComments>()
-                .HasKey(fc => new { fc.feedbackId});
+                .HasKey(fc => new { fc.customerId, fc.productId , fc.OriginalComment});
 
             modelBuilder.Entity<History>()
                 .HasKey(d => new { d.productId, d.customerId });

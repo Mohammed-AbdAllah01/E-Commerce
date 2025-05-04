@@ -618,6 +618,101 @@ namespace Project.Controllers
             }
 
 
+        [HttpPost("AddComment")]
+        public async Task<IActionResult> AddComment(CommentDTO com)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // Check if the product exists
+            var product = _userManager.Products.FirstOrDefault(f => f.Id == com.productId);
+            var customer = _userManager.Customers.FirstOrDefault(f => f.Id == com.customerId);
+            if (product == null)
+            {
+                return NotFound(new { message = "Product not found" });
+            }
+            if (customer == null)
+            {
+                return NotFound(new { message = "Customer not found" });
+            }
+            // Check if them exis in Order and orderITems
+            var exist = _userManager.Orders
+                .Include(o => o.orderItems)
+                .FirstOrDefault(o => o.CustomerId == com.customerId && o.orderItems.Any(oi => oi.productId == com.productId));
+
+            if (exist == null)
+            {
+                return NotFound(new { message = "You must buy the product before commenting" });
+            }
+            if (exist.Status != OrdStatus.Recieved)
+            {
+                return NotFound(new { message = "You must Recieve Order before commenting" });
+            }
+
+
+            var comment = new Feedback
+            {
+                productId = com.productId,
+                customerId = com.customerId,
+                Star = com.Star,
+            };
+            _userManager.Feedbacks.Add(comment);
+            _userManager.SaveChanges();
+            var feedbackComment = new FeedbackComments
+            {
+                productId = com.productId,
+                customerId = com.customerId,
+                OriginalComment = com.OriginalComment,
+                TranslateComment = com.TranslateComment,
+                CommentRate = com.CommentRate,
+                DateCreate = DateTime.Now,               
+            };
+            _userManager.FeedbackComments.Add(feedbackComment);
+            _userManager.SaveChanges();
+            return Ok(new { message = "Comment added successfully" });
+
+        }
+
+
+        [HttpGet("CheckBuyingProduct")]
+        public async Task<IActionResult> CheckBuyingProduct(string customerId, int productId)
+        {
+            // Check if the product exists
+            var product = await _userManager.Products.FirstOrDefaultAsync(f => f.Id == productId);
+            if (product == null)
+            {
+                return NotFound(new { message = "Product not found" });
+            }
+
+            // Check if the customer exists
+            var customer = await _userManager.Customers.FirstOrDefaultAsync(f => f.Id == customerId);
+            if (customer == null)
+            {
+                return NotFound(new { message = "Customer not found" });
+            }
+
+            // Check if the customer has a completed order for this product
+            var exist = _userManager.Orders
+               .Include(o => o.orderItems)
+               .FirstOrDefault(o => o.CustomerId == customerId && o.orderItems.Any(oi => oi.productId == productId));
+
+
+            if (exist == null)
+            {
+              return NotFound(new { BuyIt = false });
+            }
+            if (exist.Status != OrdStatus.Recieved)
+            {
+                return NotFound(new { BuyIt = false });
+            }
+
+            return Ok(new { BuyIt = true });
+        }
+
+
+
+
         [HttpGet("TrainModel")]
         public async Task<IActionResult> TrainModel()
         {

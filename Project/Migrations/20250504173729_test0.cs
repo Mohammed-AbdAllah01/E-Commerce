@@ -483,18 +483,44 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FeedbackComments",
+                columns: table => new
+                {
+                    productId = table.Column<int>(type: "int", nullable: false),
+                    customerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OriginalComment = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TranslateComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
+                    CommentRate = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeedbackComments", x => new { x.customerId, x.productId, x.OriginalComment });
+                    table.ForeignKey(
+                        name: "FK_FeedbackComments_Customers_customerId",
+                        column: x => x.customerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FeedbackComments_Products_productId",
+                        column: x => x.productId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     productId = table.Column<int>(type: "int", nullable: false),
                     customerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Star = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.PrimaryKey("PK_Feedbacks", x => new { x.productId, x.customerId });
                     table.ForeignKey(
                         name: "FK_Feedbacks_Customers_customerId",
                         column: x => x.customerId,
@@ -696,43 +722,6 @@ namespace Project.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "FeedbackComments",
-                columns: table => new
-                {
-                    feedbackId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    feedbackId1 = table.Column<int>(type: "int", nullable: false),
-                    OriginalComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TranslateComment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
-                    CommentRate = table.Column<double>(type: "float", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedbackComments", x => x.feedbackId);
-                    table.ForeignKey(
-                        name: "FK_FeedbackComments_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FeedbackComments_Feedbacks_feedbackId1",
-                        column: x => x.feedbackId1,
-                        principalTable: "Feedbacks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FeedbackComments_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_NationalId",
                 table: "Admins",
@@ -813,29 +802,14 @@ namespace Project.Migrations
                 column: "productId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeedbackComments_CustomerId",
+                name: "IX_FeedbackComments_productId",
                 table: "FeedbackComments",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FeedbackComments_feedbackId1",
-                table: "FeedbackComments",
-                column: "feedbackId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FeedbackComments_ProductId",
-                table: "FeedbackComments",
-                column: "ProductId");
+                column: "productId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_customerId",
                 table: "Feedbacks",
                 column: "customerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Feedbacks_productId",
-                table: "Feedbacks",
-                column: "productId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Histories_customerId",
@@ -955,6 +929,9 @@ namespace Project.Migrations
                 name: "FeedbackComments");
 
             migrationBuilder.DropTable(
+                name: "Feedbacks");
+
+            migrationBuilder.DropTable(
                 name: "Histories");
 
             migrationBuilder.DropTable(
@@ -988,19 +965,16 @@ namespace Project.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Feedbacks");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Colors");
 
             migrationBuilder.DropTable(
-                name: "Sizes");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Sizes");
 
             migrationBuilder.DropTable(
                 name: "Customers");
