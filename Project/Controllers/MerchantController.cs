@@ -224,7 +224,7 @@ namespace Project.Controllers {
                 Discount = p.Discount,
                 Unite = p.UnitPrice,
                 SellPrice = p.SellPrice,
-                status = p.Status,
+                status = p.Status.ToString(),
                 Quantity = p.Quantity,
                 Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
             }).ToList();
@@ -247,7 +247,7 @@ namespace Project.Controllers {
                 .ToListAsync();
             if (productDetails == null || productDetails.Count == 0)
             {
-                return NotFound(new { message = "No product details found for this merchant." });
+                return NotFound(new { message = "No product details found for this Product." });
             }
             var result = productDetails.Select(p => new ProductDetailDTO
             {

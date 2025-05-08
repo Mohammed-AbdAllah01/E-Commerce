@@ -53,11 +53,10 @@ builder.Services.AddCustomJWTAuth(builder.Configuration);
 var app = builder.Build();
 
 // Middleware configuration
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 // Enable static file serving (for serving images, CSS, JavaScript, etc.)
 app.UseStaticFiles();

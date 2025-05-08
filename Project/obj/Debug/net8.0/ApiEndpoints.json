@@ -686,6 +686,27 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
+    "Method": "CheckBuyingProduct",
+    "RelativePath": "api/Product/CheckBuyingProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
     "Method": "DeleteProductFromCart",
     "RelativePath": "api/Product/DeleteFromCart",
     "HttpMethod": "DELETE",

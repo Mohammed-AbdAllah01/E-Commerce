@@ -11,7 +11,7 @@ namespace Project.DTOs
         public int Id { get; set; }
         public string Description { get; set; }
         public string title { get; set; }
-        public ProStatus status { get; set; }
+        public string status { get; set; }
         public double Discount { get; set; }
         public double Unite { get; set; }
         public double SellPrice { get; set; }
