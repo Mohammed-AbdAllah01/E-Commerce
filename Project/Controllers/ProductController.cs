@@ -21,14 +21,13 @@ namespace Project.Controllers
             private readonly AppDbContext _userManager;
 
 
-
         // GET: api/Show Random Product 
         [HttpGet("ShowRandomProduct")]
         [Authorize (Roles = "Customer")]
         public async Task<IActionResult> ShowRandomProduct(int count)
         {
             var activeProducts = await _userManager.Products
-                .Where(p => p.Status == ProStatus.Active)
+                .Where(p => p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -52,7 +51,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -66,7 +65,7 @@ namespace Project.Controllers
         public async Task<IActionResult> ShowHighFeedbackProduct(int count)
         {
             var activeProducts = await _userManager.Products
-                .Where(p => p.Status == ProStatus.Active)
+                .Where(p => p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -90,12 +89,34 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
 
             return Ok(result);
         }
 
+        [HttpGet("ShowAllProduct")]//Title,SalePrice, Category ,Image
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> ShowAllProduct ()
+        {
+            var products = await _userManager.Products.
+                Include(p => p.images)
+                .Include(p => p.category)
+                .ToListAsync();
+            if(products == null || !products.Any())
+                return NotFound(new { message = "No products found" });
+            var productList = products.Select(p => new AdminProductDTO
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Status = p.Status.ToString(),
+                MerchantName = p.merchant?.UserName ?? "Unknown",
+                MerchantId = p.merchantId,
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
+            }).ToList();
+            return Ok(productList);
+
+        }
 
 
 
@@ -178,7 +199,7 @@ namespace Project.Controllers
                 CategoriesId = product.categoryId,
 
                 // Return the list of image URLs for the first color
-                ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img}").ToList(),
+                ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img ?? "unknownProduct.jpg"}").ToList(),
                 MerchantName = product.merchant?.UserName ?? "Unknown",
                 MerchantId = product.merchantId,
 
@@ -244,7 +265,7 @@ namespace Project.Controllers
             var result = new
             {
                 ProductId = product.Id,
-                Images = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img}").ToList(),
+                Images = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img ?? "unknownProduct.jpg"}").ToList(),
                 Sizes = sizesForColor.Select(s => new { s.Id, s.Gradient }).ToList()  // Select both Id and Gradient for sizes
             };
 
@@ -264,7 +285,7 @@ namespace Project.Controllers
         {
             // Fetch the products by category
             var activeProducts = await _userManager.Products
-                .Where(p => p.categoryId == categoryId && p.Status == ProStatus.Active)
+                .Where(p => p.categoryId == categoryId && p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -287,7 +308,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
             
             return Ok(result);
@@ -302,7 +323,7 @@ namespace Project.Controllers
         {
             // Fetch the products by merchant ID
             var activeProducts = await _userManager.Products
-                .Where(p => p.merchantId == merchantId && p.Status == ProStatus.Active)
+                .Where(p => p.merchantId == merchantId && p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -325,7 +346,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Discount = p.Discount,
                 UnitPrice = p.UnitPrice,
-                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "default-image.jpg"}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{p.images?.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
 
             return Ok(result);
@@ -359,7 +380,7 @@ namespace Project.Controllers
                 Discount = p.product.Discount,
                 UnitPrice = p.product.UnitPrice,
                 SellPrice = p.product.SellPrice,
-                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault().ImageData ?? "default-image.jpg"}"
+                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault().ImageData ?? "unknownProduct.jpg"}"
 
             }).ToList();
             return Ok(FavItem);
@@ -383,7 +404,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 MerchantId = p.merchantId,
                 MerchantName = p.merchant.UserName,
-                Image = $"//aston.runasp.net//Product_Image//{p.merchant.IMG.FirstOrDefault().ToString() ?? "default-Perimage.jpg"}",
+                Image = $"//aston.runasp.net//Product_Image//{p.merchant.IMG.FirstOrDefault().ToString() ?? "unknownProduct.jpg"}",
                 Rate = p.merchant.Feedback
 
             }).ToList();
@@ -426,7 +447,7 @@ namespace Project.Controllers
 
             for (var item = 0; item< CartItems.image.Length; item++)
             {
-                CartItems.image[item] = $"//aston.runasp.net//Product_Image//{CartItems.image[item]}";
+                CartItems.image[item] = $"//aston.runasp.net//Product_Image//{CartItems.image[item] ?? "unknownProduct.jpg"}";
 
             }
 

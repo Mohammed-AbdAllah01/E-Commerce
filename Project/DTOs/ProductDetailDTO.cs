@@ -16,7 +16,7 @@ namespace Project.DTOs
         public double Unite { get; set; }
         public double SellPrice { get; set; }
         public string CategoryName { get; set; }
-        public string Image { get; set; }
+        public string Image { get; set; }        
         public int Quantity { get; set; }
     }
 

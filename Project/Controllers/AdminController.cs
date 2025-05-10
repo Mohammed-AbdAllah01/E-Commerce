@@ -529,7 +529,7 @@ namespace Project.Controllers
                 Quantity = p.Quantity,
                 MerchantName = p.merchant?.UserName ?? "Unknown",
                 MerchantId = p.merchantId,
-                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
 
             return Ok(productList);
@@ -559,7 +559,7 @@ namespace Project.Controllers
                 Quantity = p.Quantity,
                 MerchantName = p.merchant?.UserName ?? "Unknown",
                 MerchantId = p.merchantId,
-                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
 
             return Ok(productList);

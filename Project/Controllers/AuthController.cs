@@ -497,7 +497,7 @@ namespace Project.Controllers
             var Profile = new dtoProfile
             {
                 Name = user.UserName,
-                Image = $"//aston.runasp.net//Profile_Image//{user.IMG}"
+                Image = $"//aston.runasp.net//Profile_Image//{user.IMG ?? "unknownUser.jpg"}"
             };
             if (Profile.Image == null )
             {

@@ -803,6 +803,16 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
+    "Method": "ShowAllProduct",
+    "RelativePath": "api/Product/ShowAllProduct",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
     "Method": "ShowHighFeedbackProduct",
     "RelativePath": "api/Product/ShowHighFeedbackProduct",
     "HttpMethod": "GET",

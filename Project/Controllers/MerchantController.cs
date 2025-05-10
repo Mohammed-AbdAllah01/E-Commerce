@@ -145,7 +145,7 @@ namespace Project.Controllers {
                 Quantity = o.Quantity,
                 Status = o.Status.ToString(),
                 Price = o.product.SellPrice,
-                ImageUrl = $"//aston.runasp.net//Product_Image//{o.product.images.FirstOrDefault()?.ImageData}"
+                ImageUrl = $"//aston.runasp.net//Product_Image//{o.product.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
             return Ok(result);
         }
@@ -226,7 +226,7 @@ namespace Project.Controllers {
                 SellPrice = p.SellPrice,
                 status = p.Status.ToString(),
                 Quantity = p.Quantity,
-                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault(e => e.productId == p.Id && e.colorId == p.ProductDetails.FirstOrDefault().colorId)?.ImageData ?? "unknownProduct.jpg"}"
             }).ToList();
             return Ok(result);
 
@@ -256,7 +256,7 @@ namespace Project.Controllers {
                 Color = p.color.Name,
                 Size = p.size.Gradient,
                 Quantity = p.Quantity,
-                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault()?.ImageData}"
+                Image = $"//aston.runasp.net//Product_Image//{p.product.images.FirstOrDefault(e => e.productId == p.productId && e.colorId == p.colorId)?.ImageData ?? "unknownProduct.jpg"}"
 
             }).ToList();
             return Ok(result);
@@ -311,19 +311,19 @@ namespace Project.Controllers {
                 return BadRequest(new { message = "No fields to update." });
             }
 
-            if (EP.Title != null)
+            if (EP.Title != null && EP.Title != product.Title)
             {
                 product.Title = EP.Title;
             }
-            if (EP.Description != null)
+            if (EP.Description != null && EP.Description != product.Description)
             {
                 product.Description = EP.Description;
             }
-            if (EP.Discount != null)
+            if (EP.Discount != null && EP.Discount != product.Discount)
             {
                 product.Discount = EP.Discount;
             }
-            if (EP.UnitPrice != null)
+            if (EP.UnitPrice != null && EP.UnitPrice != product.UnitPrice)
             {
                 product.UnitPrice = EP.UnitPrice;
             }
