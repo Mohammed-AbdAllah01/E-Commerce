@@ -23,7 +23,7 @@ namespace Project.Controllers
 
         // GET: api/Show Random Product 
         [HttpGet("ShowRandomProduct")]
-        [Authorize (Roles = "Customer")]
+        //[Authorize (Roles = "Customer")]
         public async Task<IActionResult> ShowRandomProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -61,7 +61,7 @@ namespace Project.Controllers
 
         // GET: api/Show High Rate Product
         [HttpGet("ShowHighFeedbackProduct")]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowHighFeedbackProduct(int count)
         {
             var activeProducts = await _userManager.Products
@@ -96,11 +96,12 @@ namespace Project.Controllers
         }
 
         [HttpGet("ShowAllProduct")]//Title,SalePrice, Category ,Image
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowAllProduct ()
         {
             var products = await _userManager.Products.
                 Include(p => p.images)
+                .Include(p => p.merchant)
                 .Include(p => p.category)
                 .ToListAsync();
             if(products == null || !products.Any())
@@ -110,6 +111,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 Title = p.Title,
                 Status = p.Status.ToString(),
+                CategoryName = p.category?.Name ?? "Unknown",
                 MerchantName = p.merchant?.UserName ?? "Unknown",
                 MerchantId = p.merchantId,
                 Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
@@ -133,7 +135,7 @@ namespace Project.Controllers
 
         // GET: api/Show Specific Product
         [HttpGet("ShowSpecificProduct")]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowSpecificProduct(int id)
         {
             // Check if the product exists
@@ -232,7 +234,7 @@ namespace Project.Controllers
 
         // GET: api/Show Size Image for Color
         [HttpGet("showsizeImageforColor")]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> showsizeImageforColor(int productId, int colorId)
         {
             // Fetch the product with its related data
@@ -280,7 +282,7 @@ namespace Project.Controllers
 
 
         [HttpGet("ShowProductByCategory")]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByCategory(int categoryId, int count)
         {
             // Fetch the products by category
@@ -318,7 +320,7 @@ namespace Project.Controllers
 
         // GET: api/Show Product By Merchantid
         [HttpGet("ShowProductByMerchantId")]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> ShowProductByMerchantId(string merchantId, int count)
         {
             // Fetch the products by merchant ID

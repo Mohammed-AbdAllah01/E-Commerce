@@ -31,14 +31,13 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials(); // Only use this if credentials (cookies/tokens in headers) are needed
-    });
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 });
+
+
 
 
 
@@ -57,7 +56,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
-
+app.UseCors("AllowAll");
 // Enable static file serving (for serving images, CSS, JavaScript, etc.)
 app.UseStaticFiles();
 

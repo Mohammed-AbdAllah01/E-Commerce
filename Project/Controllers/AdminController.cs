@@ -512,6 +512,7 @@ namespace Project.Controllers
         public async Task<IActionResult> ShowAllProducts()
         {
             var products = await _context.Products
+                .Include(p => p.category)
                 .Include(p => p.merchant)
                 .Include(p => p.images)
                 .Include(p => p.ProductDetails)
@@ -527,6 +528,7 @@ namespace Project.Controllers
                 Feedback = p.Feedback,
                 Status = p.Status.ToString(), 
                 Quantity = p.Quantity,
+                CategoryName = p.category.Name,
                 MerchantName = p.merchant?.UserName ?? "Unknown",
                 MerchantId = p.merchantId,
                 Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
