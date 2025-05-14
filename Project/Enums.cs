@@ -38,4 +38,14 @@
        
     }
 
+    public enum EventStatus
+    {
+        view,
+        add_to_cart,
+        add_to_wishlist,
+        remove_from_cart,
+        remove_from_wishlist
+
+    }
+
 }

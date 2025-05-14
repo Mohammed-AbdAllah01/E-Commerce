@@ -27,7 +27,7 @@ namespace Project.Controllers
         public async Task<IActionResult> ShowRandomProduct(int count)
         {
             var activeProducts = await _userManager.Products
-                .Where(p => p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
+                .Where(p => p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -47,6 +47,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 Title = p.Title,
                 SellPrice = p.SellPrice,
+                Status = p.Status.ToString(),
                 Category = p.category?.Name ?? "No Category",
                 Feedback = p.Feedback,
                 Discount = p.Discount,
@@ -65,7 +66,7 @@ namespace Project.Controllers
         public async Task<IActionResult> ShowHighFeedbackProduct(int count)
         {
             var activeProducts = await _userManager.Products
-                .Where(p => p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
+                .Where(p => p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -85,6 +86,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 Title = p.Title,
                 SellPrice = p.SellPrice,
+                Status = p.Status.ToString(),
                 Category = p.category?.Name ?? "No Category",
                 Feedback = p.Feedback,
                 Discount = p.Discount,
@@ -106,11 +108,14 @@ namespace Project.Controllers
                 .ToListAsync();
             if(products == null || !products.Any())
                 return NotFound(new { message = "No products found" });
-            var productList = products.Select(p => new AdminProductDTO
+            var productList = products.Select(p => new AllProductDTO
             {
                 Id = p.Id,
                 Title = p.Title,
                 Status = p.Status.ToString(),
+                Discount = p.Discount,
+                UnitPrice = p.UnitPrice,
+                SellPrice = p.SellPrice,
                 CategoryName = p.category?.Name ?? "Unknown",
                 MerchantName = p.merchant?.UserName ?? "Unknown",
                 MerchantId = p.merchantId,
@@ -180,6 +185,7 @@ namespace Project.Controllers
             {
                 Id = product.Id,
                 Title = product.Title,
+                Status = product.Status.ToString(),
                 Description = product.Description,
                 Star = product.Feedback,
                 UnitPrice = product.UnitPrice,
@@ -305,6 +311,7 @@ namespace Project.Controllers
             {
                 Id = p.Id,
                 Title = p.Title,
+                Status = p.Status.ToString(),
                 SellPrice = p.SellPrice,
                 Category = p.category?.Name ?? "No Category",
                 Feedback = p.Feedback,
@@ -344,6 +351,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 Title = p.Title,
                 SellPrice = p.SellPrice,
+                Status = p.Status.ToString(),
                 Category = p.category?.Name ?? "No Category",
                 Feedback = p.Feedback,
                 Discount = p.Discount,
@@ -379,6 +387,7 @@ namespace Project.Controllers
                 Id = p.Id,
                 ProductId = p.productId,
                 Title = p.product.Title,
+                Status = p.product.Status.ToString(),
                 Discount = p.product.Discount,
                 UnitPrice = p.product.UnitPrice,
                 SellPrice = p.product.SellPrice,

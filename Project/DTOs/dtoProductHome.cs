@@ -13,6 +13,7 @@ namespace Project.DTOs
         public required double Feedback { get; set; }
         public required string Title { get; set; }
         public required string Category { get; set; }
+        public required string Status { get; set; }
 
         public required string ImageUrl { get; set; }
 
@@ -22,6 +23,7 @@ namespace Project.DTOs
     {
         public required int Id { get; set; }
         public required string Title { get; set; }
+        public required string Status { get; set; }
         public required double Star { get; set; }
         public required string[] OriginalComment { get; set; }
         public required string[] TranslateComment { get; set; }
@@ -49,7 +51,7 @@ namespace Project.DTOs
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-       
+        public required string Status { get; set; }
         public string Title { get; set; }
         public double Discount { get; set; }
         public double UnitPrice { get; set; }

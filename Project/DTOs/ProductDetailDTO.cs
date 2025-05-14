@@ -29,9 +29,22 @@ namespace Project.DTOs
             public string Image { get; set; }
             public int Quantity { get; set; }
           }
+    public class AllProductDTO
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public double Feedback { get; set; }
+        public string Status { get; set; }
+        public double Discount { get; set; }
+        public double UnitPrice { get; set; }
+        public double SellPrice { get; set; }
+        public string MerchantName { get; set; }
+        public string CategoryName { get; set; }
+        public string MerchantId { get; set; }
+        public string Image { get; set; }
+    }
 
-   
-        public class AddFullProductDTO
+    public class AddFullProductDTO
         {
             [Required]
             public string Title { get; set; }

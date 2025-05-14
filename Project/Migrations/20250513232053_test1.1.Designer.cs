@@ -4,6 +4,7 @@ using DataBase.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250513232053_test1.1")]
+    partial class test11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -976,7 +979,7 @@ namespace Project.Migrations
             modelBuilder.Entity("Project.Data.Relation.History", b =>
                 {
                     b.HasOne("Project.Tables.Customer", "customer")
-                        .WithMany("histories")
+                        .WithMany()
                         .HasForeignKey("customerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1261,8 +1264,6 @@ namespace Project.Migrations
                     b.Navigation("feedbackcmments");
 
                     b.Navigation("feedbacks");
-
-                    b.Navigation("histories");
 
                     b.Navigation("notifications");
                 });

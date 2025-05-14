@@ -42,6 +42,8 @@ namespace Project.Tables
         public ICollection<Feedback>? feedbacks { get; set; }  //Many To Many
         public ICollection<FeedbackComments>? feedbackcmments { get; set; }
 
+        public ICollection<History>? histories { get; set; }  //Many To Many
+
 
     }
 }

@@ -96,7 +96,58 @@ namespace Project.Controllers
 
 
 
-       
+        [HttpPost("SaveCustomerLogs")]
+        public async Task<IActionResult> SaveCustomerLogs(LogsDTO log)
+        {
+
+            if (!Enum.TryParse<EventStatus>(log.Eventtype, true, out var newStatus))
+                return BadRequest(new { message = "Invalid status value." });
+
+            var customer = await context.Customers.FindAsync(log.CustomerId);
+            if (customer == null)
+            {
+                return NotFound(new { message = "Customer not found" });
+            }
+            var product = await context.Products.FindAsync(log.ProductId);
+            if (product == null)
+            {
+                return NotFound(new { message = "Product not found" });
+            }
+            var newLog = new History
+            {
+                customerId = log.CustomerId,
+                productId = log.ProductId,
+                event_type = newStatus
+            };
+            context.Histories.Add(newLog);
+            await context.SaveChangesAsync();
+            return Ok(new { message = "Log saved successfully" });
+
+        }
+
+
+
+        [HttpGet("ShowCustomerLogs")]        
+        public IActionResult ShowCustomerLogs(string Id)
+        {
+            var customer = context.Customers
+                .Include(c => c.histories)
+                .ThenInclude(h => h.product)
+                .FirstOrDefault(c => c.Id == Id);
+            if (customer == null)
+            {
+                return NotFound(new { message = "Customer not found" });
+            }
+            var logs = customer.histories.Select(h => new LogsDTO
+            {
+                CustomerId = h.customerId,
+                ProductId = h.productId,
+                Eventtype = h.event_type.ToString()
+            }).ToList();
+            return Ok(logs);
+
+        }
+
 
     }
 }

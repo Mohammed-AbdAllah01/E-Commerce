@@ -291,12 +291,44 @@
   },
   {
     "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "SaveCustomerLogs",
+    "RelativePath": "api/Customer/SaveCustomerLogs",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "log",
+        "Type": "Project.DTOs.LogsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
     "Method": "ShowAllCustomers",
     "RelativePath": "api/Customer/ShowAllCustomers",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "ShowCustomerLogs",
+    "RelativePath": "api/Customer/ShowCustomerLogs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
