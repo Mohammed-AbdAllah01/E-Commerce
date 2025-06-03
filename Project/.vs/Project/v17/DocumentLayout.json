@@ -54,8 +54,7 @@
               "RelativeToolTip": "Enums.cs",
               "ViewState": "AgIAABIAAAAAAAAAAAAowCoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T23:40:05.669Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-13T23:40:05.669Z"
             },
             {
               "$type": "Document",
@@ -91,8 +90,7 @@
               "RelativeToolTip": "Data\\Tables\\Customer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T23:30:49.455Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-13T23:30:49.455Z"
             },
             {
               "$type": "Document",
@@ -102,7 +100,7 @@
               "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\CustomerController.cs",
               "RelativeToolTip": "Controllers\\CustomerController.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAcwGMAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAmwGMAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-13T23:13:05.985Z",
               "EditorCaption": ""
@@ -117,8 +115,7 @@
               "RelativeToolTip": "DTOs\\dtoProductHome.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAhwFIAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T11:50:44.356Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-11T11:50:44.356Z"
             },
             {
               "$type": "Document",
@@ -142,8 +139,7 @@
               "RelativeToolTip": "DTOs\\AdminProductDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-10T14:19:48.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-10T14:19:48.431Z"
             }
           ]
         }
