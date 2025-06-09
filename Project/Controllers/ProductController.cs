@@ -668,19 +668,17 @@ namespace Project.Controllers
             {
                 return NotFound(new { message = "Customer not found" });
             }
-            // Check if them exis in Order and orderITems
-            var exist = _userManager.Orders
-                .Include(o => o.orderItems)
-                .FirstOrDefault(o => o.CustomerId == com.customerId && o.orderItems.Any(oi => oi.productId == com.productId));
+            // Check if the customer has any order with the product and status = Recieved (e.g., status = 3)
+            var hasReceivedProduct = await _userManager.Orders
+                .Where(o => o.CustomerId == com.customerId)
+                .SelectMany(o => o.orderItems)
+                .AnyAsync(oi => oi.productId == com.productId && oi.Status == OrdStatus.Recieved);
 
-            if (exist == null)
+            if (!hasReceivedProduct)
             {
-                return NotFound(new { message = "You must buy the product before commenting" });
+                return BadRequest(new { message = "Customer has not Ordered this product yet" });
             }
-            if (exist.Status != OrdStatus.Recieved)
-            {
-                return NotFound(new { message = "You must Recieve Order before commenting" });
-            }
+
 
 
             var comment = new Feedback

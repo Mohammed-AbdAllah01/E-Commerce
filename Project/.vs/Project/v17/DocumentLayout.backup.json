@@ -72,7 +72,7 @@
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeToolTip": "Controllers\\ProductController.cs",
-              "ViewState": "AgIAACwCAAAAAAAAAAAAAEECAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAIUCAAAAAAAAAAAwwKYCAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T00:09:28.548Z",
               "EditorCaption": ""
@@ -135,8 +135,7 @@
               "RelativeToolTip": "Controllers\\CustomerController.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAwwDMAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T23:13:05.985Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-13T23:13:05.985Z"
             },
             {
               "$type": "Document",
@@ -148,8 +147,7 @@
               "RelativeToolTip": "DTOs\\dtoProductHome.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAhwFIAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T11:50:44.356Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-11T11:50:44.356Z"
             },
             {
               "$type": "Document",
@@ -173,8 +171,7 @@
               "RelativeToolTip": "DTOs\\AdminProductDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-10T14:19:48.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-10T14:19:48.431Z"
             }
           ]
         }
