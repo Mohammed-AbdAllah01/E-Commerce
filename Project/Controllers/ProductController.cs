@@ -674,22 +674,47 @@ namespace Project.Controllers
                 .SelectMany(o => o.orderItems)
                 .AnyAsync(oi => oi.productId == com.productId && oi.Status == OrdStatus.Recieved);
 
+            var existfeedbackcomment = _userManager.FeedbackComments.
+                Where(f => f.productId == com.productId && f.customerId == com.customerId && f.OriginalComment == com.OriginalComment && f.TranslateComment == com.TranslateComment && f.CommentRate == com.CommentRate);
+
             if (!hasReceivedProduct)
             {
                 return BadRequest(new { message = "Customer has not Ordered this product yet" });
             }
 
-
-
-            var comment = new Feedback
+            var existcomment = _userManager.Feedbacks.
+                Where(f => f.productId == com.productId && f.customerId == com.customerId && f.Star == com.Star);
+            if (!existcomment.Any())
             {
-                productId = com.productId,
-                customerId = com.customerId,
-                Star = com.Star,
-            };
-            _userManager.Feedbacks.Add(comment);
-            _userManager.SaveChanges();
-            var feedbackComment = new FeedbackComments
+                var comment = new Feedback
+                {
+                    productId = com.productId,
+                    customerId = com.customerId,
+                    Star = com.Star,
+                };
+                _userManager.Feedbacks.Add(comment);
+                _userManager.SaveChanges();                
+
+                if (!existfeedbackcomment.Any())
+                {
+                    var feedbackComment = new FeedbackComments
+                    {
+                        productId = com.productId,
+                        customerId = com.customerId,
+                        OriginalComment = com.OriginalComment,
+                        TranslateComment = com.TranslateComment,
+                        CommentRate = com.CommentRate,
+                        DateCreate = DateTime.Now,
+                    };
+                    _userManager.FeedbackComments.Add(feedbackComment);
+                    _userManager.SaveChanges();
+                    return Ok(new { message = "Comment added successfully" });
+                }
+            }            
+
+            if (!existfeedbackcomment.Any())
+            {
+                var feedbackComment = new FeedbackComments
             {
                 productId = com.productId,
                 customerId = com.customerId,
@@ -701,10 +726,54 @@ namespace Project.Controllers
             _userManager.FeedbackComments.Add(feedbackComment);
             _userManager.SaveChanges();
             return Ok(new { message = "Comment added successfully" });
-
+                }
+            return BadRequest(new { message = "Comment already exists" });
         }
 
-        [HttpGet("CheckBuyingProduct")]
+        [HttpDelete("DeleteComment")]
+        public async Task<IActionResult> DeleteComment(string customerId, int productId, string origincomment)
+        {
+            var feedbackexist = await _userManager.FeedbackComments
+                .FirstOrDefaultAsync(f => f.customerId == customerId && f.productId == productId && f.OriginalComment == origincomment);
+
+            if (feedbackexist == null)
+            {
+                return NotFound(new { message = "Comment not found" });
+            }
+            _userManager.FeedbackComments.Remove(feedbackexist);
+            _userManager.SaveChanges();
+
+            feedbackexist = await _userManager.FeedbackComments
+                .FirstOrDefaultAsync(f => f.customerId == customerId && f.productId == productId);
+            if (feedbackexist == null)
+            {
+                // If no more comments exist for this product, remove the feedback entry
+                var feedback = await _userManager.Feedbacks
+                    .FirstOrDefaultAsync(f => f.customerId == customerId && f.productId == productId);
+                if (feedback != null)
+                {
+                    _userManager.Feedbacks.Remove(feedback);
+                    _userManager.SaveChanges();
+
+                }
+
+
+                return Ok(new { message = "Comment deleted successfully" });
+            }
+            return Ok(new { message = "Comment deleted successfully" });
+        }
+
+
+
+
+
+
+
+
+
+
+
+            [HttpGet("CheckBuyingProduct")]
         public async Task<IActionResult> CheckBuyingProduct(string customerId, int productId)
         {
             // Check if the product exists
