@@ -7,6 +7,7 @@ using Project.Data.Relation;
 using Project.DTOs;
 using Project.Enums;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Project.Controllers
 {
@@ -141,7 +142,7 @@ namespace Project.Controllers
         // GET: api/Show Specific Product
         [HttpGet("ShowSpecificProduct")]
         //[Authorize(Roles = "Customer")]
-        public async Task<IActionResult> ShowSpecificProduct(int id)
+        public async Task<IActionResult> ShowSpecificProduct(int id , String? customerId )
         {
             // Check if the product exists
             if (id <= 0)
@@ -187,7 +188,11 @@ namespace Project.Controllers
                 Title = product.Title,
                 Status = product.Status.ToString(),
                 Description = product.Description,
-                Star = product.Feedback,
+                personStar = product.feedbacks
+                    .Where(f => f.customerId == customerId)
+                    .Select(f => (double)f.Star)
+                    .FirstOrDefault(),
+                averageStar = product.feedbacks.Average(f => f.Star), // Calculate the average star rating from all feedbacks
                 UnitPrice = product.UnitPrice,
                 Discount = product.Discount,                
                 SellPrice = product.SellPrice,                
@@ -211,7 +216,7 @@ namespace Project.Controllers
                 MerchantName = product.merchant?.UserName ?? "Unknown",
                 MerchantId = product.merchantId,
 
-                UserName = product.feedbacks
+                UserName = product.feedbackcmments
                                     .Select(s => s.customer.UserName)
                                     .ToArray() ?? new string[] { },
 
