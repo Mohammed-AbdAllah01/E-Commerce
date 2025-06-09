@@ -181,6 +181,7 @@ namespace Project.Controllers
                      .Take(3)
                      .ToList() ?? new List<string>();
 
+            try { 
             // Prepare the response DTO
             var pro = new dtoSpecificProduct
             {
@@ -190,9 +191,11 @@ namespace Project.Controllers
                 Description = product.Description,
                 personStar = product.feedbacks
                     .Where(f => f.customerId == customerId)
-                    .Select(f => (double)f.Star)
+                    .Select(f => f.Star)
                     .FirstOrDefault(),
-                averageStar = product.feedbacks.Average(f => f.Star), // Calculate the average star rating from all feedbacks
+                averageStar = product.feedbacks != null && product.feedbacks.Any()
+                    ? product.feedbacks.Average(f => f.Star)
+                    : 0,
                 UnitPrice = product.UnitPrice,
                 Discount = product.Discount,                
                 SellPrice = product.SellPrice,                
@@ -233,12 +236,13 @@ namespace Project.Controllers
                 TranslateComment = product.feedbackcmments?
                                     .Select(fc => fc.TranslateComment)
                                     .ToArray() ?? new string[] { },
-            };
-                    
-
-
-
+            };                    
             return Ok(pro);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "An error occurred while processing the request", error = ex.Message });
+            }
         }
 
 
@@ -655,6 +659,7 @@ namespace Project.Controllers
             }
 
 
+
         [HttpPost("AddComment")]
         public async Task<IActionResult> AddComment(CommentDTO com)
         {
@@ -679,17 +684,16 @@ namespace Project.Controllers
                 .SelectMany(o => o.orderItems)
                 .AnyAsync(oi => oi.productId == com.productId && oi.Status == OrdStatus.Recieved);
 
-            var existfeedbackcomment = _userManager.FeedbackComments.
-                Where(f => f.productId == com.productId && f.customerId == com.customerId && f.OriginalComment == com.OriginalComment && f.TranslateComment == com.TranslateComment && f.CommentRate == com.CommentRate);
-
+            
             if (!hasReceivedProduct)
             {
                 return BadRequest(new { message = "Customer has not Ordered this product yet" });
             }
 
             var existcomment = _userManager.Feedbacks.
-                Where(f => f.productId == com.productId && f.customerId == com.customerId && f.Star == com.Star);
-            if (!existcomment.Any())
+                FirstOrDefault(f => f.productId == com.productId && f.customerId == com.customerId );
+
+            if (existcomment == null)
             {
                 var comment = new Feedback
                 {
@@ -698,24 +702,19 @@ namespace Project.Controllers
                     Star = com.Star,
                 };
                 _userManager.Feedbacks.Add(comment);
-                _userManager.SaveChanges();                
+                _userManager.SaveChanges();
+            }
+            else
+            {
+                existcomment.Star = com.Star;
+                _userManager.Feedbacks.Update(existcomment);
+                _userManager.SaveChanges();
 
-                if (!existfeedbackcomment.Any())
-                {
-                    var feedbackComment = new FeedbackComments
-                    {
-                        productId = com.productId,
-                        customerId = com.customerId,
-                        OriginalComment = com.OriginalComment,
-                        TranslateComment = com.TranslateComment,
-                        CommentRate = com.CommentRate,
-                        DateCreate = DateTime.Now,
-                    };
-                    _userManager.FeedbackComments.Add(feedbackComment);
-                    _userManager.SaveChanges();
-                    return Ok(new { message = "Comment added successfully" });
-                }
-            }            
+
+            }
+            var existfeedbackcomment = _userManager.FeedbackComments.
+                Where(f => f.productId == com.productId && f.customerId == com.customerId && f.OriginalComment == com.OriginalComment && f.TranslateComment == com.TranslateComment && f.CommentRate == com.CommentRate);
+
 
             if (!existfeedbackcomment.Any())
             {
@@ -731,9 +730,11 @@ namespace Project.Controllers
             _userManager.FeedbackComments.Add(feedbackComment);
             _userManager.SaveChanges();
             return Ok(new { message = "Comment added successfully" });
-                }
+            }
             return BadRequest(new { message = "Comment already exists" });
         }
+
+
 
         [HttpDelete("DeleteComment")]
         public async Task<IActionResult> DeleteComment(string customerId, int productId, string origincomment)
