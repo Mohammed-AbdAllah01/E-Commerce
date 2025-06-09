@@ -706,7 +706,6 @@ namespace Project.Controllers
 
         }
 
-
         [HttpGet("CheckBuyingProduct")]
         public async Task<IActionResult> CheckBuyingProduct(string customerId, int productId)
         {
@@ -724,19 +723,15 @@ namespace Project.Controllers
                 return NotFound(new { message = "Customer not found" });
             }
 
-            // Check if the customer has a completed order for this product
-            var exist = _userManager.Orders
-               .Include(o => o.orderItems)
-               .FirstOrDefault(o => o.CustomerId == customerId && o.orderItems.Any(oi => oi.productId == productId));
+            // Check if the customer has any order with the product and status = Recieved (e.g., status = 3)
+            var hasReceivedProduct = await _userManager.Orders
+                .Where(o => o.CustomerId == customerId)
+                .SelectMany(o => o.orderItems)
+                .AnyAsync(oi => oi.productId == productId && oi.Status == OrdStatus.Recieved);
 
-
-            if (exist == null)
+            if (!hasReceivedProduct)
             {
-              return NotFound(new { BuyIt = false });
-            }
-            if (exist.Status != OrdStatus.Recieved)
-            {
-                return NotFound(new { BuyIt = false });
+                return Ok(new { BuyIt = false });
             }
 
             return Ok(new { BuyIt = true });
