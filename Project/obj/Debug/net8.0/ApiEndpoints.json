@@ -739,6 +739,32 @@
   },
   {
     "ContainingType": "Project.Controllers.ProductController",
+    "Method": "DeleteComment",
+    "RelativePath": "api/Product/DeleteComment",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "origincomment",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.ProductController",
     "Method": "DeleteProductFromCart",
     "RelativePath": "api/Product/DeleteFromCart",
     "HttpMethod": "DELETE",
@@ -949,6 +975,11 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "customerId",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

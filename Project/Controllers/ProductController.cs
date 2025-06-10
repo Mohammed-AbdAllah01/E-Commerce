@@ -236,6 +236,9 @@ namespace Project.Controllers
                 TranslateComment = product.feedbackcmments?
                                     .Select(fc => fc.TranslateComment)
                                     .ToArray() ?? new string[] { },
+                AllStars=product.feedbacks?.
+                    Select(s => s.Star)
+                    .ToArray() ?? new int[] { }
             };                    
             return Ok(pro);
             }

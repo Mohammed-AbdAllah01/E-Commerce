@@ -30,8 +30,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "dtoProductHome.cs",
+              "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\dtoProductHome.cs",
+              "RelativeDocumentMoniker": "DTOs\\dtoProductHome.cs",
+              "ToolTip": "D:\\Study\\Project\\Project\\DTOs\\dtoProductHome.cs",
+              "RelativeToolTip": "DTOs\\dtoProductHome.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAewB0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:29:57.472Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -66,7 +79,7 @@
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeToolTip": "Controllers\\ProductController.cs",
-              "ViewState": "AgIAANUAAAAAAAAAAAAAwNYAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAAAO8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T00:09:28.548Z",
               "EditorCaption": ""
@@ -82,19 +95,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-13T23:30:49.455Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "dtoProductHome.cs",
-              "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\dtoProductHome.cs",
-              "RelativeDocumentMoniker": "DTOs\\dtoProductHome.cs",
-              "ToolTip": "D:\\Study\\Project\\Project\\DTOs\\dtoProductHome.cs",
-              "RelativeToolTip": "DTOs\\dtoProductHome.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA6wB8AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-11T11:50:44.356Z",
-              "EditorCaption": ""
             }
           ]
         }

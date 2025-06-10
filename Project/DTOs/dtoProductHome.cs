@@ -27,6 +27,7 @@ namespace Project.DTOs
         public required double personStar { get; set; } // for individual user rating
         public required double averageStar { get; set; } // for average rating from users
         public required string[] OriginalComment { get; set; }
+        public required int[] AllStars { get; set; } // for users rating
         public required string[] TranslateComment { get; set; }
         public DateTime[] DateCreate { get; set; }
         public required string[] UserName { get; set; }
