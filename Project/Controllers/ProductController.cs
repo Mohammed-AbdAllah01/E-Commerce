@@ -286,7 +286,8 @@ namespace Project.Controllers
             {
                 ProductId = product.Id,
                 Images = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img ?? "unknownProduct.jpg"}").ToList(),
-                Sizes = sizesForColor.Select(s => new { s.Id, s.Gradient }).ToList()  // Select both Id and Gradient for sizes
+                sizeId = sizesForColor.Select(s => s.Id).ToList(),
+                Sizes = sizesForColor.Select(s => s.Gradient).ToList()  // Select both Id and Gradient for sizes
             };
 
             return Ok(result);
