@@ -36,17 +36,18 @@ namespace Project.Controllers
 
         //  Get All Active Orders for Delivery Person
         [HttpGet("ShowAllOrders")]
-        [Authorize(Roles = "Admin")]
+ 
         public async Task<IActionResult> ShowAllOrders()
         {
+            
             var orders = await _context.Orders
                 .Include(o => o.customer)
                 .Include(o => o.orderItems).
                 Include(o => o.deliveryrep)
                 .ToListAsync();
 
-            if (orders == null || orders.Count == 0)
-                return BadRequest(new { message = "No orders found for this delivery person." });
+           if (orders.Count > 0)
+                { 
             var orderDTOs = orders.Select(o => new OrderadminDTO
             {
                 Id = o.Id,
@@ -59,11 +60,14 @@ namespace Project.Controllers
                 DeliveryName = o.deliveryrep.UserName
             }).ToList();
             return Ok(orderDTOs);
+            }
+            return BadRequest(new { message = "No orders found." });
+
         }
 
 
         [HttpGet("ShowSpecificOrders")]
-        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> ShowSpecificOrders(int orderId)
         {
 
@@ -78,29 +82,34 @@ namespace Project.Controllers
                 .Include(o => o.orderItems).
                 Include(o => o.deliveryrep)
                 .ToListAsync();
-            if (orders == null || orders.Count == 0)
-                return BadRequest(new { message = "No orders found for this delivery person." });
-            var orderDTOs = orders.Select(o => new OrderadminDTO
+
+            if (orders.Count > 0)
             {
-                Id = o.Id,
-                status = o.Status.ToString(),
-                CustomerId = o.CustomerId,
-                UserName = o.customer.UserName,
-                
-                address = o.address,
-                phone = o.phone,
-                DeliveryId = o.DeliveryId,
-                DeliveryName = o.deliveryrep.UserName
-            }).ToList();
-            return Ok(orderDTOs);
+                var orderDTOs = orders.Select(o => new OrderadminDTO
+                {
+                    Id = o.Id,
+                    status = o.Status.ToString(),
+                    CustomerId = o.CustomerId,
+                    UserName = o.customer.UserName,
+
+                    address = o.address,
+                    phone = o.phone,
+                    DeliveryId = o.DeliveryId,
+                    DeliveryName = o.deliveryrep.UserName
+                }).ToList();
+                return Ok(orderDTOs);
+            }
+            return BadRequest(new { message = "No orders found." });
         }
+               
+           
 
 
 
 
 
         [HttpGet("GetOrderDetails")]
-        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> GetOrderDetails( int orderId)
         {                         
             var Order = await _context.Orders.FindAsync(orderId);
