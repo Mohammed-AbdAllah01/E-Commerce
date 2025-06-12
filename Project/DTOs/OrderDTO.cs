@@ -31,9 +31,19 @@ namespace Project.DTOs
         public required string DeliveryId { get; set; }
         public required string DeliveryName { get; set; }
 
-
+    }
+    public class OrdercusDTO
+    {
+        public required int OrderId { get; set; }
+        public required string status { get; set; }        
+        public required string UserName { get; set; }
+        public required string address { get; set; }
+        public required string phone { get; set; }        
+        public required string DeliveryName { get; set; }
 
     }
+
+
     public class AddOrderDTO
     {
         public string CustomerId { get; set; }       

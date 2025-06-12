@@ -92,7 +92,7 @@ namespace Project.Controllers
                 }
             }
             return BadRequest(new { message = "Invalid status" });
-            }
+        }
 
 
 
@@ -127,7 +127,7 @@ namespace Project.Controllers
 
 
 
-        [HttpGet("ShowCustomerLogs")]        
+        [HttpGet("ShowCustomerLogs")]
         public IActionResult ShowCustomerLogs(string Id)
         {
             var customer = context.Customers
@@ -146,6 +146,99 @@ namespace Project.Controllers
             }).ToList();
             return Ok(logs);
 
+        }
+
+
+
+
+        [HttpGet("ShowCustomerOrders")]
+        public async Task<IActionResult> ShowCustomerOrders(string customerId)
+        {
+            try
+            {
+                var customer = context.Customers.FirstOrDefault(c => c.Id == customerId);
+                if (customer == null)
+                {
+                    return NotFound(new { message = "Customer not found" });
+                }
+
+
+                var orders = await context.Orders
+                    .Where(o => (o.CustomerId == customerId))
+                    .Include(o => o.customer)
+                    .Include(o => o.orderItems).
+                    Include(o => o.deliveryrep)
+                    .ToListAsync();
+                if (orders == null || orders.Count == 0)
+                    return BadRequest(new { message = "No orders found for this delivery person." });
+                var orderDTOs = orders.Select(o => new OrdercusDTO
+                {
+                    OrderId = o.Id,
+                    status = o.Status.ToString(),
+                    UserName = o.customer.UserName,
+                    address = o.address,
+                    phone = o.phone,
+                    DeliveryName = o.deliveryrep.UserName
+                }).ToList();
+                return Ok(orderDTOs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "An error occurred while retrieving orders: " + ex.Message });
+            }
+        }
+
+
+
+
+        [HttpGet("GetCustomerOrderDetails")]        
+        public async Task<IActionResult> GetCustomerOrderDetails(int orderId)
+        {
+            var Order = await context.Orders.FindAsync(orderId);
+            if (Order == null)
+                return NotFound(new { message = "Order not found." });
+
+            var order = await context.Orders
+                  .Where(o => (o.Id == orderId))
+                  .Include(o => o.customer)
+                  .Include(o => o.deliveryrep)
+                  .Include(o => o.orderItems)
+                      .ThenInclude(oi => oi.product)
+                   .Include(o => o.orderItems)
+                      .ThenInclude(oi => oi.color)
+                   .Include(o => o.orderItems)
+                      .ThenInclude(oi => oi.size)
+                   .Include(o => o.orderItems)
+                      .ThenInclude(o => o.product)
+                          .ThenInclude(o => o.images)
+                  .FirstOrDefaultAsync();
+
+            if (order == null)
+                return NotFound(new { message = "Order not found." });
+
+            var orderDTO = new specificOrdercusDto
+            {
+                OrderId = order.Id,
+                status = order.orderItems.Select(oi => oi.Status.ToString()).ToArray(),
+                UserName = order.customer.UserName,
+                address = order.address,
+                phone = order.phone,
+                // All unique product IDs in this order
+                ProductId = order.orderItems.Select(oi => oi.product.Id).ToArray(),
+                ProductsName = order.orderItems.Select(oi => oi.product.Title).ToArray(),
+                // All unique colors in this order
+                color = order.orderItems.Select(oi => oi.color.Name).ToArray(),
+                // All unique sizes in this order
+                size = order.orderItems.Select(oi => oi.size.Gradient).ToArray(),
+                quantity = order.orderItems.Select(oi => oi.Quantity).ToArray(),
+                TotalPrice = order.TotalPrice,
+                // All unique quantities in this order
+               
+                DeliveryName = order.deliveryrep.UserName
+
+            };
+
+            return Ok(orderDTO);
         }
 
 

@@ -64,7 +64,7 @@ namespace Project.Controllers {
 
             foreach (var cart in carts)
             {
-                var product = context.Products.FirstOrDefault(p => p.Id == cart.productId);
+                var product = context.Products.Include(p => p.ProductDetails).FirstOrDefault(p => p.Id == cart.productId);
                 if (product == null)
                 {
                     return BadRequest(new { message = "Product not found" });
@@ -77,7 +77,7 @@ namespace Project.Controllers {
                 {
                     return BadRequest(new { message = "Product details not found" });
                 }
-                if (productDetails.Quantity == 0)
+                if (product.Quantity == 0 || product.Status == ProStatus.OutOfStock)
                 {
                     return BadRequest(new { message = "Product is out of stock" });
                 }
@@ -85,7 +85,7 @@ namespace Project.Controllers {
                 {
                     return BadRequest(new { message = "Not enough quantity" });
                 }
-                if (product.Status != ProStatus.Active)
+                if (product.Status == ProStatus.Pending || product.Status == ProStatus.Banned)
                 {
                     return BadRequest(new { message = "Product is not active now" });
                 }
@@ -105,6 +105,17 @@ namespace Project.Controllers {
                     Status = OrdStatus.Pending,
                     orderId = order.Id
                 };
+
+                productDetails.Quantity -= cart.Quantity;
+                context.ProductDetails.Update(productDetails);
+
+
+               
+                if (product.Quantity == 0)
+                {
+                    product.Status = ProStatus.OutOfStock;
+                    context.Products.Update(product);
+                }
 
                 context.OrderItems.Add(orderItems);
                 context.Carts.Remove(cart);

@@ -199,13 +199,15 @@ namespace Project.Controllers
                 UnitPrice = product.UnitPrice,
                 Discount = product.Discount,                
                 SellPrice = product.SellPrice,                
-                Color = product.images?
-                            .Where(pd => pd.colorId > 0)
+                Color = product.ProductDetails?
+                            .Where(pd => pd.colorId > 0
+                            && pd.Quantity > 0)
                             .Select(pd => pd.color.Name)
                             .Distinct()
                             .ToArray() ?? new string[] { },
-                ColorId = product.images?
-                            .Where(pd => pd.color != null)
+                ColorId = product.ProductDetails?
+                            .Where(pd => pd.color != null
+                            && pd.Quantity > 0)
                             .Select(pd => pd.color.Id)
                             .Distinct()
                             .ToArray() ?? new int[] { },
@@ -277,7 +279,7 @@ namespace Project.Controllers
 
             // Fetch the sizes related to the specific product and color
             var sizesForColor = product.ProductDetails?
-                .Where(pd => pd.color != null && pd.color.Id == colorId)  // Filter sizes by colorId
+                .Where(pd => pd.color != null && pd.color.Id == colorId && pd.Quantity > 0)  // Filter sizes by colorId
                 .Select(pd => pd.size)                                      // Get the size for the filtered product details
                 .ToList();                             // Default to an empty list if no sizes found
 
@@ -306,7 +308,7 @@ namespace Project.Controllers
         {
             // Fetch the products by category
             var activeProducts = await _userManager.Products
-                .Where(p => p.categoryId == categoryId && p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
+                .Where(p => p.categoryId == categoryId && (p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock))
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
@@ -341,22 +343,23 @@ namespace Project.Controllers
         // GET: api/Show Product By Merchantid
         [HttpGet("ShowProductByMerchantId")]
         //[Authorize(Roles = "Customer")]
-        public async Task<IActionResult> ShowProductByMerchantId(string merchantId, int count)
+        public async Task<IActionResult> ShowProductByMerchantId(string merchantId)
         {
             // Fetch the products by merchant ID
             var activeProducts = await _userManager.Products
-                .Where(p => p.merchantId == merchantId && p.Status == ProStatus.Active && p.Status == ProStatus.OutOfStock)
+                .Where(p => p.merchantId == merchantId &&( p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock))
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
+            if (activeProducts == null)
+                return NotFound(new { message = "No products found" });
             if (activeProducts.Count < 1)
                 return NotFound(new { message = "No active products found" });
 
+
             var random = new Random();
 
-            var selectedProducts = activeProducts
-                .OrderBy(x => random.Next())
-                .Take(count)
+            var selectedProducts = activeProducts          
                 .ToList();
 
             var result = selectedProducts.Select(p => new dtoProductHome

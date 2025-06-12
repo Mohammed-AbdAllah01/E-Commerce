@@ -291,6 +291,22 @@
   },
   {
     "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "GetCustomerOrderDetails",
+    "RelativePath": "api/Customer/GetCustomerOrderDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
     "Method": "SaveCustomerLogs",
     "RelativePath": "api/Customer/SaveCustomerLogs",
     "HttpMethod": "POST",
@@ -325,6 +341,22 @@
     "Parameters": [
       {
         "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Project.Controllers.CustomerController",
+    "Method": "ShowCustomerOrders",
+    "RelativePath": "api/Customer/ShowCustomerOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
         "Type": "System.String",
         "IsRequired": false
       }
