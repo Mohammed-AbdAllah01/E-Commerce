@@ -10,6 +10,7 @@ using Project.Enums;
 using Project.Services.Implementations;
 using Project.Services.Interfaces;
 using Project.Tables;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 
 namespace Project.Controllers
@@ -378,6 +379,7 @@ namespace Project.Controllers
                 State = Rep.State,
                 Type = Enums.PersonType.DeliveryRep,
                 Status = Enums.AccStatus.Active,
+                PhoneNumber = Rep.Phone,
                 EmailConfirmed = false
             };
 

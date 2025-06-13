@@ -68,6 +68,13 @@ public class dtoNewCustomer : dtoNewUser
         public required string Name { get; set; }
 
         public required string Image { get; set; }
+        public required string Email { get; set; }
+        public required string Phone { get; set; } 
+        public required string Governorate { get; set; }
+        public required string Location { get; set; }
+        public required string State { get; set; }
+
+
 
     }
 

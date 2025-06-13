@@ -83,7 +83,9 @@ namespace Project.Controllers
                         UserName = cus.UserName,
                         Gender = newGender,
                         Type = Enums.PersonType.Customer,
-                        Status = Enums.AccStatus.Active
+                        Status = Enums.AccStatus.Active,
+                        PhoneNumber = cus.Phone,
+
 
                         // IMG = cus.IMG,
                     };
@@ -163,7 +165,8 @@ namespace Project.Controllers
                         Gender = newGender,
                         NationalId = ad.NationalId,
                         Type = Enums.PersonType.Admin,
-                        Status = Enums.AccStatus.Active
+                        Status = Enums.AccStatus.Active,
+                        PhoneNumber = ad.Phone,
                         // IMG = cus.IMG,
                     };
 
@@ -234,6 +237,7 @@ namespace Project.Controllers
                         Gender = newGender,
                         Type = Enums.PersonType.Merchant,
                         NationalId = Mer.NationalId,
+                        PhoneNumber = Mer.Phone,
                         Status = Enums.AccStatus.Inactive,
 
 
@@ -497,6 +501,11 @@ namespace Project.Controllers
             var Profile = new dtoProfile
             {
                 Name = user.UserName,
+                Email = user.Email,
+                Phone = user.PhoneNumber,
+                Governorate = user.Governorate,
+                State = user.State,
+                Location = user.Location,
                 Image = $"//aston.runasp.net//Profile_Image//{user.IMG ?? "unknownUser.jpg"}"
             };
             if (Profile.Image == null )
