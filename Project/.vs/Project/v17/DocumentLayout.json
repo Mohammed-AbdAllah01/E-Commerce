@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\Study\\Project\\Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\dtos\\dtonewuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:dtos\\dtonewuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,30 +30,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "dtoNewUser.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\dtoNewUser.cs",
               "RelativeDocumentMoniker": "DTOs\\dtoNewUser.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\DTOs\\dtoNewUser.cs",
               "RelativeToolTip": "DTOs\\dtoNewUser.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAQwDMAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-13T01:48:31.934Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAN4BAAAAAAAAAAAuwPABAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAP0BAAAAAAAAAAAAACwAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-13T01:48:00.529Z",
               "EditorCaption": ""
@@ -68,8 +68,7 @@
               "RelativeToolTip": "DTOs\\dtoProductHome.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAA7wC0AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-13T00:53:49.962Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-13T00:53:49.962Z"
             },
             {
               "$type": "Document",
@@ -81,12 +80,11 @@
               "RelativeToolTip": "Controllers\\ProductController.cs",
               "ViewState": "AgIAAN0AAAAAAAAAAAAcwN4AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T20:10:28.14Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T20:10:28.14Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -94,8 +92,7 @@
               "RelativeToolTip": "Controllers\\AdminController.cs",
               "ViewState": "AgIAAEgBAAAAAAAAAAAAAFABAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T15:48:26.715Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T15:48:26.715Z"
             }
           ]
         }
