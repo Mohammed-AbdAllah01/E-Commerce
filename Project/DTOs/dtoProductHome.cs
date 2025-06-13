@@ -43,6 +43,7 @@ namespace Project.DTOs
         public required double[] CommentRate { get; set; } 
         public required string MerchantName { get; set; }
         public required string MerchantId { get; set; }
+        public required double MerchantFeedbak { get; set; }
         public List<string> ImageUrls { get; set; } // Changed from string[] to List<string>
         
 

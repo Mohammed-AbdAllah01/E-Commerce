@@ -220,6 +220,7 @@ namespace Project.Controllers
                 ImageUrls = imagesForColor.Select(img => $"//aston.runasp.net//Product_Image//{img ?? "unknownProduct.jpg"}").ToList(),
                 MerchantName = product.merchant?.UserName ?? "Unknown",
                 MerchantId = product.merchantId,
+                MerchantFeedbak = product.merchant.Feedback,
 
                 UserName = product.feedbackcmments
                                     .Select(s => s.customer.UserName)
@@ -824,7 +825,7 @@ namespace Project.Controllers
         public async Task<IActionResult> TrainModel()
         {
             var activeProducts = await _userManager.Products
-                .Where(p => p.Status == ProStatus.Active)
+                .Where(p => p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
                 .ToListAsync();
