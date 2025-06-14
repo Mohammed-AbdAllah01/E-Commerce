@@ -113,7 +113,14 @@ namespace Project.Controllers
                 {
                     return NotFound(new { message = "Product not found" });
                 }
-                var newLog = new History
+            // Check if a log already exists for this customer and product
+            var existingLog = await context.Histories
+                .FirstOrDefaultAsync(h => h.customerId == log.user_id && h.productId == log.product_id && h.event_type == newStatus);
+            if (existingLog != null)
+            {
+                return Ok(new { message = "Log already exists for this customer and product with the same status." });
+            }
+            var newLog = new History
                 {
                     customerId = log.user_id,
                     productId = log.product_id,
