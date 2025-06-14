@@ -186,7 +186,7 @@ namespace DataBase.Data
                 .HasKey(fc => new { fc.customerId, fc.productId , fc.OriginalComment});
 
             modelBuilder.Entity<History>()
-                .HasKey(d => new { d.productId, d.customerId });
+                .HasKey(d => new { d.productId, d.customerId,d.event_type });
 
         }
 

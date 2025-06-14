@@ -2,11 +2,11 @@
 {
     public class LogsDTO
     {
-        public string CustomerId { get; set; }
+        public string user_id { get; set; }
 
-        public int ProductId { get; set; }
+        public int product_id { get; set; }
 
-        public string Eventtype { get; set; }
+        public string event_type { get; set; }
 
 
 

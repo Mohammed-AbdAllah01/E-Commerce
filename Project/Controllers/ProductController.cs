@@ -70,6 +70,7 @@ namespace Project.Controllers
                 .Where(p => p.Status == ProStatus.Active || p.Status == ProStatus.OutOfStock)
                 .Include(p => p.images)
                 .Include(p => p.category)
+                .Include(p => p.feedbacks)
                 .ToListAsync();
 
             if (activeProducts.Count < 1)
@@ -106,6 +107,7 @@ namespace Project.Controllers
                 Include(p => p.images)
                 .Include(p => p.merchant)
                 .Include(p => p.category)
+                .Include(p => p.category)
                 .ToListAsync();
             if(products == null || !products.Any())
                 return NotFound(new { message = "No products found" });
@@ -127,7 +129,34 @@ namespace Project.Controllers
         }
 
 
+        [HttpGet("ShowAllProducts")]//Title,SalePrice, Category ,Image
+        //[Authorize(Roles = "Customer")]
+        public async Task<IActionResult> ShowAllProducts()
+        {
+            var products = await _userManager.Products.
+                Where(p => (p.Status == ProStatus.Active|| p.Status == ProStatus.OutOfStock)).
+                Include(p => p.images)
+                .Include(p => p.merchant)
+                .Include(p => p.category)
+                .ToListAsync();
+            if (products == null || !products.Any())
+                return NotFound(new { message = "No products found" });
+            var productList = products.Select(p => new AllProductDTO
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Status = p.Status.ToString(),
+                Discount = p.Discount,
+                UnitPrice = p.UnitPrice,
+                SellPrice = p.SellPrice,
+                CategoryName = p.category?.Name ?? "Unknown",
+                MerchantName = p.merchant?.UserName ?? "Unknown",
+                MerchantId = p.merchantId,
+                Image = $"//aston.runasp.net//Product_Image//{p.images.FirstOrDefault()?.ImageData ?? "unknownProduct.jpg"}"
+            }).ToList();
+            return Ok(productList);
 
+        }
 
 
 
