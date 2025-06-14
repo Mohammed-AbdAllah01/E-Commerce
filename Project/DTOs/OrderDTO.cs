@@ -13,7 +13,9 @@ namespace Project.DTOs
         
         public required string phone { get; set; }
 
-        
+        public required double TotalPrice { get; set; }
+
+
 
     }
     public class OrderadminDTO

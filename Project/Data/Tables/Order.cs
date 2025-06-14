@@ -37,12 +37,9 @@ namespace Project.Tables
 
         public ICollection <OrderItem>? orderItems { get; set; }//Many to Many
 
-        [NotMapped]
-        public double TotalPrice {
-            get {
-                return orderItems?.Sum(pd => pd.Quantity* (pd.product?.SellPrice ?? 0)) ?? 0; }
+        
+        public double TotalPrice { get; set; } // Total price of the order
 
-        }
 
 
     }

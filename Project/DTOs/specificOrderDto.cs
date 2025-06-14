@@ -20,6 +20,7 @@ namespace Project.DTOs
         public required int[] quantity { get; set; }
         public required string[] color { get; set; }
         public required string[] size { get; set; }
+        public required double[] unitprice { get; set; }
         public required string[] image { get; set; }
 
     }
@@ -55,9 +56,11 @@ namespace Project.DTOs
         public required string[] ProductsName { get; set; }
         public required string[] color { get; set; }
         public required string[] size { get; set; }
+        public required double[] unitprice { get; set; }
         public required double TotalPrice { get; set; }
         public required int[] quantity { get; set; }
         public required string DeliveryName { get; set; }
+
 
 
 

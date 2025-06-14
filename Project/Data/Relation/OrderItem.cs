@@ -33,6 +33,8 @@ namespace Project.Data.Relation
 
         public OrdStatus Status { get; set; } = OrdStatus.Pending;
 
+        public double UnitPrice { get; set; } // Price of the product at the time of order
+
 
     }
 }

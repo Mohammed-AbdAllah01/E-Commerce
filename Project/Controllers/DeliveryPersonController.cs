@@ -50,7 +50,8 @@ namespace Project.Controllers
                 CustomerId = o.CustomerId,
                 UserName = o.customer.UserName,
                 address = o.address,
-                phone = o.phone
+                phone = o.phone,
+                TotalPrice = o.TotalPrice
             }).ToList();
             return Ok(orderDTOs);
 
@@ -92,6 +93,7 @@ namespace Project.Controllers
                 // All unique product IDs in this order
                 ProductId = order.orderItems.Select(oi => oi.product.Id).ToArray(),
                 ProductsName = order.orderItems.Select(oi => oi.product.Title).ToArray(),
+                unitprice = order.orderItems.Select(oi => oi.UnitPrice).ToArray(),
                 TotalPrice = order.TotalPrice,
                 // All unique quantities in this order
                 quantity = order.orderItems.Select(oi => oi.Quantity).ToArray(),

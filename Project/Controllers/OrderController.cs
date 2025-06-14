@@ -49,15 +49,26 @@ namespace Project.Controllers {
             var randomDelivery = context.DeliveryReps
                                    .OrderBy(s => Guid.NewGuid())
                                    .FirstOrDefault();
+            var totalPrice = 0.0 ;
+            foreach (var cart in carts)
+            {
+                var product = context.Products.Include(p => p.ProductDetails).FirstOrDefault(p => p.Id == cart.productId);
+                if (product == null)
+                {
+                    return BadRequest(new { message = "Product not found" });
+                }
+                totalPrice += cart.Quantity * product.SellPrice;
+            }
 
-            var order = new Order()
+                var order = new Order()
             {
                 address = addOrderDTO.Address,
                 CustomerId = customer.Id,
                 DeliveryId = randomDelivery.Id,
                 OrderDate = DateTime.Now,
-                phone = addOrderDTO.Phone
-            };
+                phone = addOrderDTO.Phone,
+                TotalPrice = totalPrice,
+                };
 
             context.Orders.Add(order);
             context.SaveChanges();
@@ -103,7 +114,8 @@ namespace Project.Controllers {
                     sizeId = productDetails.sizeId,
                     productId = productDetails.productId,
                     Status = OrdStatus.Pending,
-                    orderId = order.Id
+                    orderId = order.Id,
+                    UnitPrice = product.SellPrice
                 };
 
                 productDetails.Quantity -= cart.Quantity;

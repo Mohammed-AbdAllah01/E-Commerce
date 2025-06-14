@@ -231,6 +231,7 @@ namespace Project.Controllers
                 color = order.orderItems.Select(oi => oi.color.Name).ToArray(),
                 // All unique sizes in this order
                 size = order.orderItems.Select(oi => oi.size.Gradient).ToArray(),
+                unitprice = order.orderItems.Select(oi => oi.UnitPrice).ToArray(),
                 quantity = order.orderItems.Select(oi => oi.Quantity).ToArray(),
                 TotalPrice = order.TotalPrice,
                 // All unique quantities in this order
