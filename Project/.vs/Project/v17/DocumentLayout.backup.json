@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Study\\Project\\Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\merchantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\merchantcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|d:\\study\\project\\project\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AF26E1CB-73B6-4668-9E6B-92950506E70C}|Project.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -54,11 +58,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 0,
+              "Title": "MerchantController.cs",
+              "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\MerchantController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MerchantController.cs",
+              "ToolTip": "D:\\Study\\Project\\Project\\Controllers\\MerchantController.cs",
+              "RelativeToolTip": "Controllers\\MerchantController.cs",
+              "ViewState": "AgIAAN0AAAAAAAAAAAAuwAEBAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T05:37:34.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "20250614050610_12.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Migrations\\20250614050610_12.cs",
               "RelativeDocumentMoniker": "Migrations\\20250614050610_12.cs",
@@ -70,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\DB\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\DB\\AppDbContext.cs",
@@ -82,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "LogsDTO.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\LogsDTO.cs",
               "RelativeDocumentMoniker": "DTOs\\LogsDTO.cs",
@@ -94,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -102,12 +119,11 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-14T04:44:27.279Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T04:44:27.279Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "History.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Data\\Relation\\History.cs",
               "RelativeDocumentMoniker": "Data\\Relation\\History.cs",
@@ -119,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
@@ -132,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "dtoNewUser.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\dtoNewUser.cs",
               "RelativeDocumentMoniker": "DTOs\\dtoNewUser.cs",
@@ -144,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
@@ -156,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "dtoProductHome.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\DTOs\\dtoProductHome.cs",
               "RelativeDocumentMoniker": "DTOs\\dtoProductHome.cs",
@@ -168,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ProductController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
@@ -180,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AdminController.cs",
               "DocumentMoniker": "D:\\Study\\Project\\Project\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
