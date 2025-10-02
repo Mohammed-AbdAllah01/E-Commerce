@@ -207,7 +207,7 @@ Contributions are welcome! Please fork the repo and submit a pull request.
 
 ## 📬 Contact
 
-Maintained by [Shady-Mo](https://github.com/Shady-Mo).  
+Maintained by [Mohammed-Abdallah](https://github.com/Mohammed-AbdAllah01).  
 For questions or feedback, please open an issue.
 
 ---
